@@ -302,4 +302,10 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 		return $this->detectors;
 	}
 
+	public function getEmitters()
+	{
+		return $this->emitters;
+	}
+
+
 }

@@ -116,7 +116,6 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
 	 */
 	public function onActivate()
 	{
-		$this->setDetectorState(false);
 		return;
 	}
 	
@@ -126,7 +125,11 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
 	 */
 	public function onDeactivate()
 	{
-		$this->setDetectorState(false);
 		return;
+	}
+
+	public function getActivated()
+	{
+		return $this->detection_state;
 	}
 }

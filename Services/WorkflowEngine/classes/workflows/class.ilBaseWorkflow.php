@@ -412,6 +412,16 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	}
 
 	/**
+	 * Returns all nodes attached to the workflow.
+	 * 
+	 * @return ilNode[]
+	 */
+	public function getNodes()
+	{
+		return $this->nodes;
+	}
+
+	/**
 	 * Autoloader function to dynamically include files for instantiation of 
 	 * objects during deserialization.
 	 * 

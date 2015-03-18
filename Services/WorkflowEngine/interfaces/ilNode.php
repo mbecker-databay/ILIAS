@@ -33,4 +33,6 @@ interface ilNode
 	public function onActivate();
 	public function onDeactivate();
 	public function notifyDetectorSatisfaction(ilDetector $a_detector);
+	public function getDetectors();
+	public function getEmitters();
 }

@@ -44,7 +44,10 @@ class ilActivationEmitter implements ilEmitter, ilWorkflowEngineElement
 	 * @var ilNode 
 	 */
 	private $context;
-	
+
+	/** @var bool $emitted Holds information if the emitter emitted at least once. */
+	private $emitted;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -53,6 +56,7 @@ class ilActivationEmitter implements ilEmitter, ilWorkflowEngineElement
 	public function __construct(ilNode $a_context)
 	{
 		$this->context = $a_context;
+		$this->emitted = false;
 	}
 	
 	/**
@@ -90,8 +94,14 @@ class ilActivationEmitter implements ilEmitter, ilWorkflowEngineElement
 	 */
 	public function emit()
 	{
+		$this->emitted = true;
 		$target_node = $this->target_detector->getContext();
 		$target_node->activate();
 		$this->target_detector->trigger(array());
+	}
+	
+	public function getActivated()
+	{
+		return $this->emitted;
 	}
 }

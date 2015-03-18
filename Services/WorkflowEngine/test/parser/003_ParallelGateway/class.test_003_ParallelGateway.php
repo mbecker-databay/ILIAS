@@ -55,9 +55,40 @@ class test_003_ParallelGateway extends PHPUnit_Framework_TestCase
 		/** @var ParallelGateway_Simple $process */
 		$process = new $test_name;
 		$this->assertFalse($process->isActive());
+
+		/*
+		 * The workflow consists of a start node, a parallel gateway and three end nodes.
+		 * In order for this to work properly, the following is supposed to happen:
+		 * 1. Upon start of the workflow, the start node is activated and control flow forwards to the parallel gateway.
+		 * 2. All three outgoing flows forward to the end nodes.
+		 * Effectively, the workflow should be immediately inactive after start with all emitter-detector-pairs 
+		 * being active for a short moment we can't capture from here.
+		 */
 		$process->startWorkflow();
 		$this->assertTrue($process->isActive());
 
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered immediately on activation.');
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
