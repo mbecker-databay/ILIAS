@@ -1,0 +1,138 @@
+<?php
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * Class ilBPMN2Parser
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ */
+class ilBPMN2Parser 
+{
+
+	public function parseBPMN2XML($bpmn2_xml, $workflow_name = null)
+	{
+		$bpmn2_array = $this->convertXmlToArray( $bpmn2_xml );
+		$process = $this->getProcessNodeFromArray( $bpmn2_array );
+
+		$workflow_name = $this->determineWorkflowClassName( $workflow_name, $bpmn2_array, $process );
+
+		require_once './Services/WorkflowEngine/classes/parser/class.ilWorkflowScaffold.php';
+		$class_object = new ilWorkflowScaffold($bpmn2_array);
+
+		$constructor_method_content = '';
+
+		$class_object->setWorkflowName($workflow_name);
+
+		if(count(@$process['children']))
+		{
+			$stashed_sequence_flows = array(); // There can be no assumption, that the workflow is modeled in sequence,
+											   // so we need to stash the connectors to add them after the nodes.
+			$stashed_associations = array(); // There can be no assumption, that the workflow is modeled in sequence,
+											   // so we need to stash the connectors to add them after the nodes.
+			require_once './Services/WorkflowEngine/classes/parser/elements/class.ilBPMN2ElementLoader.php';
+			$loader = new ilBPMN2ElementLoader($bpmn2_array);
+			foreach($process['children'] as $element)
+			{
+				if($element['name'] == 'ioSpecification')
+				{
+					$a = 1;
+					foreach($element['children'] as $iospec_element)
+					{
+						$element_object = $loader->load($iospec_element['name']);
+						$constructor_method_content .= $element_object->getPHP($iospec_element, $class_object);
+					}
+					continue;
+				}
+				if($element['name'] == 'sequenceFlow')
+				{
+					$stashed_sequence_flows[] = $element;
+				} 
+				else if($element['name'] == 'association')
+				{
+					$stashed_associations[] = $element;
+				} 
+				else
+				{
+					$element_object = $loader->load($element['name']);
+					$constructor_method_content .= $element_object->getPHP($element, $class_object);
+				}
+			}
+			foreach($stashed_sequence_flows as $element)
+			{
+				$element_object = $loader->load($element['name']);
+				$constructor_method_content .= $element_object->getPHP($element, $class_object);
+			}
+			foreach($stashed_associations as $element)
+			{
+				$element_object = $loader->load($element['name']);
+				$constructor_method_content .= $element_object->getPHP($element, $class_object);
+			}
+		}
+
+		$class_object->setConstructorMethodContent($constructor_method_content);
+		$class_source = '';
+		if (strlen($constructor_method_content))
+		{
+			$class_source .= $class_object->getPHP();
+		}
+
+		return "<?php\n" . $class_source . "\n?>"; // PHP Code
+	}
+
+	/**
+	 * @param $xml
+	 *
+	 * @return mixed
+	 */
+	public function convertXmlToArray($xml)
+	{
+		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2ParserUtils.php';
+		$xml_to_array_parser = new ilBPMN2ParserUtils();
+		$bpmn2               = $xml_to_array_parser->load_string( $xml );
+		return $bpmn2;
+	}
+
+	/**
+	 * @param $bpmn2
+	 *
+	 * @return array
+	 */
+	public function getProcessNodeFromArray($bpmn2)
+	{
+		$process = array();
+		foreach ((array)@$bpmn2['children'] as $bpmn2_part)
+		{
+			if ($bpmn2_part['name'] == 'process')
+			{
+				$process = $bpmn2_part;
+				break;
+			}
+		}
+		return $process;
+	}
+
+	/**
+	 * @param $workflow_name
+	 * @param $bpmn2_array
+	 * @param $process
+	 *
+	 * @return mixed
+	 */
+	public function determineWorkflowClassName($workflow_name, $bpmn2_array, $process)
+	{
+		if (!$workflow_name && !count( @$bpmn2_array['children'] ))
+		{
+			$workflow_name = $bpmn2_array['attributes']['id'];
+		}
+
+		if (!$workflow_name)
+		{
+			$workflow_name = $process['attributes']['id'];
+			return $workflow_name;
+		}
+		return $workflow_name;
+	}
+} 
