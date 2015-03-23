@@ -112,18 +112,4 @@ class ilPluginNodeTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($node->isActive(), 'Node should be inactive but is active.');
 	}
 
-	public function testOnActivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
-
-	public function testOnDeactivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
-
 }

@@ -299,20 +299,6 @@ class ilBasicNodeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($activity, $activities[0]);
 	}
 
-	public function testOnActivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
-
-	public function testOnDeactivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
-
 	public function testNotifyDetectorSatisfaction()
 	{
 		// Arrange

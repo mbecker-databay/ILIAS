@@ -86,7 +86,7 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 	 * 
 	 * @var string PHP code to be executed to determine the 'decision' of the node.
 	 */
-	private $evaluation_expression = "return true;";
+	private $evaluation_expression = "return null;";
 
 	/**
 	 * Default constructor.

@@ -532,18 +532,4 @@ class ilConditionalNodeTest extends PHPUnit_Framework_TestCase
 		// TODO: Assert something more meaningful here.
 		$this->assertFalse($node->isActive());
 	}
-
-	public function testOnActivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
-
-	public function testOnDeactivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
 }

@@ -353,20 +353,6 @@ class ilCaseNodeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($detector, $detectors[0]);
 	}
 
-	public function testOnActivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
-
-	public function testOnDeactivate()
-	{
-		$this->markTestIncomplete(
-			'This feature/test is not implemented yet.'
-		);
-	}
-
 	public function testAddGetActivity()
 	{
 		// Arrange
