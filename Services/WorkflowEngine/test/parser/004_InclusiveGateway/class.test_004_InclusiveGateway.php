@@ -36,13 +36,13 @@ class test_004_InclusiveGateway extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
 
-	public function test_WorkflowWithBlankStartEventShouldOutputAccordingly()
+	public function test_WorkflowWithSimpleInclusiveGatewayShouldOutputAccordingly()
 	{
 		$test_name = 'InclusiveGateway_Simple';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
 		$parser = new ilBPMN2Parser();
 		$parse_result = $parser->parseBPMN2XML($xml);
-		
+
 		file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
 		$return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
@@ -54,6 +54,30 @@ class test_004_InclusiveGateway extends PHPUnit_Framework_TestCase
 		require_once $this->getTestOutputFilename($test_name);
 		$process = new $test_name;
 		$this->assertFalse($process->isActive());
+
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered);
 
 		unlink($this->getTestOutputFilename($test_name));
 	}
