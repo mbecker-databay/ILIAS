@@ -55,6 +55,30 @@ class test_005_ExclusiveGateway extends PHPUnit_Framework_TestCase
 		$process = new $test_name;
 		$this->assertFalse($process->isActive());
 
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered);
+
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
@@ -76,6 +100,30 @@ class test_005_ExclusiveGateway extends PHPUnit_Framework_TestCase
 		require_once $this->getTestOutputFilename($test_name);
 		$process = new $test_name;
 		$this->assertFalse($process->isActive());
+
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered);
 
 		unlink($this->getTestOutputFilename($test_name));
 	}

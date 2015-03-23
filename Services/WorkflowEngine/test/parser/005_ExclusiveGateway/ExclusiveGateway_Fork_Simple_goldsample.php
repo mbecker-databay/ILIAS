@@ -2,6 +2,8 @@
 require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
 require_once './Services/WorkflowEngine/classes/nodes/class.ilCaseNode.php';
+require_once './Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php';
+require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 
 		class ExclusiveGateway_Fork_Simple extends ilBaseWorkflow
 		{
@@ -31,17 +33,41 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilCaseNode.php';
 			$_v_EndEvent_3 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_3);
 		
-			// sequence_flow_missing
+			$_v_ExclusiveGateway_1_detector = new ilSimpleDetector($_v_ExclusiveGateway_1);
+			$_v_ExclusiveGateway_1->addDetector($_v_ExclusiveGateway_1_detector);
+			$_v_StartEvent_1_emitter = new ilActivationEmitter($_v_StartEvent_1);
+			$_v_StartEvent_1_emitter->setTargetDetector($_v_ExclusiveGateway_1_detector);
+			$_v_StartEvent_1->addEmitter($_v_StartEvent_1_emitter);
 		
-			// sequence_flow_missing
+			$_v_IntermediateCatchEvent_1_detector = new ilSimpleDetector($_v_IntermediateCatchEvent_1);
+			$_v_IntermediateCatchEvent_1->addDetector($_v_IntermediateCatchEvent_1_detector);
+			$_v_ExclusiveGateway_1_emitter = new ilActivationEmitter($_v_ExclusiveGateway_1);
+			$_v_ExclusiveGateway_1_emitter->setTargetDetector($_v_IntermediateCatchEvent_1_detector);
+			$_v_ExclusiveGateway_1->addEmitter($_v_ExclusiveGateway_1_emitter);
 		
-			// sequence_flow_missing
+			$_v_IntermediateCatchEvent_2_detector = new ilSimpleDetector($_v_IntermediateCatchEvent_2);
+			$_v_IntermediateCatchEvent_2->addDetector($_v_IntermediateCatchEvent_2_detector);
+			$_v_ExclusiveGateway_1_emitter = new ilActivationEmitter($_v_ExclusiveGateway_1);
+			$_v_ExclusiveGateway_1_emitter->setTargetDetector($_v_IntermediateCatchEvent_2_detector);
+			$_v_ExclusiveGateway_1->addEmitter($_v_ExclusiveGateway_1_emitter);
 		
-			// sequence_flow_missing
+			$_v_ParallelGateway_1_detector = new ilSimpleDetector($_v_ParallelGateway_1);
+			$_v_ParallelGateway_1->addDetector($_v_ParallelGateway_1_detector);
+			$_v_IntermediateCatchEvent_1_emitter = new ilActivationEmitter($_v_IntermediateCatchEvent_1);
+			$_v_IntermediateCatchEvent_1_emitter->setTargetDetector($_v_ParallelGateway_1_detector);
+			$_v_IntermediateCatchEvent_1->addEmitter($_v_IntermediateCatchEvent_1_emitter);
 		
-			// sequence_flow_missing
+			$_v_ParallelGateway_1_detector = new ilSimpleDetector($_v_ParallelGateway_1);
+			$_v_ParallelGateway_1->addDetector($_v_ParallelGateway_1_detector);
+			$_v_IntermediateCatchEvent_2_emitter = new ilActivationEmitter($_v_IntermediateCatchEvent_2);
+			$_v_IntermediateCatchEvent_2_emitter->setTargetDetector($_v_ParallelGateway_1_detector);
+			$_v_IntermediateCatchEvent_2->addEmitter($_v_IntermediateCatchEvent_2_emitter);
 		
-			// sequence_flow_missing
+			$_v_EndEvent_3_detector = new ilSimpleDetector($_v_EndEvent_3);
+			$_v_EndEvent_3->addDetector($_v_EndEvent_3_detector);
+			$_v_ParallelGateway_1_emitter = new ilActivationEmitter($_v_ParallelGateway_1);
+			$_v_ParallelGateway_1_emitter->setTargetDetector($_v_EndEvent_3_detector);
+			$_v_ParallelGateway_1->addEmitter($_v_ParallelGateway_1_emitter);
 		
 			}
 		}
