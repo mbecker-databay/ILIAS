@@ -14,6 +14,9 @@
  */
 class ilPluginNodeTest extends PHPUnit_Framework_TestCase
 {
+	/** @var ilBaseWorkflow $workflow */
+	public $workflow;
+
 	public function setUp()
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
