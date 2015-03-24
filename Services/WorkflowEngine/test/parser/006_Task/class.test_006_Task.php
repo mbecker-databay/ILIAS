@@ -55,6 +55,29 @@ class test_006_Task extends PHPUnit_Framework_TestCase
 		$process = new $test_name;
 		$this->assertFalse($process->isActive());
 
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered);
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
@@ -75,9 +98,39 @@ class test_006_Task extends PHPUnit_Framework_TestCase
 
 		require_once $this->getTestOutputFilename($test_name);
 		$process = new $test_name;
-		$this->assertFalse($process->isActive());
-
+		self::$wasTriggered = false;
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
+		$this->assertTrue(self::$wasTriggered, 'Static method call was not called.');
 		unlink($this->getTestOutputFilename($test_name));
+	}
+
+	public static $wasTriggered; // See test above.
+
+	public static function triggerMe() // See test above.
+	{
+		self::$wasTriggered = true;
 	}
 
 	public function test_WorkflowWithManualTaskShouldOutputAccordingly()
@@ -97,7 +150,29 @@ class test_006_Task extends PHPUnit_Framework_TestCase
 
 		require_once $this->getTestOutputFilename($test_name);
 		$process = new $test_name;
-		$this->assertFalse($process->isActive());
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered);
 
 		unlink($this->getTestOutputFilename($test_name));
 	}
@@ -118,8 +193,32 @@ class test_006_Task extends PHPUnit_Framework_TestCase
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
 		require_once $this->getTestOutputFilename($test_name);
+		self::$wasTriggered = false;
 		$process = new $test_name;
-		$this->assertFalse($process->isActive());
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
+		$this->assertTrue(self::$wasTriggered, 'Static method call was not called.');
 
 		unlink($this->getTestOutputFilename($test_name));
 	}

@@ -6,7 +6,7 @@
             <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
             <bpmn2:extensionElements>
                 <ilias:properties>
-                    <ilias:libraryCall location="Modules/Course" api="CourseParticipants" method="RemoveParticipant" />
+                    <ilias:libraryCall location="Services/WorkflowEngine/test/parser/006_Task/class.test_006_Task.php" api="test_006_Task" method="triggerMe" />
                 </ilias:properties>
             </bpmn2:extensionElements>
         </bpmn2:callActivity>

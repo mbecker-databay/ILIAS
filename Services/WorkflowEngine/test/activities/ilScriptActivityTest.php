@@ -120,21 +120,4 @@ class ilScriptActivityTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($response(), "Hallo, Welt!");
 	}
-
-	public function testExecute()
-	{
-		// Arrange
-		$activity = new ilScriptActivity($this->node);
-
-		$code = '$GLOBALS["unittest"] = "DONE";';
-		$activity->setMethod(create_function(null,$code));
-
-		// Act
-		$activity->execute();
-
-		// Assert
-		$this->assertEquals($GLOBALS['unittest'], "DONE");
-		
-		// TODO: Testing the proper use of $this in the activities code.
-	}
 }

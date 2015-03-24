@@ -2,6 +2,8 @@
 require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
 require_once './Services/WorkflowEngine/classes/activities/class.ilScriptActivity.php';
+require_once './Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php';
+require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 
 		class Task_ScriptTask_Simple extends ilBaseWorkflow
 		{
@@ -26,16 +28,26 @@ require_once './Services/WorkflowEngine/classes/activities/class.ilScriptActivit
 			$_v_EndEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_1);
 		
-			// sequence_flow_missing
+			$_v_ScriptTask_1_detector = new ilSimpleDetector($_v_ScriptTask_1);
+			$_v_ScriptTask_1->addDetector($_v_ScriptTask_1_detector);
+			$_v_StartEvent_1_emitter = new ilActivationEmitter($_v_StartEvent_1);
+			$_v_StartEvent_1_emitter->setTargetDetector($_v_ScriptTask_1_detector);
+			$_v_StartEvent_1->addEmitter($_v_StartEvent_1_emitter);
 		
-			// sequence_flow_missing
+			$_v_EndEvent_1_detector = new ilSimpleDetector($_v_EndEvent_1);
+			$_v_EndEvent_1->addDetector($_v_EndEvent_1_detector);
+			$_v_ScriptTask_1_emitter = new ilActivationEmitter($_v_ScriptTask_1);
+			$_v_ScriptTask_1_emitter->setTargetDetector($_v_EndEvent_1_detector);
+			$_v_ScriptTask_1->addEmitter($_v_ScriptTask_1_emitter);
 		
 			}
 			
 			public function _v_ScriptTask_1_script($context)
 			 {
-			 global $ilLog;
-$ilLog->write('Test Log Entry');
+			 
+                require_once './Services/WorkflowEngine/test/parser/006_Task/class.test_006_Task.php';
+                test_006_Task::triggerMe();
+            
 			 }
 			
 		}

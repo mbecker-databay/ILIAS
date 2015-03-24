@@ -58,7 +58,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 	public function execute()
 	{
 		$method = $this->method;
-		$method($this);
+		$this->context->getContext()->$method($this);
 	}
 
 	/**

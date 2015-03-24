@@ -200,7 +200,7 @@ class ilBPMN2ParserUtils
 		// TODO: This must consult Service Disco for details!
 
 		return array(
-			'include_filename'	=> $library_call['location'] . '.php',
+			'include_filename'	=> $library_call['location'],
 			'class_and_method'		=> $library_call['api'] .'::' . $library_call['method']
 		);
 	}

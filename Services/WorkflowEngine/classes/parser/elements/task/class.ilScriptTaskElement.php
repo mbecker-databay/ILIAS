@@ -35,7 +35,7 @@ class ilScriptTaskElement extends ilBaseElement
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilScriptActivity.php');
 		$code .= "
 			". $this->element_varname . "_scriptActivity = new ilScriptActivity(" . $this->element_varname . ");
-			". $this->element_varname . "_scriptActivity->setMethod('_v_".$element['attributes']['id'] . "_script');
+			". $this->element_varname . "_scriptActivity->setMethod('".'_v_'.$element['attributes']['id'] . "_script');
 			" . $this->element_varname . "->addActivity(". $this->element_varname . "_scriptActivity);
 			";
 		return $code;
