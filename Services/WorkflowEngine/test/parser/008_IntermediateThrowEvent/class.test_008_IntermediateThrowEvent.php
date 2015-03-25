@@ -58,7 +58,6 @@ class test_008_IntermediateThrowEvent extends PHPUnit_Framework_TestCase
 			->method( 'raise' )
 			->will( $this->returnValue(true) );
 
-
 		global $ilAppEventHandler;
 		$ilAppEventHandler = $ilappeventhandler_mock;
 		$GLOBALS['ilAppEventHandler'] = $ilappeventhandler_mock;
