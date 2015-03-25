@@ -2,6 +2,8 @@
 require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
 require_once './Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php';
+require_once './Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php';
+require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 
 		class IntermediateThrowEvent_Signal_Simple extends ilBaseWorkflow
 		{
@@ -27,9 +29,17 @@ require_once './Services/WorkflowEngine/classes/activities/class.ilEventRaisingA
 				$_v_IntermediateThrowEvent_1_throwEventActivity->setEventName("UserLeft");
 				$_v_IntermediateThrowEvent_1->addActivity($_v_IntermediateThrowEvent_1_throwEventActivity);
 			
-			// sequence_flow_missing
+			$_v_IntermediateThrowEvent_1_detector = new ilSimpleDetector($_v_IntermediateThrowEvent_1);
+			$_v_IntermediateThrowEvent_1->addDetector($_v_IntermediateThrowEvent_1_detector);
+			$_v_StartEvent_1_emitter = new ilActivationEmitter($_v_StartEvent_1);
+			$_v_StartEvent_1_emitter->setTargetDetector($_v_IntermediateThrowEvent_1_detector);
+			$_v_StartEvent_1->addEmitter($_v_StartEvent_1_emitter);
 		
-			// sequence_flow_missing
+			$_v_EndEvent_1_detector = new ilSimpleDetector($_v_EndEvent_1);
+			$_v_EndEvent_1->addDetector($_v_EndEvent_1_detector);
+			$_v_IntermediateThrowEvent_1_emitter = new ilActivationEmitter($_v_IntermediateThrowEvent_1);
+			$_v_IntermediateThrowEvent_1_emitter->setTargetDetector($_v_EndEvent_1_detector);
+			$_v_IntermediateThrowEvent_1->addEmitter($_v_IntermediateThrowEvent_1_emitter);
 		
 			}
 		}
