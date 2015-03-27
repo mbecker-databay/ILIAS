@@ -38,6 +38,11 @@ class test_010_ComplexGateway extends PHPUnit_Framework_TestCase
 
 	public function test_WorkflowWithSimpleEndEventShouldOutputAccordingly()
 	{
+		$this->markTestIncomplete('The complex gateway has conceptual issues. Proper modeling of a default outgoing 
+		sequence flows seems to be impossible with available modelling tools. Once this is resolved, testing makes
+		sense, not before.');
+		// TODO: Resolve conceptual issues.
+
 		$test_name = 'ComplexGateway_Blanko_Simple';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
 		$parser = new ilBPMN2Parser();
