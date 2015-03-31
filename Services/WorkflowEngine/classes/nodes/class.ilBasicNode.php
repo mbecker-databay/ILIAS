@@ -60,6 +60,19 @@ class ilBasicNode implements ilNode, ilWorkflowEngineElement
 	private $active = false;
 
 	/**
+	 * This holds if the node represents a forward condition.
+	 * 
+	 * The forward condition works like this:
+	 * The node itself transits to multiple nodes, which must represent intermediate events or nodes
+	 * that show such characteristics. If one the forward nodes is triggered, they need to look back and
+	 * instruct the node to deactivate all other outgoing forward flows so their event detectors are taken
+	 * down.
+	 * 
+	 * @var boolean
+	 */
+	private $is_forward_condition_node;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param ilWorkflow $a_context Reference to the workflow the node is attached to.
@@ -70,6 +83,10 @@ class ilBasicNode implements ilNode, ilWorkflowEngineElement
 		$this->detectors = array();
 		$this->emitters = array();
 		$this->activities = array();
+		$this->active = false;
+		$this->is_forward_condition_node = false;
+		$this->is_forward_condition_event = false;
+		$this->ident = strtoupper(substr(md5(spl_object_hash($this)),0,6));
 	}
 
 	/**
@@ -189,6 +206,7 @@ class ilBasicNode implements ilNode, ilWorkflowEngineElement
 	{
 		$this->deactivate();
 		$this->executeActivities();
+		$this->pingbackToPredecessorNodes();
 		$this->executeEmitters();
 	}
 
@@ -291,6 +309,62 @@ class ilBasicNode implements ilNode, ilWorkflowEngineElement
 		if ($this->isActive())
 		{
 			$this->attemptTransition();
+		}
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isForwardConditionNode()
+	{
+		return $this->is_forward_condition_node;
+	}
+
+	/**
+	 * @param boolean $is_forward_condition_node
+	 */
+	public function setIsForwardConditionNode($is_forward_condition_node)
+	{
+		$this->is_forward_condition_node = $is_forward_condition_node;
+	}
+
+	/**
+	 * Deactivates all forward condition nodes except for the given one.
+	 * 
+	 * @see is_forward_condition_node for how this thing works.
+	 *                                
+	 * @param ilNode $activated_node
+	 */
+	public function deactivateForwardConditionNodes(ilNode $activated_node)
+	{
+		if($this->is_forward_condition_node)
+		{
+			foreach ($this->emitters as $emitter)
+			{
+				/** @var ilSimpleEmitter $emitter */
+				$target_detector = $emitter->getTargetDetector();
+				/** @var ilWorkflowEngineElement $target_node */
+				$target_node = $target_detector->getContext();
+				if ($target_node === $activated_node)
+				{
+					continue;
+				}
+				$target_node->deactivate();
+			}
+		}
+	}
+
+	public function pingbackToPredecessorNodes()
+	{
+		/** @var ilSimpleDetector $detector */
+		foreach ($this->detectors as $detector)
+		{
+			/** @var ilBasicNode $context */
+			$context = $detector->getContext();
+			if ($context->is_forward_condition_node)
+			{
+				$context->deactivateForwardConditionNodes( $this );
+			}
 		}
 	}
 }

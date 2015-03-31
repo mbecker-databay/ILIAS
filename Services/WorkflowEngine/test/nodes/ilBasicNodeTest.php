@@ -325,4 +325,22 @@ class ilBasicNodeTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertFalse($node->isActive());
 	}
+
+	public function testSetGetIsForwardConditionNode()
+	{
+		// Arrange
+		$node = new ilBasicNode($this->workflow);
+		require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
+		$detector = new ilSimpleDetector($node);
+		$node->addDetector($detector);
+
+		// Act
+		$node->activate();
+
+		// Assert
+		$this->assertFalse($node->isForwardConditionNode(), 'Forward condition should be false by default.');
+		$node->setIsForwardConditionNode(true);
+		$this->assertTrue($node->isForwardConditionNode(), 'Forward condition node state not properly stored.');
+	}
+
 }

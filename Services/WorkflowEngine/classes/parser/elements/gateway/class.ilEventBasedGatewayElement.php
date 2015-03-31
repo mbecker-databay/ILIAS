@@ -23,9 +23,7 @@ class ilEventBasedGatewayElement extends ilBaseElement
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
-			// TODO This item needs rework during sequence flow development, so following intermediate catch event
-			// nodes or receive message activities can be deactivated on arrival of one event, so only one outgoing
-			// path is followed.
+			' . $this->element_varname . '->setIsForwardConditionNode(true);
 			$this->addNode(' . $this->element_varname . ');
 		';
 		return $code;
