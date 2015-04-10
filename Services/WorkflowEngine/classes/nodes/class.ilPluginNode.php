@@ -88,6 +88,9 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 	 */
 	private $evaluation_expression = "return null;";
 
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -431,4 +434,13 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 		return $this->detectors;
 	}
 
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
 }

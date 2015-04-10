@@ -72,6 +72,9 @@ class ilBasicNode implements ilNode, ilWorkflowEngineElement
 	 */
 	private $is_forward_condition_node;
 
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -359,12 +362,22 @@ class ilBasicNode implements ilNode, ilWorkflowEngineElement
 		/** @var ilSimpleDetector $detector */
 		foreach ($this->detectors as $detector)
 		{
-			/** @var ilBasicNode $context */
-			$context = $detector->getContext();
-			if ($context->is_forward_condition_node)
+			/** @var ilBasicNode $source_node */
+			$source_node = $detector->getSourceNode();
+			if ($source_node->is_forward_condition_node)
 			{
-				$context->deactivateForwardConditionNodes( $this );
+				$source_node->deactivateForwardConditionNodes( $this );
 			}
 		}
+	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
 	}
 }

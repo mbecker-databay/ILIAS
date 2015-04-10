@@ -24,6 +24,7 @@ class ilScriptTaskElement extends ilBaseElement
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 		$script_definition = ilBPMN2ParserUtils::extractScriptDefinitionFromElement($element);
 		$class_object->addAuxilliaryMethod(
@@ -35,6 +36,7 @@ class ilScriptTaskElement extends ilBaseElement
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilScriptActivity.php');
 		$code .= "
 			". $this->element_varname . "_scriptActivity = new ilScriptActivity(" . $this->element_varname . ");
+			" . $this->element_varname . "_scriptActivity->setName('" . $this->element_varname . "');
 			". $this->element_varname . "_scriptActivity->setMethod('".'_v_'.$element['attributes']['id'] . "_script');
 			" . $this->element_varname . "->addActivity(". $this->element_varname . "_scriptActivity);
 			";

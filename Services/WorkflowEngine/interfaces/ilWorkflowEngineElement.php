@@ -25,5 +25,6 @@ interface ilWorkflowEngineElement
 	 * @return ilWorkflowEngineElement Reference to a workflow engine element.
 	 */
 	public function getContext();
-	
+	public function setName($name);
+	public function getName();
 }

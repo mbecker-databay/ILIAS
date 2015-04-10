@@ -36,6 +36,12 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
 	 */
 	private $detection_state = false;
 
+	/** @var string $name */
+	protected $name;
+
+	/** @var ilNode $source_node */
+	protected $source_node;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -131,5 +137,31 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
 	public function getActivated()
 	{
 		return $this->detection_state;
+	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return ilNode
+	 */
+	public function getSourceNode()
+	{
+		return $this->source_node;
+	}
+
+	/**
+	 * @param ilNode $source_node
+	 */
+	public function setSourceNode($source_node)
+	{
+		$this->source_node = $source_node;
 	}
 }

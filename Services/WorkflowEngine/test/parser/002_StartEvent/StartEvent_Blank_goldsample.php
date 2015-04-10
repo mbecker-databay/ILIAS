@@ -12,6 +12,7 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
 		
 			$_v_StartEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_1);
+			$_v_StartEvent_1->setName('$_v_StartEvent_1');
 		
 			$this->setStartNode($_v_StartEvent_1);
 			

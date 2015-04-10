@@ -26,7 +26,10 @@ class ilCallActivityElement extends ilBaseElement
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
+			
 			' . $this->element_varname . '_callActivity = new ilStaticMethodCallActivity(' . $this->element_varname . ');
+			' . $this->element_varname . '_callActivity->setName(\'' . $this->element_varname . '_callActivity\');
 			' . $this->element_varname . '_callActivity->setIncludeFilename("'.$library_definition['include_filename'].'");
 			' . $this->element_varname . '_callActivity->setClassAndMethodName("'.$library_definition['class_and_method'].'");
 			' . $this->element_varname . '_callActivity_params = array(); // Requires Parsing of Data Associations!

@@ -39,6 +39,9 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
 	 */
 	private $log_level = 'MESSAGE';
 
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -293,4 +296,16 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
 		}
 		return $file_pointer;
 	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
 }

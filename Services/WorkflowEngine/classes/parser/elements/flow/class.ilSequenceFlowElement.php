@@ -23,8 +23,11 @@ class ilSequenceFlowElement extends ilBaseElement
 
 		$code .= '
 			'.$target_element.'_detector = new ilSimpleDetector('.$target_element.');
+			' . $target_element . '_detector->setName(\'' . $target_element . '_detector\');
+			' . $target_element . '_detector->setSourceNode(' . $source_element . ');
 			'.$target_element.'->addDetector('.$target_element.'_detector);
 			'.$source_element.'_emitter = new ilActivationEmitter('.$source_element.');
+			' . $source_element . '_emitter->setName(\'' . $source_element . '_emitter\');
 			'.$source_element.'_emitter->setTargetDetector('.$target_element.'_detector);
 			'.$source_element.'->addEmitter('.$source_element.'_emitter);
 		';

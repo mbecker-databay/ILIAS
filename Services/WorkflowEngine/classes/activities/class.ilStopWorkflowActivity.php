@@ -26,6 +26,9 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
 	 */
 	private $context;
 
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -64,4 +67,16 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
 	{
 		unset($this->context);
 	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
 }

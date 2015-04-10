@@ -41,6 +41,8 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
 	 */
 	private $setting_value = '';
 
+	/** @var string $name */
+	protected $name;
 	/**
 	 * Default constructor.
 	 * 
@@ -140,4 +142,16 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
 	{
 		return $this->context;
 	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
 }

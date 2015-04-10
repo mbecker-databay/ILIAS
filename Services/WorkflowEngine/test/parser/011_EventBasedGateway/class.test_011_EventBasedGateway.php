@@ -36,7 +36,7 @@ class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
 
-	public function test_WorkflowWithSimpleEndEventShouldOutputAccordingly()
+	public function test_WorkflowWithSimpleEventGatewayShouldOutputAccordingly()
 	{
 		$test_name = 'EventBasedGateway_Blanko_Simple';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -68,6 +68,7 @@ class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
 		$this->assertFalse($process->isActive());
 
 		$process->startWorkflow();
+		$this->assertTrue($process->isActive());
 		$all_triggered = true;
 		foreach($process->getNodes() as $node)
 		{
@@ -90,11 +91,11 @@ class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
 			}
 		}
 		$this->assertFalse($all_triggered, 'All nodes were triggered.');
-
+		$this->assertTrue($process->isActive());
 		$process->handleEvent(
 			array(
 				'Course',
-				'UserLeft',
+				'UserWasAssigned',
 				'usr',
 				0,
 				'crs',
@@ -123,9 +124,19 @@ class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
 				}
 			}
 		}
-		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
-
+		$this->assertFalse($all_triggered, 'All nodes were triggered.');
+		$all_inactive = true;
+		foreach($process->getNodes() as $node)
+		{
+			if($node->isActive())
+			{
+				$all_inactive = false;
+			}
+		}
+		$this->assertTrue($all_inactive, 'Not all nodes are inactive.');
+		$this->assertFalse($process->isActive(), 'Process should be inactive after processing the event. It is not.');
 		unlink($this->getTestOutputFilename($test_name));
+		// This test was indeed a harsh mistress.
 	}
 
 }

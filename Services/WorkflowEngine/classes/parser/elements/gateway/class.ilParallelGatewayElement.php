@@ -23,6 +23,7 @@ class ilParallelGatewayElement extends ilBaseElement
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 			$this->addNode(' . $this->element_varname . ');
 		';
 		return $code;

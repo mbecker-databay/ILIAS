@@ -24,6 +24,7 @@ class ilServiceTaskElement extends ilBaseElement
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 		return $code;
 	}

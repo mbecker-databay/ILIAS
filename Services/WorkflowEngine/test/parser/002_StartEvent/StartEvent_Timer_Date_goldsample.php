@@ -27,8 +27,10 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilEventDetector.
 		
 			$_v_StartEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_1);
+			$_v_StartEvent_1->setName('$_v_StartEvent_1');
 		
 			$_v_StartEvent_1_detector = new ilEventDetector($_v_StartEvent_1);
+			$_v_StartEvent_1_detector->setName('$_v_StartEvent_1_detector');
 			$_v_StartEvent_1_detector->setEvent(			"time_passed", 			"time_passed");
 			$_v_StartEvent_1_detector->setEventSubject(	"none", 	"0");
 			$_v_StartEvent_1_detector->setEventContext(	"none", 	"0");

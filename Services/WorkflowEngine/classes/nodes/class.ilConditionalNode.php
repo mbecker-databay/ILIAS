@@ -99,6 +99,9 @@ class ilConditionalNode implements ilNode, ilWorkflowEngineElement
 	 */
 	private $evaluation_expression = "return true;";
 
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -456,4 +459,13 @@ class ilConditionalNode implements ilNode, ilWorkflowEngineElement
 		return $this->detectors;
 	}
 
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
 }

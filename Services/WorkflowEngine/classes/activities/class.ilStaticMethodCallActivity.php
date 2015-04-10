@@ -36,6 +36,9 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	/** @var array $parameters Holds an array with params to be passed as second argument to the method. */
 	private $parameters;
 
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -146,4 +149,16 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	{
 		return $this->context;
 	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
 }

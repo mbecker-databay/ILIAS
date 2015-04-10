@@ -20,6 +20,9 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 	private $context;
 
 	private $method = '';
+	
+	/** @var string $name */
+	protected $name;
 
 	/**
 	 * Default constructor.
@@ -70,4 +73,16 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 	{
 		return $this->context;
 	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
 }

@@ -38,12 +38,14 @@ class ilIntermediateThrowEventElement extends ilBaseElement
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 		if(isset($event_definition['type']) && isset($event_definition['content']))
 		{
 			$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php');
 			$code .= '
 				' . $this->element_varname . '_throwEventActivity = new ilEventRaisingActivity(' . $this->element_varname . ');
+				' . $this->element_varname . '_throwEventActivity->setName(\'' . $this->element_varname . '\');
 				' . $this->element_varname . '_throwEventActivity->setEventType("'.$event_definition['type'].'");
 				' . $this->element_varname . '_throwEventActivity->setEventName("'.$event_definition['content'].'");
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_throwEventActivity);

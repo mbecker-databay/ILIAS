@@ -37,6 +37,7 @@ class ilSendTaskElement extends ilBaseElement
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 
 		if(isset($event_definition['type']) && isset($event_definition['content']))
@@ -44,6 +45,7 @@ class ilSendTaskElement extends ilBaseElement
 			$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilStaticMethodCallActivity.php');
 			$code .= '
 				' . $this->element_varname . '_sendTaskActivity = new ilEventRaisingActivity(' . $this->element_varname . ');
+				' . $this->element_varname . '_sendTaskActivity->setName(\'' . $this->element_varname . '_sendTaskActivity\');
 				' . $this->element_varname . '_sendTaskActivity->setEventType("'.$event_definition['type'].'");
 				' . $this->element_varname . '_sendTaskActivity->setEventName("'.$event_definition['content'].'");
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_sendTaskActivity);

@@ -48,6 +48,9 @@ class ilActivationEmitter implements ilEmitter, ilWorkflowEngineElement
 	/** @var bool $emitted Holds information if the emitter emitted at least once. */
 	private $emitted;
 
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -104,4 +107,16 @@ class ilActivationEmitter implements ilEmitter, ilWorkflowEngineElement
 	{
 		return $this->emitted;
 	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
 }

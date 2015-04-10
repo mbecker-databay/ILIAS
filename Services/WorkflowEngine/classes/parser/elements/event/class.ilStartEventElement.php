@@ -45,12 +45,14 @@ class ilStartEventElement extends ilBaseElement
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 		if(is_array($event_definition))
 		{
 			$class_object->registerRequire('./Services/WorkflowEngine/classes/detectors/class.ilEventDetector.php');
 			$code .= '
 			' . $this->element_varname . '_detector = new ilEventDetector(' . $this->element_varname . ');
+			' . $this->element_varname . '_detector->setName(\'' . $this->element_varname . '_detector\');
 			' . $this->element_varname . '_detector->setEvent(			"'.$event_definition['type'].'", 			"'.$event_definition['content'].'");
 			' . $this->element_varname . '_detector->setEventSubject(	"'.$event_definition['subject_type'].'", 	"'.$event_definition['subject_id'].'");
 			' . $this->element_varname . '_detector->setEventContext(	"'.$event_definition['context_type'].'", 	"'.$event_definition['context_id'].'");

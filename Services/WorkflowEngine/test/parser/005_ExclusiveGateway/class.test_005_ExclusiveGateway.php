@@ -6,6 +6,8 @@
  * @version $Id$
  *
  * @ingroup Services/WorkflowEngine
+ *          
+ *          TODO: DOUBLE CHECK THESE TESTS!
  */
 class test_005_ExclusiveGateway extends PHPUnit_Framework_TestCase
 {
@@ -53,7 +55,7 @@ class test_005_ExclusiveGateway extends PHPUnit_Framework_TestCase
 
 		require_once $this->getTestOutputFilename($test_name);
 		$process = new $test_name;
-		$this->assertFalse($process->isActive());
+		$this->assertFalse($process->isActive(), 'Process is not active.');
 
 		$process->startWorkflow();
 		$all_triggered = true;
@@ -77,8 +79,20 @@ class test_005_ExclusiveGateway extends PHPUnit_Framework_TestCase
 				}
 			}
 		}
-		$this->assertTrue($all_triggered);
+		$this->assertFalse($all_triggered, 'All nodes were triggered.');
 
+		$all_inactive = true;
+		foreach($process->getNodes() as $node)
+		{
+			if($node->isActive())
+			{
+				$all_inactive = false;
+			}
+		}
+		$this->assertFalse($all_inactive, 'Not all nodes are inactive.');
+		/**
+		 * TODO: Enhance test so a proper detection that the correct nodes are left untriggered.
+		 */
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
@@ -99,7 +113,7 @@ class test_005_ExclusiveGateway extends PHPUnit_Framework_TestCase
 
 		require_once $this->getTestOutputFilename($test_name);
 		$process = new $test_name;
-		$this->assertFalse($process->isActive());
+		$this->assertFalse($process->isActive(), 'Process is inactive.');
 
 		$process->startWorkflow();
 		$all_triggered = true;
@@ -123,7 +137,17 @@ class test_005_ExclusiveGateway extends PHPUnit_Framework_TestCase
 				}
 			}
 		}
-		$this->assertTrue($all_triggered);
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
+
+		$all_inactive = true;
+		foreach($process->getNodes() as $node)
+		{
+			if($node->isActive())
+			{
+				$all_inactive = false;
+			}
+		}
+		$this->assertTrue($all_inactive, 'Not all nodes are inactive.');
 
 		unlink($this->getTestOutputFilename($test_name));
 	}

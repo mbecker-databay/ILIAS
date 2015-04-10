@@ -23,6 +23,7 @@ class ilComplexGatewayElement extends ilBaseElement
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilPluginNode.php');
 		$code .= '
 			' . $this->element_varname . ' = new ilPluginNode($this);
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 			// Details how this works need to be further carved out.
 			$this->addNode(' . $this->element_varname . ');
 		';

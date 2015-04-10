@@ -38,7 +38,10 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
 	 * @var ilNode 
 	 */
 	private $context;
-	
+
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -85,5 +88,15 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
 	public function emit()
 	{
 		$this->target_detector->trigger(array());
+	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
 	}
 }

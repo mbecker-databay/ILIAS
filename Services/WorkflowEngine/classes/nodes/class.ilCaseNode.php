@@ -50,7 +50,7 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 	 * @var \ilActivity Array of ilActivity
 	 */
 	private $activities;
-	
+
 	/**
 	 * This holds the activation status of the node.
 	 * 
@@ -59,9 +59,12 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 	private $active = false;
 
 	private $is_exclusive_join;
-	
+
 	private $is_exclusive_fork;
-	
+
+	/** @var string $name */
+	protected $name;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -148,7 +151,7 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 			if ($isPreconditionMet == true)
 			{
 				$isPreconditionMet = $detector->getDetectorState();
-				if($this->is_exclusive_join)
+				if($isPreconditionMet && ($this->is_exclusive_join || $this->is_exclusive_fork || $this->is_exclusive))
 				{
 					break;
 				}
@@ -199,9 +202,9 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 			{
 				$emitter = $pair['emitter'];
 				$emitter->emit();
-				if($this->is_exclusive_fork)
+				if($this->is_exclusive_fork || $this->is_exclusive_join)
 				{
-					break;
+					return;
 				}
 			}
 		}
@@ -307,5 +310,14 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 		return $this->emitters;
 	}
 
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
 
 }

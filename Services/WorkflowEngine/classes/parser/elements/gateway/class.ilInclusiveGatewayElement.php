@@ -23,6 +23,7 @@ class ilInclusiveGatewayElement extends ilBaseElement
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilCaseNode.php');
 		$code .= '
 			' . $this->element_varname . ' = new ilCaseNode($this);
+			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 			$this->addNode(' . $this->element_varname . ');
 		';
 		return $code;
