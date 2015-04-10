@@ -52,9 +52,33 @@ class test_014_DataObject extends PHPUnit_Framework_TestCase
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
 		require_once $this->getTestOutputFilename($test_name);
+		/** @var ilBaseWorkflow $process */
 		$process = new $test_name;
-		$this->assertFalse($process->isActive());
-
+		$process->setInstanceVar('Data Object 1', 'YaddaYadda');
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertEquals($process->getInstanceVars(), array('Data Object 1' => 'YaddaYadda'), 'Instancevar was not kept.');
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
