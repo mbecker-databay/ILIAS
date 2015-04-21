@@ -61,7 +61,11 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 	public function execute()
 	{
 		$method = $this->method;
-		$this->context->getContext()->$method($this);
+		$return_value = $this->context->getContext()->$method($this);
+		foreach((array) $return_value as $key => $value)
+		{
+			$this->context->setRuntimeVar($key, $value);
+		}
 	}
 
 	/**

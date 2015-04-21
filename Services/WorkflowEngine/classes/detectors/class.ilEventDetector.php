@@ -249,6 +249,10 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 			$this->getContext()->getContext()->setInstanceVar('current_event', $a_params);
 			$this->setDetectorState(true);
 			$this->was_activated = true;
+			foreach($a_params as $key => $value)
+			{
+				$this->getContext()->setRuntimeVar($key, $value);
+			}
 			return true;
 		}
 		return false;

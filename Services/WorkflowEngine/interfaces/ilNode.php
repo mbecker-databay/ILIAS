@@ -8,6 +8,9 @@ require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
 
+/** @noinspection PhpIncludeInspection */
+require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
+
 /**
  * ilNode of the petri net based workflow engine.
  *
@@ -20,19 +23,27 @@ require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
  *
  * @ingroup Services/WorkflowEngine
  */
-interface ilNode
+interface ilNode extends ilWorkflowEngineElement
 {
 	public function attemptTransition();
 	public function checkTransitionPreconditions();
 	public function executeTransition();
+
 	public function addDetector(ilDetector $a_detector);
 	public function addEmitter(ilEmitter $a_emitter);
 	public function addActivity(ilActivity $a_activity);
+
 	public function activate();
 	public function deactivate();
 	public function onActivate();
 	public function onDeactivate();
+
 	public function notifyDetectorSatisfaction(ilDetector $a_detector);
 	public function getDetectors();
 	public function getEmitters();
+
+	public function getRuntimeVars();
+	public function setRuntimeVars($runtime_vars);
+	public function getRuntimeVar($name);
+	public function setRuntimeVar($name, $value);
 }

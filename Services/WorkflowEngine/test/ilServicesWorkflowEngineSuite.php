@@ -63,6 +63,9 @@ class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
 		require_once './Services/WorkflowEngine/test/detectors/ilEventDetectorTest.php';
 		$suite->addTestSuite('ilEventDetectorTest');
 
+		require_once './Services/WorkflowEngine/test/detectors/ilDataDetectorTest.php';
+		$suite->addTestSuite('ilDataDetectorTest');
+
 		//
 		// ---------------------------------------------------------------------
 		// Emitters
@@ -74,6 +77,9 @@ class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
 
 		require_once './Services/WorkflowEngine/test/emitters/ilActivationEmitterTest.php';
 		$suite->addTestSuite('ilActivationEmitterTest');
+
+		require_once './Services/WorkflowEngine/test/emitters/ilDataEmitterTest.php';
+		$suite->addTestSuite('ilDataEmitterTest');
 
 		//
 		// ---------------------------------------------------------------------

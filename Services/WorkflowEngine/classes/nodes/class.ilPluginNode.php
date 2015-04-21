@@ -2,17 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflow.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
+require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
 
 /**
  * Plugin node of the petri net based workflow engine.
@@ -25,30 +15,8 @@ require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilPluginNode implements ilNode, ilWorkflowEngineElement
+class ilPluginNode extends ilBaseNode
 {
-	/**
-	 * This holds a reference to the parent workflow.
-	 * 
-	 * @var ilWorkflow
-	 */
-	private $context;
-	
-	/**
-	 * This holds a list of detectors attached to the node.
-	 * 
-	 * @var \ilDetector Array of ilDetector 
-	 */
-	private $detectors;
-	
-	/**
-	 * This holds a list of emitters attached to the node.
-	 * In this node type, these are the 'then' emitters.
-	 * 
-	 * @var \ilEmitter Array of ilEmitter
-	 */
-	private $emitters;
-	
 	/**
 	 * This holds a list of emitters attached to the node.
 	 * In this node type, these are the 'else' emitters.
@@ -56,15 +24,7 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 	 * @var \ilEmitter Array of ilEmitter
 	 */
 	private $else_emitters;
-	
-	/**
-	 * This holds a list of activities attached to the node.
-	 * In this node type, these are the 'then' activities.
-	 * 
-	 * @var \ilActivity Array of ilActivity 
-	 */
-	private $activities;
-	
+
 	/**
 	 * This holds a list of activities attached to the node.
 	 * In this node type, these are the 'else' activities.
@@ -72,14 +32,7 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 	 * @var \ilActivity Array of ilActivity
 	 */
 	private $else_activities;
-	
-	/**
-	 * This holds the activation status of the node.
-	 * 
-	 * @var boolean 
-	 */
-	private $active = false;
-	
+
 	/**
 	 * This holds the piece of code used to determine if the 'then' or the 'else'
 	 * sets of activities and emitters are to be used.
@@ -87,9 +40,6 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 	 * @var string PHP code to be executed to determine the 'decision' of the node.
 	 */
 	private $evaluation_expression = "return null;";
-
-	/** @var string $name */
-	protected $name;
 
 	/**
 	 * Default constructor.
@@ -104,16 +54,6 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 		$this->else_emitters = array();
 		$this->activities = array();
 		$this->else_activities = array();
-	}
-
-	/**
-	 * Returns the activation status of the node.
-	 * 
-	 * @return boolean Activation status of the node. 
-	 */
-	public function isActive()
-	{
-		return $this->active;
 	}
 
 	/**
@@ -204,7 +144,6 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 	 */	
 	public function attemptTransition()
 	{
-		
 		// TODO Call Plugin here.
 		$eval_function = create_function('$detectors', $this->evaluation_expression);
 
@@ -238,7 +177,7 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 			}
 		}
 	}
-	
+
 	/**
 	 * Executes all 'then'-emitters attached to the node.
 	 */
@@ -261,17 +200,6 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 		$this->deactivate();
 		$this->executeActivities();
 		$this->executeEmitters();
-	}
-
-	/**
-	 * Adds a detector to the list of detectors attached to the node.
-	 * 
-	 * @param ilDetector $a_detector 
-	 */
-	public function addDetector(ilDetector $a_detector)
-	{
-		$this->detectors[] = $a_detector;
-		$this->context->registerDetector($a_detector);
 	}
 
 	/**
@@ -309,7 +237,7 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 			$this->else_activities[] = $a_activity;
 		}
 	}
-	
+
 	/**
 	 * This sets the evaluation expression for the node.
 	 *
@@ -351,33 +279,6 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 		// TODO Rework to use a Plugin here.
 		$this->evaluation_expression = $a_expression;
 	}
-	
-	/**
-	 * Returns a reference to the parent workflow.
-	 * @return ilWorkflow Reference to the parent workflow.
-	 */
-	public function getContext()
-	{
-		return $this->context;
-	}
-	
-	/**
-	 * Method called on activation of the node.
-	 * @return void
-	 */
-	public function onActivate()
-	{
-		return;
-	}
-	
-	/**
-	 * Method calles on deactivation of the node.
-	 * @return void 
-	 */
-	public function onDeactivate() 
-	{
-		return;
-	}
 
 	/**
 	 * This method is called by detectors, that just switched to being satisfied.
@@ -391,7 +292,7 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 			$this->attemptTransition();
 		}
 	}
-	
+
 	/**
 	 * Returns all currently set activites
 	 * 	 
@@ -406,8 +307,8 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 			return $this->else_activities;
 		}
 		return $this->activities;
-	}	
-	
+	}
+
 	/**
 	 * Returns all currently set emitters
 	 * 
@@ -424,23 +325,4 @@ class ilPluginNode implements ilNode, ilWorkflowEngineElement
 		return $this->emitters;
 	}
 
-	/**
-	 * Returns all currently set detectors
-	 * 
-	 * @return Array Array with objects of ilDetector 
-	 */
-	public function getDetectors()
-	{
-		return $this->detectors;
-	}
-
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
-
-	public function getName()
-	{
-		return $this->name;
-	}
 }

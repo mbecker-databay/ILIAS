@@ -2,17 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflow.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
+require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
 
 /**
  * Case node of the petri net based workflow engine.
@@ -25,45 +15,12 @@ require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilCaseNode implements ilNode, ilWorkflowEngineElement
+class ilCaseNode extends ilBaseNode
 {
-	/**
-	 * This holds a reference to the parent workflow.
-	 * 
-	 * @var ilWorkflow
-	 */
-	private $context;
-
-	/**
-	 * This holds a list of detectors attached to the node.
-	 * 
-	 * @var \ilDetector Array of ilDetector 
-	 */
-	private $detectors;
-
-	private $condition_emitter_pairs;
-
-	/**
-	 * This holds a list of activities attached to the node.
-	 * In this node type, these are the 'else' activities.
-	 * 
-	 * @var \ilActivity Array of ilActivity
-	 */
-	private $activities;
-
-	/**
-	 * This holds the activation status of the node.
-	 * 
-	 * @var boolean 
-	 */
-	private $active = false;
 
 	private $is_exclusive_join;
 
 	private $is_exclusive_fork;
-
-	/** @var string $name */
-	protected $name;
 
 	/**
 	 * Default constructor.
@@ -94,16 +51,6 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 	public function setIsExclusiveFork($is_exclusive)
 	{
 		$this->is_exclusive_fork = $is_exclusive;
-	}
-
-	/**
-	 * Returns the activation status of the node.
-	 * 
-	 * @return boolean Activation status of the node. 
-	 */
-	public function isActive()
-	{
-		return $this->active;
 	}
 
 	/**
@@ -211,17 +158,6 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 	}
 
 	/**
-	 * Adds a detector to the list of detectors attached to the node.
-	 * 
-	 * @param ilDetector $a_detector 
-	 */
-	public function addDetector(ilDetector $a_detector)
-	{
-		$this->detectors[] = $a_detector;
-		$this->context->registerDetector($a_detector);
-	}
-
-	/**
 	 * Adds an emitter to one of the lists attached to the node.
 	 * 
 	 * @param ilEmitter	$a_emitter
@@ -236,43 +172,6 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 	}
 
 	/**
-	 * Adds an activity to one of the lists attached to the node.
-	 * 
-	 * @param ilActivity $a_activity
-	 */
-	public function addActivity(ilActivity $a_activity)
-	{
-		$this->activities[] = $a_activity;
-	}
-
-	/**
-	 * Returns a reference to the parent workflow.
-	 * @return ilWorkflow Reference to the parent workflow.
-	 */
-	public function getContext()
-	{
-		return $this->context;
-	}
-
-	/**
-	 * Method called on activation of the node.
-	 * @return void
-	 */
-	public function onActivate()
-	{
-		return;
-	}
-
-	/**
-	 * Method calles on deactivation of the node.
-	 * @return void 
-	 */
-	public function onDeactivate() 
-	{
-		return;
-	}
-
-	/**
 	 * This method is called by detectors, that just switched to being satisfied.
 	 * 
 	 * @param ilDetector $a_detector ilDetector which is now satisfied.
@@ -284,40 +183,4 @@ class ilCaseNode implements ilNode, ilWorkflowEngineElement
 			$this->attemptTransition();
 		}
 	}
-
-	/**
-	 * Returns all currently set activites
-	 * 
-	 * @return Array Array with objects of ilActivity 
-	 */
-	public function getActivities()
-	{
-		return $this->activities;
-	}
-
-	/**
-	 * Returns all currently set detectors
-	 * 
-	 * @return Array Array with objects of ilDetector 
-	 */
-	public function getDetectors()
-	{
-		return $this->detectors;
-	}
-
-	public function getEmitters()
-	{
-		return $this->emitters;
-	}
-
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
-
-	public function getName()
-	{
-		return $this->name;
-	}
-
 }

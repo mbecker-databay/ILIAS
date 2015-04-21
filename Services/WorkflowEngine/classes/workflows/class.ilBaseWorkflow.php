@@ -494,7 +494,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 */
 	public function setInstanceVar($a_name, $a_value)
 	{
-		$this->instance_vars[$a_name] = $a_value;
+		if($this->instance_vars[$a_name] === null)
+		{
+			$this->instance_vars[$a_name] = $a_value;
+		}
 	}
 
 	/**

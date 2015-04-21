@@ -134,10 +134,15 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 		require_once './' . $this->include_file;
 		$name = explode('::', $this->class_and_method_name);
 
-		call_user_func_array(
+		/** @var array $return_value */
+		$return_value = call_user_func_array(
 			array($name[0], $name[1]), 
 			array($this, $this->parameters)
 		);
+		foreach((array) $return_value as $key => $value)
+		{
+			$this->context->setRuntimeVar($key, $value);
+		}
 	}
 
 	/**
