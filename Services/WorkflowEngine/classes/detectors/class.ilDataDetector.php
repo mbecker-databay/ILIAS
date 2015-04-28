@@ -36,9 +36,6 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 	/** @var ilNode $source_node */
 	protected $source_node;
 
-	/** @var string $var_type which is input|object */
-	protected $var_type;
-
 	/** @var  string $var_name */
 	protected $var_name;
 
@@ -82,22 +79,12 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 	 * @return boolean 
 	 */
 	public function getDetectorState()
-	{
-		switch($this->var_type)
-		{
-			case 'input':
-				$this->getContext()->setRuntimeVar(
-					$this->var_name,
-					$this->getContext()->getContext()->getInputVar($this->var_name)
-				);
-				break;
-			case 'object':
-				$this->getContext()->setRuntimeVar(
-					$this->var_name,
-					$this->getContext()->getContext()->getInstanceVar($this->var_name)
-				);
-				break;
-		}
+	{	
+		$this->getContext()->setRuntimeVar(
+			$this->var_name,
+			$this->getContext()->getContext()->getInstanceVarByName($this->var_name)
+		);
+		$this->detection_state = true;
 		return true;
 	}
 
@@ -183,19 +170,4 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 		$this->var_name = $var_name;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getVarType()
-	{
-		return $this->var_type;
-	}
-
-	/**
-	 * @param string $var_type
-	 */
-	public function setVarType($var_type)
-	{
-		$this->var_type = $var_type;
-	}
 }

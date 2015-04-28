@@ -53,25 +53,13 @@ interface ilWorkflow
 	public function resetDataPersistenceRequirement();
 
 	// Instance vars (data objects)
-	public function defineInstanceVar($name);
-	public function hasInstanceVar($a_name);
-	public function getInstanceVar($a_name);
-	public function setInstanceVar($a_name, $a_value);
+	public function defineInstanceVar($id, $name);
+	public function hasInstanceVarByName($name);
+	public function hasInstanceVarById($id);
+	public function getInstanceVarByName($name);
+	public function getInstanceVarById($id);
+	public function setInstanceVarByName($name, $value);
+	public function setInstanceVarById($id, $value);
 	public function getInstanceVars();
 	public function flushInstanceVars();
-
-	// Data Inputs
-	public function defineInputVar($name);
-	public function hasInputVar($name);
-	public function readInputVar($name);
-	public function writeInputVar($name, $value);
-	public function getInputVars();
-
-	// Data Outputs
-	public function defineOutputVar($name);
-	public function hasOutputVar($name);
-	public function readOutputVar($name);
-	public function writeOutputVar($name, $value);
-	public function getOutputVars();
-
 }

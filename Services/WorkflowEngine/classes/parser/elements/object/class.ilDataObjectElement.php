@@ -27,7 +27,7 @@ class ilDataObjectElement extends ilBaseElement
 		}
 		$code = "";
 		$code .= '
-			$this->defineInstanceVar("'.$name.'");
+			$this->defineInstanceVar("'.$name.'","'.$element['attributes']['id'].'");
 		';
 		return $code;
 	}

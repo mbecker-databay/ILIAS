@@ -246,7 +246,6 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 		if ($this->getDetectorState() == false)
 		{
 			// X -> ilNode     -> ilWorkflow -> Method...
-			$this->getContext()->getContext()->setInstanceVar('current_event', $a_params);
 			$this->setDetectorState(true);
 			$this->was_activated = true;
 			foreach($a_params as $key => $value)

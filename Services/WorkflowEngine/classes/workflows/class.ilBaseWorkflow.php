@@ -455,48 +455,135 @@ abstract class ilBaseWorkflow implements ilWorkflow
 
 	}
 
+	public function isDataPersistenceRequired()
+	{
+		return $this->require_data_persistence;
+	}
+
+	public function resetDataPersistenceRequirement()
+	{
+		$this->require_data_persistence = false;
+	}
+
 	#region InstanceVars
 
-	public function defineInstanceVar($name)
+	/*
+	 * Instancevars work like this:
+	 * array(
+	 * 	'id' => 'string',
+	 * 	'name' => 'string',
+	 * 	'value' => mixed
+	 * );
+	 * 
+	 */
+	public function defineInstanceVar($id, $name)
 	{
-		$this->instance_vars[$name] = null;
+		$this->instance_vars[] = array('id' => $id, 'name' => $name, 'value' => null);
 	}
-	
+
 	/**
 	 * Returns if an instance variable of the given name is set.
 	 * 
-	 * @param string $a_name
-	 * 
-	 * @return boolean True, if a variable is set.
+	 * @param string $name
+	 * @return boolean True, if a variable by that name is set.
 	 */
-	public function hasInstanceVar($a_name)
+	public function hasInstanceVarByName($name)
 	{
-		return array_key_exists($a_name, (array)$this->instance_vars);
+		foreach($this->instance_vars as $instance_var)
+		{
+			if($instance_var['name'] == $name)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns if an instance variable of the given id is set.
+	 *
+	 * @param string $id
+	 * 
+	 * @return boolean True, if a variable by that id is set.
+	 */
+	public function hasInstanceVarById($id)
+	{
+		foreach($this->instance_vars as $instance_var)
+		{
+			if($instance_var['id'] == $id)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
 	 * Returns the given instance variables content  
 	 * 
-	 * @param string $a_name Name of the variable.
-	 * 
+	 * @param string $name Name of the variable.
 	 * @return mixed Content of the variable.
 	 */
-	public function getInstanceVar($a_name)
+	public function getInstanceVarByName($name)
 	{
-		return $this->instance_vars[$a_name];
+		foreach($this->instance_vars as $instance_var)
+		{
+			if($instance_var['name'] == $name)
+			{
+				return $instance_var['value'];
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the given instance variables content
+	 *
+	 * @param string $name Name of the variable.
+	 * @return mixed Content of the variable.
+	 */
+	public function getInstanceVarById($id)
+	{
+		foreach($this->instance_vars as $instance_var)
+		{
+			if($instance_var['id'] == $id)
+			{
+				return $instance_var['value'];
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the given instance var with the given content.
+	 * @param string $name Name of the variable
+	 * @param mixed $value 
+	 */
+	public function setInstanceVarByName($name, $value)
+	{
+		foreach($this->instance_vars as &$instance_var)
+		{
+			if($instance_var['name'] == $name)
+			{
+				$instance_var['value'] = $value;
+			}
+		}
 	}
 
 	/**
 	 * Sets the given instance var with the given content.
 	 * 
-	 * @param string $a_name Name of the variable
-	 * @param mixed $a_value 
+	 * @param string $name Name of the variable
+	 * @param mixed $value
 	 */
-	public function setInstanceVar($a_name, $a_value)
+	public function setInstanceVarById($id, $value)
 	{
-		if($this->instance_vars[$a_name] === null)
+		foreach($this->instance_vars as &$instance_var)
 		{
-			$this->instance_vars[$a_name] = $a_value;
+			if($instance_var['id'] == $id)
+			{
+				$instance_var['value'] = $value;
+			}
 		}
 	}
 
@@ -511,7 +598,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	}
 
 	/**
-	 * Empties the instance variables. 
+	 * Empties the instance variables.
 	 */
 	public function flushInstanceVars()
 	{
@@ -522,18 +609,27 @@ abstract class ilBaseWorkflow implements ilWorkflow
 
 	#region Data IO
 
+	/**
+	 * @deprecated
+	 */
 	public function defineInputVar($name)
 	{
 		$this->data_inputs[$name] = null;
 		$this->require_data_persistence = true;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function defineOutputVar($name)
 	{
 		$this->data_outputs[$name] = null;
 		$this->require_data_persistence = true;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function readInputVar($name)
 	{
 		if($this->data_inputs[$name])
@@ -543,22 +639,34 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		return null;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function hasInputVar($name)
 	{
 		return array_key_exists($name, (array)$this->data_inputs);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function hasOutputVar($name)
 	{
 		return array_key_exists($name, (array)$this->data_outputs);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function writeInputVar($name, $value)
 	{
 		$this->data_inputs[$name] = $value;
 		$this->require_data_persistence = true;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function readOutputVar($name)
 	{
 		if($this->data_outputs[$name])
@@ -568,30 +676,29 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		return null;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function writeOutputVar($name, $value)
 	{
 		$this->data_outputs[$name] = $value;
 		$this->require_data_persistence = true;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function getInputVars()
 	{
 		return (array)$this->data_inputs;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function getOutputVars()
 	{
 		return (array)$this->data_outputs;
-	}
-
-	public function isDataPersistenceRequired()
-	{
-		return $this->require_data_persistence;
-	}
-
-	public function resetDataPersistenceRequirement()
-	{
-		$this->require_data_persistence = false;
 	}
 
 	#endregion

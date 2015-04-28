@@ -29,4 +29,39 @@ abstract class ilBaseElement
 		$this->bpmn2_array = $bpmn2_array;
 	}
 
+	public function handleDataAssociations($element, $class_object, $element_varname)
+	{
+		$code = '';
+		if(count($element['children']))
+		{
+			foreach ($element['children'] as $child)
+			{
+				if($child['name'] == 'dataInputAssociation')
+				{
+					$class_object->registerRequire('./Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php');
+					$reference_name = $child['children'][0]['content'];
+					$code .= '
+			'.$element_varname.'_inputDataDetector = new ilDataDetector('.$element_varname.');
+			'.$element_varname.'_inputDataDetector->setVarName("'.$reference_name.'");
+			'.$element_varname.'_inputDataDetector->setName('.$element_varname.'_inputDataDetector);
+			'.$element_varname.'->addDetector('.$element_varname.'_inputDataDetector);
+		';
+				}
+
+				if($child['name'] == 'dataOutputAssociation')
+				{
+					$class_object->registerRequire('./Services/WorkflowEngine/classes/emitters/class.ilDataEmitter.php');
+					$reference_name = $child['children'][0]['content'];
+					// So we need a data emitter to the given 
+					$code .= '
+			'.$element_varname.'_outputDataEmitter = new ilDataEmitter('.$element_varname.');
+			'.$element_varname.'_outputDataEmitter->setVarName("'.$reference_name.'");
+			'.$element_varname.'_outputDataEmitter->setName('.$element_varname.'_outputDataEmitter);
+			'.$element_varname.'->addEmitter('.$element_varname.'_outputDataEmitter);
+		';
+				}
+			}
+		}
+		return $code;
+	}
 }

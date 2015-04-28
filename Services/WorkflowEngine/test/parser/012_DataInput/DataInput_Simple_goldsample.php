@@ -1,6 +1,7 @@
 <?php
 require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
+require_once './Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php';
 require_once './Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php';
 require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 
@@ -12,11 +13,16 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			public function __construct()
 			{
 		
-			$this->defineInputVar("DataInput_1");
+			$this->defineInstanceVar("DataInput_1","DataInput_1" );
 		
 			$_v_Task_1 = new ilBasicNode($this);
 			$this->addNode($_v_Task_1);
 			$_v_Task_1->setName('$_v_Task_1');
+		
+			$_v_Task_1_inputDataDetector = new ilDataDetector($_v_Task_1);
+			$_v_Task_1_inputDataDetector->setVarName("DataInput_1");
+			$_v_Task_1_inputDataDetector->setName($_v_Task_1_inputDataDetector);
+			$_v_Task_1->addDetector($_v_Task_1_inputDataDetector);
 		
 			$_v_EndEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_1);

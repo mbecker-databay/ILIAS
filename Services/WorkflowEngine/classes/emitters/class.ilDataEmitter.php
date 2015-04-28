@@ -93,11 +93,15 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 		{
 			if($key == $this->var_name)
 			{
-				$this->getContext()->getContext()->setInstanceVar($key, $value);
+				$this->getContext()->getContext()->setInstanceVarByName($key, $value);
 			}
 		}
 
-		$this->target_detector->trigger(array());
+		if($this->target_detector instanceof ilDetector)
+		{
+			$this->target_detector->trigger(array());
+		}
+		$this->emitted = true;
 	}
 	
 	public function getActivated()

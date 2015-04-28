@@ -27,7 +27,7 @@ class ilDataOutputElement extends ilBaseElement
 		}
 		$code = "";
 		$code .= '
-			$this->defineOutputVar("'.$name.'");
+			$this->defineInstanceVar("'.$name.'","'. $element['attributes']['id'].'");
 		';
 		return $code;
 	}

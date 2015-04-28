@@ -175,6 +175,10 @@ class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
 		require_once './Services/WorkflowEngine/test/parser/014_DataObject/class.test_014_DataObject.php';
 		$suite->addTestSuite('test_014_DataObject');
 
+		// 015_Data_Wiring
+		require_once './Services/WorkflowEngine/test/parser/015_Data_Wiring/class.test_015_Data_Wiring.php';
+		$suite->addTestSuite('test_015_Data_Wiring');
+
 		//
 		// ---------------------------------------------------------------------
 		// Parser Cases

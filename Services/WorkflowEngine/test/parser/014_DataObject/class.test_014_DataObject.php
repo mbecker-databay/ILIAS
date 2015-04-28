@@ -54,7 +54,7 @@ class test_014_DataObject extends PHPUnit_Framework_TestCase
 		require_once $this->getTestOutputFilename($test_name);
 		/** @var ilBaseWorkflow $process */
 		$process = new $test_name;
-		$process->setInstanceVar('Data Object 1', 'YaddaYadda');
+		$process->setInstanceVarByName('DataObject_1', 'YaddaYadda');
 		$process->startWorkflow();
 		$all_triggered = true;
 		foreach($process->getNodes() as $node)
@@ -77,7 +77,7 @@ class test_014_DataObject extends PHPUnit_Framework_TestCase
 				}
 			}
 		}
-		$this->assertEquals($process->getInstanceVars(), array('Data Object 1' => 'YaddaYadda'), 'Instancevar was not kept.');
+		$this->assertEquals('YaddaYadda', $process->getInstanceVarByName('DataObject_1'), 'Instancevar was not kept.');
 		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
 		unlink($this->getTestOutputFilename($test_name));
 	}

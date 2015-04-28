@@ -28,7 +28,7 @@ class ilDataInputElement extends ilBaseElement
 		}
 		$code = "";
 		$code .= '
-			$this->defineInputVar("'.$name.'");
+			$this->defineInstanceVar("'.$name.'","'.$element['attributes']['id'].'" );
 		';
 		return $code;
 	}

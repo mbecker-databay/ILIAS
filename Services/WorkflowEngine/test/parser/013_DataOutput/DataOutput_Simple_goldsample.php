@@ -1,6 +1,7 @@
 <?php
 require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
+require_once './Services/WorkflowEngine/classes/emitters/class.ilDataEmitter.php';
 require_once './Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php';
 require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 
@@ -12,7 +13,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			public function __construct()
 			{
 		
-			$this->defineOutputVar("DataOutput_1");
+			$this->defineInstanceVar("DataOutput_1","DataOutput_1");
 		
 			$_v_StartEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_1);
@@ -23,6 +24,11 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_Task_1 = new ilBasicNode($this);
 			$this->addNode($_v_Task_1);
 			$_v_Task_1->setName('$_v_Task_1');
+		
+			$_v_Task_1_outputDataEmitter = new ilDataEmitter($_v_Task_1);
+			$_v_Task_1_outputDataEmitter->setVarName("DataOutput_1");
+			$_v_Task_1_outputDataEmitter->setName($_v_Task_1_outputDataEmitter);
+			$_v_Task_1->addEmitter($_v_Task_1_outputDataEmitter);
 		
 			$_v_EndEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_1);

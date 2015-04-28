@@ -7,11 +7,11 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class test_012_DataInput extends PHPUnit_Framework_TestCase
+class test_015_Data_Wiring extends PHPUnit_Framework_TestCase
 {
 	#region Helper
 	public $base_path = './Services/WorkflowEngine/test/parser/';
-	public $suite_path = '012_DataInput/';
+	public $suite_path = '015_Data_Wiring/';
 
 	public function getTestInputFilename($test_name)
 	{
@@ -36,9 +36,9 @@ class test_012_DataInput extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
 
-	public function test_WorkflowWithSimpleEndEventShouldOutputAccordingly()
+	public function test_WorkflowWithInputTaskWiredDataIOShouldOutputAccordingly()
 	{
-		$test_name = 'DataInput_Simple';
+		$test_name = 'Data_Wiring_Input_Task';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
 		$parser = new ilBPMN2Parser();
 		$parse_result = $parser->parseBPMN2XML($xml);
@@ -54,32 +54,44 @@ class test_012_DataInput extends PHPUnit_Framework_TestCase
 		require_once $this->getTestOutputFilename($test_name);
 		/** @var ilBaseWorkflow $process */
 		$process = new $test_name;
-		$process->setInstanceVarByName('DataInput_1', 'YaddaYadda');
+		$process->setInstanceVarByName('DataInput_1', 234);
 		$process->startWorkflow();
-		$all_triggered = true;
+
 		foreach($process->getNodes() as $node)
 		{
-			/** @var ilNode $node*/
-			foreach($node->getDetectors() as $detector)
+			if($node->getName() == '$_v_Task_1')
 			{
-				/** @var ilSimpleDetector $detector */
-				if(!$detector->getActivated())
-				{
-					$all_triggered = false;
-				}
-			}
-			foreach($node->getEmitters() as $emitter)
-			{
-				/** @var ilActivationEmitter $emitter */
-				if(!$emitter->getActivated())
-				{
-					$all_triggered = false;
-				}
+				$runtime_vars = $node->getRuntimeVars();
 			}
 		}
-		$this->assertEquals('YaddaYadda', $process->getInstanceVarByName('DataInput_1'), 'Inputvar was not kept.');
-		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
+		$this->assertEquals(234, $runtime_vars['DataInput_1'], 'IO data was not forwarded from input to task runtime var.');
+		$this->assertEquals(234, $process->getInstanceVarByName('DataInput_1'), 'IO data was not kept as input var.');
+		unlink($this->getTestOutputFilename($test_name));
+	}
 
+
+	public function test_WorkflowWithInputObjectOutputWiredDataIOShouldOutputAccordingly()
+	{
+		$test_name = 'DataObject_Wiring_Input_Object_Output';
+		$xml = file_get_contents($this->getTestInputFilename($test_name));
+		$parser = new ilBPMN2Parser();
+		$parse_result = $parser->parseBPMN2XML($xml);
+
+		file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
+		$return = exec('php -l ' . $this->getTestOutputFilename($test_name));
+
+		$this->assertTrue(substr($return,0,25) == 'No syntax errors detected', 'Lint of output code failed.');
+
+		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
+		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
+
+		require_once $this->getTestOutputFilename($test_name);
+		/** @var ilBaseWorkflow $process */
+		$process = new $test_name;
+		$process->writeOutputVar('DataInput_1', 'YaddaYadda');
+		$process->startWorkflow();
+
+		$this->assertEquals('YaddaYadda', $process->readOutputVar('DataOutput_1'),  'IO data was not forwarded through process.');
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
