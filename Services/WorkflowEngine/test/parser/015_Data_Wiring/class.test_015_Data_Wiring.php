@@ -54,7 +54,7 @@ class test_015_Data_Wiring extends PHPUnit_Framework_TestCase
 		require_once $this->getTestOutputFilename($test_name);
 		/** @var ilBaseWorkflow $process */
 		$process = new $test_name;
-		$process->setInstanceVarByName('DataInput_1', 234);
+		$process->setInstanceVarById('DataInput_1', 234);
 		$process->startWorkflow();
 
 		foreach($process->getNodes() as $node)
@@ -65,7 +65,7 @@ class test_015_Data_Wiring extends PHPUnit_Framework_TestCase
 			}
 		}
 		$this->assertEquals(234, $runtime_vars['DataInput_1'], 'IO data was not forwarded from input to task runtime var.');
-		$this->assertEquals(234, $process->getInstanceVarByName('DataInput_1'), 'IO data was not kept as input var.');
+		$this->assertEquals(234, $process->getInstanceVarById('DataInput_1'), 'IO data was not kept as input var.');
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
@@ -88,10 +88,10 @@ class test_015_Data_Wiring extends PHPUnit_Framework_TestCase
 		require_once $this->getTestOutputFilename($test_name);
 		/** @var ilBaseWorkflow $process */
 		$process = new $test_name;
-		$process->writeOutputVar('DataInput_1', 'YaddaYadda');
+		$process->setInstanceVarById('DataInput_1', 'YaddaYadda');
 		$process->startWorkflow();
 
-		$this->assertEquals('YaddaYadda', $process->readOutputVar('DataOutput_1'),  'IO data was not forwarded through process.');
+		$this->assertEquals('YaddaYadda', $process->getInstanceVarById('DataOutput_1'),  'IO data was not forwarded through process.');
 		unlink($this->getTestOutputFilename($test_name));
 	}
 

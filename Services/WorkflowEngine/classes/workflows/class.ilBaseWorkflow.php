@@ -476,9 +476,15 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * );
 	 * 
 	 */
-	public function defineInstanceVar($id, $name)
+	public function defineInstanceVar($id, $name, $reference = false, $reference_target = '')
 	{
-		$this->instance_vars[] = array('id' => $id, 'name' => $name, 'value' => null);
+		$this->instance_vars[] = array(
+			'id' => $id, 
+			'name' => $name, 
+			'value' => null, 
+			'reference' => $reference, 
+			'target' => $reference_target
+		);
 	}
 
 	/**
@@ -565,7 +571,14 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		{
 			if($instance_var['name'] == $name)
 			{
-				$instance_var['value'] = $value;
+				if($instance_var['reference'] === true)
+				{
+					$this->setInstanceVarById($instance_var['target'], $value);
+				} 
+				else 
+				{
+					$instance_var['value'] = $value;
+				}
 			}
 		}
 	}
@@ -582,7 +595,14 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		{
 			if($instance_var['id'] == $id)
 			{
-				$instance_var['value'] = $value;
+				if($instance_var['reference'] === true)
+				{
+					$this->setInstanceVarById($instance_var['target'], $value);
+				}
+				else
+				{
+					$instance_var['value'] = $value;
+				}
 			}
 		}
 	}

@@ -54,7 +54,7 @@ class test_012_DataInput extends PHPUnit_Framework_TestCase
 		require_once $this->getTestOutputFilename($test_name);
 		/** @var ilBaseWorkflow $process */
 		$process = new $test_name;
-		$process->setInstanceVarByName('DataInput_1', 'YaddaYadda');
+		$process->setInstanceVarById('DataInput_1', 'YaddaYadda');
 		$process->startWorkflow();
 		$all_triggered = true;
 		foreach($process->getNodes() as $node)
@@ -77,7 +77,7 @@ class test_012_DataInput extends PHPUnit_Framework_TestCase
 				}
 			}
 		}
-		$this->assertEquals('YaddaYadda', $process->getInstanceVarByName('DataInput_1'), 'Inputvar was not kept.');
+		$this->assertEquals('YaddaYadda', $process->getInstanceVarById('DataInput_1'), 'Inputvar was not kept.');
 		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
 
 		unlink($this->getTestOutputFilename($test_name));

@@ -13,7 +13,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			public function __construct()
 			{
 		
-			$this->defineInstanceVar("DataInput_1","DataInput_1" );
+			$this->defineInstanceVar("DataInput_1","dataInput" );
 		
 			$_v_Task_1 = new ilBasicNode($this);
 			$this->addNode($_v_Task_1);

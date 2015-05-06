@@ -15,21 +15,20 @@ class ilDataObjectReferenceElement extends ilBaseElement
 
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
-		// TODO: We do not know, though, how runtime vars are passed from the workflow. (Sequence flow issue.)
+		// Good folks, we're a data object reference. So what does it mean?
+		// We need to register an instance var that is a reference.
+		
 		$name = $element['name'];
-		if($element['attributes']['id'])
+		$ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
+		if($ext_name != null)
 		{
-			$name = $element['attributes']['id'];
-		}
-		if($element['attributes']['name'])
-		{
-			$name = $element['attributes']['name'];
+			$name = $ext_name;
 		}
 		$code = "";
 		$code .= '
-			//DataObjectReference: This reference makes only sense with sequence flow (data association)
-			//This connects a reference like this with a data association and a data object.
+			$this->defineInstanceVar("'.$element['attributes']['id'].'","'.$name.'", true, "'.$element['attributes']['dataObjectRef'].'" );
 		';
+
 		return $code;
 	}
 } 

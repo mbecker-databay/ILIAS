@@ -218,4 +218,32 @@ class ilBPMN2ParserUtils
 		}
 		return $code;
 	}
+	
+	public static function extractDataNamingFromElement($element)
+	{
+		foreach($element['children'] as $child)
+		{
+			if($child['name'] == 'extensionElements')
+			{
+				foreach($child['children'] as $extension)
+				{
+					$prefix = 'ilias:';
+					if($extension['children'][0]['namespace'] == 'ilias')
+					{
+						$prefix = '';
+					}
+					if($extension['name'] == $prefix.'properties')
+					{
+						if($extension['children'][0]['name'] == $prefix.'property')
+						{
+							$attributes = $extension['children'][0]['attributes'];
+							return $attributes['value'];
+							break;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
 } 

@@ -15,21 +15,17 @@ class ilDataInputElement extends ilBaseElement
 	
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
-		// TODO: We do not know, though, how this input is passed to the workflow. (Sequence flow issue.)
-
 		$name = $element['name'];
-		if($element['attributes']['id'])
+		$ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
+		if($ext_name != null)
 		{
-			$name = $element['attributes']['id'];
-		}
-		if(@$element['attributes']['name'])
-		{
-			$name = $element['attributes']['name'];
+			$name = $ext_name;
 		}
 		$code = "";
 		$code .= '
-			$this->defineInstanceVar("'.$name.'","'.$element['attributes']['id'].'" );
+			$this->defineInstanceVar("'.$element['attributes']['id'].'","'.$name.'" );
 		';
+		
 		return $code;
 	}
 } 
