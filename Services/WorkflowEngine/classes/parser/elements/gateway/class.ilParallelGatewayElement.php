@@ -26,6 +26,7 @@ class ilParallelGatewayElement extends ilBaseElement
 			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 			$this->addNode(' . $this->element_varname . ');
 		';
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 

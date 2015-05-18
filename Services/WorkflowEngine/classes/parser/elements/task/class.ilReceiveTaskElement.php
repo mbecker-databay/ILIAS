@@ -59,6 +59,7 @@ class ilReceiveTaskElement extends ilBaseElement
 					', ' . (int) $event_definition['listening_end'] . ');';
 			}
 		}
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 

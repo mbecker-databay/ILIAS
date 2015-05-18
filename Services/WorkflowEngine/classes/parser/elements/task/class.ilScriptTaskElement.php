@@ -40,6 +40,7 @@ class ilScriptTaskElement extends ilBaseElement
 			". $this->element_varname . "_scriptActivity->setMethod('".'_v_'.$element['attributes']['id'] . "_script');
 			" . $this->element_varname . "->addActivity(". $this->element_varname . "_scriptActivity);
 			";
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 

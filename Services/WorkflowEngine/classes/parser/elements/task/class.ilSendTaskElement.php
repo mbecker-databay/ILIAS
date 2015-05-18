@@ -51,6 +51,7 @@ class ilSendTaskElement extends ilBaseElement
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_sendTaskActivity);
 			';
 		}
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 }

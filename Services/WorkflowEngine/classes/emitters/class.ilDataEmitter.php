@@ -89,11 +89,26 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 	 */
 	public function emit()
 	{
+		$instance_vars = $this->getContext()->getContext()->getInstanceVars();
+
+		$target = $this->var_name;
+		foreach($instance_vars as $instance_var)
+		{
+			if($instance_var['id'] == $this->var_name)
+			{
+				$name = $instance_var['name'];
+				if($instance_var['reference'])
+				{
+					$target    = $instance_var['target'];
+				}
+			}
+		}
+
 		foreach($this->getContext()->getRuntimeVars() as $key => $value)
 		{
-			if($key == $this->var_name)
+			if($key == $name)
 			{
-				$this->getContext()->getContext()->setInstanceVarByName($key, $value);
+				$this->getContext()->getContext()->setInstanceVarById($target, $value);
 			}
 		}
 

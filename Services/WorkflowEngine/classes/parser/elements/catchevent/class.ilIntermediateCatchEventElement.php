@@ -62,6 +62,7 @@ class ilIntermediateCatchEventElement extends ilBaseElement
 			' . $this->element_varname . '->addDetector(' . $this->element_varname . '_detector);
 			';
 		}
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 

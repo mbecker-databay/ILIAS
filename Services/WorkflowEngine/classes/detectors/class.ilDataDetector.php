@@ -82,20 +82,24 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 	{
 		$definitions = $this->getContext()->getContext()->getInstanceVars();
 
+		$id = $this->var_name;
+		$name = $this->var_name;
 		foreach($definitions as $definition)
 		{
-			if($definition['id'] == $this->var_name)
+			if($definition['id'] == $name)
 			{
+				if($definition['reference'])
+				{
+					$id = $definition['target'];
+				}
+				$name = $definition['name'];
 				break;
 			}
 		}
+		$a = 1;
 		$this->getContext()->setRuntimeVar(
-			$definition['name'],
-			$this->getContext()->getContext()->getInstanceVarById($this->var_name)
-		);
-		$this->getContext()->setRuntimeVar(
-			$definition['id'],
-			$this->getContext()->getContext()->getInstanceVarById($this->var_name)
+			$name,
+			$this->getContext()->getContext()->getInstanceVarById($id)
 		);
 		$this->detection_state = true;
 		return true;

@@ -27,6 +27,7 @@ class ilComplexGatewayElement extends ilBaseElement
 			// Details how this works need to be further carved out.
 			$this->addNode(' . $this->element_varname . ');
 		';
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 

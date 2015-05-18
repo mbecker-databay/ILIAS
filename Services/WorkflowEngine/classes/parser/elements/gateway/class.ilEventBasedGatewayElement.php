@@ -27,6 +27,7 @@ class ilEventBasedGatewayElement extends ilBaseElement
 			' . $this->element_varname . '->setIsForwardConditionNode(true);
 			$this->addNode(' . $this->element_varname . ');
 		';
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 

@@ -36,6 +36,7 @@ class ilCallActivityElement extends ilBaseElement
 			' . $this->element_varname . '_callActivity->setParameters($this, ' . $this->element_varname . '_callActivity_params);
 			' . $this->element_varname . '->addActivity(' . $this->element_varname . '_callActivity);
 		';
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 

@@ -64,7 +64,7 @@ class test_015_Data_Wiring extends PHPUnit_Framework_TestCase
 				$runtime_vars = $node->getRuntimeVars();
 			}
 		}
-		$this->assertEquals(234, $runtime_vars['DataInput_1'], 'IO data was not forwarded from input to task runtime var.');
+		$this->assertEquals(234, $runtime_vars['user_id'], 'IO data was not forwarded from input to task runtime var.');
 		$this->assertEquals(234, $process->getInstanceVarById('DataInput_1'), 'IO data was not kept as input var.');
 		unlink($this->getTestOutputFilename($test_name));
 	}

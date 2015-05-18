@@ -68,7 +68,7 @@ class ilEndEventElement extends ilBaseElement
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_terminationEventActivity);
 			';
 		}
-
+		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
 } 
