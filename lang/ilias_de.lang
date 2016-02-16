@@ -4251,6 +4251,7 @@ common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Weblinksammlung kopieren
 common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblinksammlung aus --
 common#:#obj_wfld#:#Ordner
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
@@ -15220,6 +15221,10 @@ scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
+wfe#:#dashboard#:#Dasboard
+wfe#:#definitions#:#Prozessdefinitionen
+wfe#:#instances#:#Prozessinstanzen
+wfe#:#obj_wfe_desc#:#Prozessautomatisierung
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
 dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
 administration#:#adm_missing_entries#:#Fehlende Einträge

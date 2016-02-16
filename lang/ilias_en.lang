@@ -10791,6 +10791,7 @@ wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_wfld#:#Folder
 wsp#:#wsp_type_blog#:#Blog
 common#:#obj_wfld#:#Folder
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_blog#:#Blog
 wfld#:#wfld_new#:#Create New Folder
 wfld#:#wfld_add#:#Create Folder
@@ -15220,6 +15221,10 @@ scormtrac#:#exportselectedraw#:#CMI (RAW) data
 scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
+wfe#:#dashboard#:#Dasboard
+wfe#:#definitions#:#Process Definitions
+wfe#:#instances#:#Process Instances
+wfe#:#obj_wfe_desc#:#Process Automation
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
 dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.
 administration#:#adm_missing_entries#:#Missing Entries

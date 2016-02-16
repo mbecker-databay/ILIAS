@@ -103,6 +103,12 @@ if (!$ilDB->tableExists('wfe_io_outputs'))
 	$ilDB->addPrimaryKey('wfe_io_outputs', array('workflow_id','name'));
 }
 
+if(false) // Just once
+{
+	require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+	ilDBUpdateNewObjectType::addAdminNode('wfe', 'WorkflowEngine');
+}
+
 // -----------------------------------------------------------------------------
 echo "[DONE INSTALLING / UPDATING WorkflowEngine Database Tables]\r\n";
 echo "Thanks for your using this awesome RocketScience Product (tm)\r\n";
