@@ -704,9 +704,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		$this->require_data_persistence = true;
 	}
 
-	/**
-	 * @deprecated
-	 */
 	public function getInputVars()
 	{
 		return (array)$this->data_inputs;

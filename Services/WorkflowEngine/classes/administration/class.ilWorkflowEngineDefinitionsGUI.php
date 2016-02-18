@@ -53,14 +53,13 @@ class ilWorkflowEngineDefinitionsGUI
 				break;
 
 			case 'start':
-				$this->startProcess();
+				return $this->startProcess();
 				break;
 
 			case 'view':
 			default:
 				return $this->showDefinitionsTable();
 		}
-		return '';
 	}
 
 	/**
@@ -193,6 +192,7 @@ class ilWorkflowEngineDefinitionsGUI
 
 	protected function processUploadFormCancellation()
 	{
+		ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
 		if (isset($_POST['cmd']['cancel'])) {
 			ilUtil::redirect(
 					html_entity_decode(
@@ -204,6 +204,16 @@ class ilWorkflowEngineDefinitionsGUI
 
 	public function startProcess()
 	{
+		if(isset($_POST['cmd']['cancel']))
+		{
+			ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
+			ilUtil::redirect(
+					html_entity_decode(
+							$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+					)
+			);
+		}
+
 		$identifier = basename($_GET['process_id']);
 
 		require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
@@ -214,6 +224,31 @@ class ilWorkflowEngineDefinitionsGUI
 		$workflow_instance->setWorkflowClass($class);
 		$workflow_instance->setWorkflowLocation(ilObjWorkflowEngine::getRepositoryDir());
 
+		if(count($workflow_instance->getInputVars()))
+		{
+			$show_launcher_form = false;
+			foreach($workflow_instance->getInputVars() as $input_var)
+			{
+				if(!isset($_POST[$input_var]))
+				{
+					$show_launcher_form = true;
+				} else {
+					$workflow_instance->setInstanceVarById($input_var, $_POST[$input_var]);
+				}
+			}
+
+			require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowLauncherGUI.php';
+			$this->parent_gui->ilCtrl->saveParameter($this->parent_gui, 'process_id', $identifier);
+			$action = $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.start');
+			$launcher = new ilWorkflowLauncherGUI($action, $identifier);
+			$form = $launcher->getForm($workflow_instance->getInputVars());
+
+			if($show_launcher_form || $form->checkInput() == false)
+			{
+				$form->setValuesByPost();
+				return $form->getHTML();
+			}
+		}
 		$workflow_instance->startWorkflow();
 		$workflow_instance->handleEvent(
 				array(
