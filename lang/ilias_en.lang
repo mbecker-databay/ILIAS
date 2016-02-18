@@ -15231,6 +15231,7 @@ wfe#:#process_definition_file_info#:#BPMN2-Models
 wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
 wfe#:#definition_table_title#:#Process Definitions
 wfe#:#start_process#:#Start Process
+wfe#:#process_started#:#Process started
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
 dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.
 administration#:#adm_missing_entries#:#Missing Entries
