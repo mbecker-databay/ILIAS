@@ -21,10 +21,17 @@ class ilDataInputElement extends ilBaseElement
 		{
 			$name = $ext_name;
 		}
+		$input_properties = ilBPMN2ParserUtils::extractILIASInputPropertiesFromElement($element);
+		foreach((array)$input_properties as $key => $value)
+		{
+			$array_elements[] = '"'.$key.'" => "'.$value.'"';
+		}
+		$definition = 'array(' . implode(',', (array)$array_elements) . ')';
+
 		$code = "";
 		$code .= '
 			$this->defineInstanceVar("'.$element['attributes']['id'].'","'.$name.'" );
-			$this->registerInputVar("'.$element['attributes']['id'].'");
+			$this->registerInputVar("'.$element['attributes']['id'].'", '.$definition.');
 ';
 
 		return $code;

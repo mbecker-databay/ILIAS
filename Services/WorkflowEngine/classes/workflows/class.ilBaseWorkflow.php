@@ -717,9 +717,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		return (array)$this->data_outputs;
 	}
 
-	public function registerInputVar($name)
+	public function registerInputVar($name, $definition)
 	{
-		$this->data_inputs[] = $name;
+		$definition['name'] = $name;
+		$this->data_inputs[$name] = $definition;
 	}
 
 	public function registerOutputVar($name)

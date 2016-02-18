@@ -30,8 +30,18 @@ class ilWorkflowLauncherGUI
 
 		foreach($input_vars as $input_var)
 		{
-			$item = new ilTextInputGUI($input_var, $input_var);
-			$item->setRequired(true);
+			$item = null;
+			switch(strtolower($input_var['type']))
+			{
+
+				case 'text':
+				default:
+					$item = new ilTextInputGUI($input_var['caption'], $input_var['name']);
+					break;
+
+			}
+			$item->setRequired($input_var['requirement'] == 'required' ? true : false);
+			$item->setInfo($input_var['description']);
 			$form->addItem($item);
 		}
 

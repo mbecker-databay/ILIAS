@@ -172,7 +172,6 @@ class ilBPMN2ParserUtils
 
 	public static function extractILIASLibraryCallDefinitionFromElement($element)
 	{
-		$a = 1;
 		$library_call = array();
 		foreach($element['children'] as $child)
 		{
@@ -207,7 +206,6 @@ class ilBPMN2ParserUtils
 
 	public static function extractScriptDefinitionFromElement($element)
 	{
-		$a = 1;
 		$code = '';
 		foreach($element['children'] as $child)
 		{
@@ -218,7 +216,7 @@ class ilBPMN2ParserUtils
 		}
 		return $code;
 	}
-	
+
 	public static function extractDataNamingFromElement($element)
 	{
 		foreach((array)$element['children'] as $child)
@@ -246,4 +244,34 @@ class ilBPMN2ParserUtils
 		}
 		return null;
 	}
-} 
+
+	public static function extractILIASInputPropertiesFromElement($element)
+	{
+		$retval = null;
+		foreach((array)$element['children'] as $child)
+		{
+			if($child['name'] == 'extensionElements')
+			{
+				foreach($child['children'] as $extension)
+				{
+					$prefix = 'ilias:';
+					if($extension['children'][0]['namespace'] == 'ilias')
+					{
+						$prefix = '';
+					}
+					if($extension['name'] == $prefix.'properties')
+					{
+						foreach((array)$extension['children'] as $child)
+						{
+							if($child['name'] == 'inputproperty')
+							{
+								$retval[$child['attributes']['name']] = $child['attributes']['value'];
+							}
+						}
+					}
+				}
+			}
+		}
+		return $retval;
+	}
+}

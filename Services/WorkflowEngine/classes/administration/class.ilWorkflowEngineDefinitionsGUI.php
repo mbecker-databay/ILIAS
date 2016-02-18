@@ -192,8 +192,8 @@ class ilWorkflowEngineDefinitionsGUI
 
 	protected function processUploadFormCancellation()
 	{
-		ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
 		if (isset($_POST['cmd']['cancel'])) {
+			ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
 			ilUtil::redirect(
 					html_entity_decode(
 							$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -229,7 +229,7 @@ class ilWorkflowEngineDefinitionsGUI
 			$show_launcher_form = false;
 			foreach($workflow_instance->getInputVars() as $input_var)
 			{
-				if(!isset($_POST[$input_var]))
+				if(!isset($_POST[$input_var['name']]))
 				{
 					$show_launcher_form = true;
 				} else {
