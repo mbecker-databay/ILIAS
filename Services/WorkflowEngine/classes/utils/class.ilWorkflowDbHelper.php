@@ -197,6 +197,8 @@ class ilWorkflowDbHelper
 		if($workflow->hasDbId())
 		{
 			$wf_id = $workflow->getDbId();
+		} else {
+			$wf_id = null;
 		}
 
 		$det_data = $a_detector->getEvent();

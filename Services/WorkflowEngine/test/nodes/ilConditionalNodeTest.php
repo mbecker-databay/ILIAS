@@ -284,7 +284,7 @@ class ilConditionalNodeTest extends PHPUnit_Framework_TestCase
 	
 		// Assert
 		$expected = ' :: MESSAGE :: TEST';
-		$fp = fopen('ilTransitionLog.txt', r);
+		$fp = fopen('ilTransitionLog.txt', 'r');
 		$line = fgets($fp);
 		$actual = substr($line, 25, strlen($line)-27);
 		@unlink('ilTransitionLog.txt'); // TODO: Use vfsStream
@@ -315,7 +315,7 @@ class ilConditionalNodeTest extends PHPUnit_Framework_TestCase
 	
 		// Assert
 		$expected = ' :: MESSAGE :: TEST';
-		$fp = fopen('ilTransitionLog.txt', r);
+		$fp = fopen('ilTransitionLog.txt', 'r');
 		$line = fgets($fp);
 		$actual = substr($line, 25, strlen($line)-27);
 		@unlink('ilTransitionLog.txt'); // TODO: Use vfsStream

@@ -77,7 +77,7 @@ class test_013_DataOutput extends PHPUnit_Framework_TestCase
 				}
 			}
 		}
-		$this->assertEquals($process->getOutputVars(), array('DataOutput_1' => 'YaddaYadda'), 'Outputvar was not kept.');
+		$this->assertEquals($process->getOutputVars(), array(0 => 'DataOutput_1', 'DataOutput_1' => 'YaddaYadda'), 'Outputvar was not kept.');
 		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
 
 		unlink($this->getTestOutputFilename($test_name));

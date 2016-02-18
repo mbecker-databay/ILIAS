@@ -549,7 +549,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 */
 	public function getInstanceVarById($id)
 	{
-		foreach($this->instance_vars as $instance_var)
+		foreach((array)$this->instance_vars as $instance_var)
 		{
 			if($instance_var['id'] == $id)
 			{
@@ -718,6 +718,16 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	public function getOutputVars()
 	{
 		return (array)$this->data_outputs;
+	}
+
+	public function registerInputVar($name)
+	{
+		$this->data_inputs[] = $name;
+	}
+
+	public function registerOutputVar($name)
+	{
+		$this->data_outputs[] = $name;
 	}
 
 	#endregion

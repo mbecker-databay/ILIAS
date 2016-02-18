@@ -16,6 +16,8 @@ class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
+		error_reporting(E_ALL ^ E_NOTICE);
+
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../' );
 

@@ -32,7 +32,7 @@ abstract class ilBaseElement
 	public function handleDataAssociations($element, $class_object, $element_varname)
 	{
 		$code = '';
-		if(count($element['children']))
+		if(isset($element['children']) && count($element['children']))
 		{
 			foreach ($element['children'] as $child)
 			{

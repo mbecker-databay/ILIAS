@@ -104,7 +104,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 			}
 		}
 
-		foreach($this->getContext()->getRuntimeVars() as $key => $value)
+		foreach((array)$this->getContext()->getRuntimeVars() as $key => $value)
 		{
 			if($key == $name)
 			{

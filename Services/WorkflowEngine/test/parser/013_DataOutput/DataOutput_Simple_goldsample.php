@@ -14,7 +14,8 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			{
 		
 			$this->defineInstanceVar("DataOutput_1","dataOutput" );
-		
+			$this->registerOutputVar("DataOutput_1");
+
 			$_v_StartEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_1);
 			$_v_StartEvent_1->setName('$_v_StartEvent_1');

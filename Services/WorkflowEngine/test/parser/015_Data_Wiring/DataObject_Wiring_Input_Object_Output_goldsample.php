@@ -15,9 +15,11 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			{
 		
 			$this->defineInstanceVar("DataInput_1","ioval1" );
-		
+			$this->registerInputVar("DataInput_1");
+
 			$this->defineInstanceVar("DataOutput_1","ioval1" );
-		
+			$this->registerOutputVar("DataOutput_1");
+
 			$_v_Task_1 = new ilBasicNode($this);
 			$this->addNode($_v_Task_1);
 			$_v_Task_1->setName('$_v_Task_1');
