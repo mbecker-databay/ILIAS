@@ -15225,6 +15225,12 @@ wfe#:#dashboard#:#Dasboard
 wfe#:#definitions#:#Prozessdefinitionen
 wfe#:#instances#:#Prozessinstanzen
 wfe#:#obj_wfe_desc#:#Prozessautomatisierung
+wfe#:#upload_process#:#Prozessdefinition hochladen
+wfe#:#process_definition_file#:#Prozessdefinitionsdatei
+wfe#:#process_definition_file_info#:#BPMN2-Modelle
+wfe#:#upload_parse_success#:#Prozessdefinition hochgeladen, geparst und abgelegt.
+wfe#:#definition_table_title#:#Prozessdefinitionen
+wfe#:#start_process#:#Prozess starten
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
 dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
 administration#:#adm_missing_entries#:#Fehlende Einträge

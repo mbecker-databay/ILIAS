@@ -133,6 +133,11 @@ class ilBPMN2Parser
 			$workflow_name = $process['attributes']['id'];
 			return $workflow_name;
 		}
+
+		if ($workflow_name)
+		{
+			$workflow_name = substr($workflow_name,0,strpos($workflow_name,'.'));
+		}
 		return $workflow_name;
 	}
 } 

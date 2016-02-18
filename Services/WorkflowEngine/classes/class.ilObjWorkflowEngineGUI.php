@@ -28,9 +28,12 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	/** @var ilLocator $ilLocator */
 	public $ilLocator;
 
+	/** @var ilToolbarGUI $ilToolbar */
+	public $ilToolbar;
+
 	public function __construct()
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl, $tree, $ilLocator;
+		global $ilTabs, $lng, $ilCtrl, $tpl, $tree, $ilLocator, $ilToolbar;
 
 		$this->ilTabs = $ilTabs;
 		$this->lng = $lng;
@@ -39,6 +42,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->tpl = $tpl;
 		$this->tree = $tree;
 		$this->ilLocator = $ilLocator;
+		$this->ilToolbar = $ilToolbar;
 
 		parent::__construct((int)$_GET['ref_id']);
 		$this->assignObject();

@@ -15225,6 +15225,12 @@ wfe#:#dashboard#:#Dasboard
 wfe#:#definitions#:#Process Definitions
 wfe#:#instances#:#Process Instances
 wfe#:#obj_wfe_desc#:#Process Automation
+wfe#:#upload_process#:#Upload Process Definition
+wfe#:#process_definition_file#:#Process Definition File
+wfe#:#process_definition_file_info#:#BPMN2-Models
+wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
+wfe#:#definition_table_title#:#Process Definitions
+wfe#:#start_process#:#Start Process
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
 dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.
 administration#:#adm_missing_entries#:#Missing Entries

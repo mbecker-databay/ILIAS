@@ -242,7 +242,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	{
 		$active_nodes_available = false;
 		// Hier nur an aktive Nodes dispatchen.
-		foreach ($this->detectors as $detector)
+		foreach ((array)$this->detectors as $detector)
 		{
 			$node = $detector->getContext();
 			if ($node->isActive())

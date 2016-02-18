@@ -7,4 +7,14 @@ class ilObjWorkflowEngine extends ilObject
 		$this->type = "wfe";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
+
+	public static function getTempDir()
+	{
+		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/wfe/upload_temp/';
+	}
+
+	public static function getRepositoryDir()
+	{
+		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/wfe/repository/';
+	}
 }

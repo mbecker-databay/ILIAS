@@ -221,7 +221,7 @@ class ilBPMN2ParserUtils
 	
 	public static function extractDataNamingFromElement($element)
 	{
-		foreach($element['children'] as $child)
+		foreach((array)$element['children'] as $child)
 		{
 			if($child['name'] == 'extensionElements')
 			{
