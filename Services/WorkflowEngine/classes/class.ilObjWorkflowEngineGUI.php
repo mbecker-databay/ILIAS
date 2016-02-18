@@ -6,6 +6,12 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php" ;
 /**
  * Class ilObjWorkflowEngineGUI
  *
+ * @author Maximilian Becker <mbecker@databay.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ *
  * @ilCtrl_IsCalledBy ilObjWorkflowEngineGUI: ilAdministrationGUI
  */
 class ilObjWorkflowEngineGUI extends ilObject2GUI

@@ -1,5 +1,15 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Class ilWorkflowEngineDashboardGUI
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ */
 class ilWorkflowEngineDashboardGUI
 {
 	/** @var  ilObjWorkflowEngineGUI */

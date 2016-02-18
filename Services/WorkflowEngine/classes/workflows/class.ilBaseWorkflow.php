@@ -235,8 +235,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * The event is passed to all active event handlers.
 	 * 
-	 * @param type $a_type
-	 * @param type $a_params 
+	 * @param string[] $a_params
 	 */
 	public function handleEvent($a_params)
 	{

@@ -1,15 +1,37 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Class ilWorkflowEngineDefinitionsGUI
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ */
 class ilWorkflowEngineDefinitionsGUI
 {
-	/** @var  ilObjWorkflowEngineGUI */
+	/** @var ilObjWorkflowEngineGUI $parent_gui */
 	protected $parent_gui;
 
+	/**
+	 * ilWorkflowEngineDefinitionsGUI constructor.
+	 *
+	 * @param ilObjWorkflowEngineGUI $parent_gui
+	 */
 	public function __construct($parent_gui)
 	{
 		$this->parent_gui = $parent_gui;
 	}
 
+	/**
+	 * Handle the command given.
+	 *
+	 * @param string $command
+	 *
+	 * @return string HTML
+	 */
 	public function handle($command)
 	{
 		switch(strtolower($command))
@@ -31,15 +53,19 @@ class ilWorkflowEngineDefinitionsGUI
 				break;
 
 			case 'start':
-				return $this->startProcess();
+				$this->startProcess();
 				break;
 
 			case 'view':
 			default:
 				return $this->showDefinitionsTable();
 		}
+		return '';
 	}
 
+	/**
+	 * @return string HTML
+	 */
 	public function showDefinitionsTable()
 	{
 		$this->initToolbar();
@@ -51,6 +77,9 @@ class ilWorkflowEngineDefinitionsGUI
 		return $table_gui->getHTML();
 	}
 
+	/**
+	 * @return string HTML
+	 */
 	public function applyFilter()
 	{
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
@@ -60,6 +89,9 @@ class ilWorkflowEngineDefinitionsGUI
 		return $this->showDefinitionsTable();
 	}
 
+	/**
+	 * @return string HTML
+	 */
 	public function resetFilter()
 	{
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
@@ -69,6 +101,9 @@ class ilWorkflowEngineDefinitionsGUI
 		return $this->showDefinitionsTable();
 	}
 
+	/**
+	 * @return string
+	 */
 	public function showUploadForm()
 	{
 		require_once './Services/WorkflowEngine/classes/administration/class.ilUploadDefinitionForm.php';
@@ -79,6 +114,9 @@ class ilWorkflowEngineDefinitionsGUI
 		return $form->getHTML();
 	}
 
+	/**
+	 * @return string HTML
+	 */
 	public function handleUploadSubmit()
 	{
 
@@ -139,6 +177,7 @@ class ilWorkflowEngineDefinitionsGUI
 		ilUtil::redirect(
 				html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view'))
 		);
+		return '';
 	}
 
 	public function initToolbar()

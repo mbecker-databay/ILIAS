@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/Object/classes/class.ilObjectAccess.php';
 
+/**
+ * Class ilObjWorkflowEngineAccess
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ */
 class ilObjWorkflowEngineAccess extends ilObjectAccess
 {
 	/**

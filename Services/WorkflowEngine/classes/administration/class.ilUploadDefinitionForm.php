@@ -1,7 +1,17 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 
+/**
+ * Booking definition
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ */
 class ilUploadDefinitionForm
 {
 	/** @var ilPropertyFormGUI $form */
