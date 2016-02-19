@@ -219,7 +219,11 @@ class ilBPMN2ParserUtils
 
 	public static function extractDataNamingFromElement($element)
 	{
-		foreach((array)$element['children'] as $child)
+		if(!isset($element['children']))
+		{
+			return null;
+		}
+		foreach($element['children'] as $child)
 		{
 			if($child['name'] == 'extensionElements')
 			{
@@ -247,6 +251,10 @@ class ilBPMN2ParserUtils
 
 	public static function extractILIASInputPropertiesFromElement($element)
 	{
+		if(!isset($element['children']))
+		{
+			return null;
+		}
 		$retval = null;
 		foreach((array)$element['children'] as $child)
 		{

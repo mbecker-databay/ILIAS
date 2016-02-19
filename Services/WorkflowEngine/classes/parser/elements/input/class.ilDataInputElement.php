@@ -22,6 +22,7 @@ class ilDataInputElement extends ilBaseElement
 			$name = $ext_name;
 		}
 		$input_properties = ilBPMN2ParserUtils::extractILIASInputPropertiesFromElement($element);
+		$array_elements = array();
 		foreach((array)$input_properties as $key => $value)
 		{
 			$array_elements[] = '"'.$key.'" => "'.$value.'"';

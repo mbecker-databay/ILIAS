@@ -130,4 +130,51 @@ class test_012_DataInput extends PHPUnit_Framework_TestCase
 		unlink($this->getTestOutputFilename($test_name));
 	}
 
+	public function test_WorkflowWithRepositoryObjectSelectorShouldOutputAccordingly()
+	{
+		$test_name = 'DataInput_RepositoryObjectSelector';
+		$xml = file_get_contents($this->getTestInputFilename($test_name));
+		$parser = new ilBPMN2Parser();
+		$parse_result = $parser->parseBPMN2XML($xml);
+
+		file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
+		$return = exec('php -l ' . $this->getTestOutputFilename($test_name));
+
+		$this->assertTrue(substr($return,0,25) == 'No syntax errors detected', 'Lint of output code failed.');
+
+		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
+		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
+
+		require_once $this->getTestOutputFilename($test_name);
+		/** @var ilBaseWorkflow $process */
+		$process = new $test_name;
+		$process->setInstanceVarById('DataInput_1', 'YaddaYadda');
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertEquals('YaddaYadda', $process->getInstanceVarById('DataInput_1'), 'Inputvar was not kept.');
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
+
+		unlink($this->getTestOutputFilename($test_name));
+	}
+
 }
