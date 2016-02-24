@@ -15221,7 +15221,7 @@ scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
-wfe#:#dashboard#:#Dasboard
+wfe#:#dashboard#:#Dashboard
 wfe#:#definitions#:#Prozessdefinitionen
 wfe#:#instances#:#Prozessinstanzen
 wfe#:#obj_wfe_desc#:#Prozessautomatisierung
