@@ -33,6 +33,9 @@ class ilWorkflowLauncherGUI
 			$item = null;
 			switch(strtolower($input_var['type']))
 			{
+				case 'robjselect':
+					$item = $this->getRepositoryObjectSelector($input_var);
+					break;
 
 				case 'text':
 				default:
@@ -48,5 +51,41 @@ class ilWorkflowLauncherGUI
 		$form->addCommandButton('start', $lng->txt('start_process'));
 		$form->addCommandButton('cancel', $lng->txt('cancel'));
 		return $form;
+	}
+
+	public function getRepositoryObjectSelector($config)
+	{
+		/** @var ilTree $tree */
+		global $tree;
+
+		$item = new ilSelectInputGUI($config['caption'], $config['name']);
+
+		$children = $tree->getFilteredSubTree($tree->getRootId());
+
+		$options = array();
+		foreach($children as $child)
+		{
+			if(strtolower($config['allowedtype']) != $child['type'])
+			{
+				continue;
+			}
+
+			$path = $tree->getPathFull($child['child']);
+			$option_elements = array();
+			foreach($path as $node)
+			{
+				if($node['type'] == 'root')
+				{
+					continue;
+				}
+				$option_elements[] = $node['title'];
+			}
+
+			$options[$child['child']] = implode(' / ', $option_elements);
+		}
+
+		$item->setOptions($options);
+
+		return $item;
 	}
 }
