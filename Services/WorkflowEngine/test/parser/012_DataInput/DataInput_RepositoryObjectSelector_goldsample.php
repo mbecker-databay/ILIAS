@@ -17,7 +17,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$this->registerInputVar("DataInput_1", array("type" => "text","requirement" => "required","caption" => "ID des Vorgangs-Gegenstands","description" => "Geben Sie bitte die Ref-ID des Vorgangs-Gegenstands an."));
 
 			$this->defineInstanceVar("DataInput_2","dataInput" );
-			$this->registerInputVar("DataInput_2", array("type" => "robjselect","allowedtype" => "crs","requirement" => "required","caption" => "ID des Vorgangs-Gegenstands","description" => "Geben Sie bitte die Ref-ID des Vorgangs-Gegenstands an."));
+			$this->registerInputVar("DataInput_2", array("type" => "robjselect","allowedtype" => "crs","requirement" => "required","caption" => "Kurs","description" => "Bitte wählen Sie einen Kurs für den Prozess aus."));
 
 			$_v_Task_1 = new ilBasicNode($this);
 			$this->addNode($_v_Task_1);
