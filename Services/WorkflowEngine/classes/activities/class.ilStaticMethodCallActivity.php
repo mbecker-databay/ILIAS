@@ -36,6 +36,9 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	/** @var array $parameters Holds an array with params to be passed as second argument to the method. */
 	private $parameters;
 
+	/** @var array $outputs Holds a list of valid output element IDs passed as third argument to the method. */
+	private $outputs;
+
 	/** @var string $name */
 	protected $name;
 
@@ -122,6 +125,22 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getOutputs()
+	{
+		return $this->outputs;
+	}
+
+	/**
+	 * @param array $outputs
+	 */
+	public function setOutputs($outputs)
+	{
+		$this->outputs = $outputs;
+	}
+
+	/**
 	 * Executes this action according to its settings.
 	 * 
 	 * @todo Use exceptions / internal logging.
@@ -134,14 +153,28 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 		require_once './' . $this->include_file;
 		$name = explode('::', $this->class_and_method_name);
 
+		$list = (array)$this->context->getContext()->getInstanceVars();
+		$params = array();
+		foreach($this->parameters as $parameter)
+		{
+			$params[$parameter] = $parameter;
+			foreach($list as $instance_var)
+			{
+				if($instance_var['id'] == $parameter)
+				{
+					$params[$parameter] = $this->context->getContext()->getInstanceVarById($parameter);
+				}
+			}
+		}
+
 		/** @var array $return_value */
 		$return_value = call_user_func_array(
 			array($name[0], $name[1]), 
-			array($this, $this->parameters)
+			array($this, array($params, $this->outputs))
 		);
 		foreach((array) $return_value as $key => $value)
 		{
-			$this->context->setRuntimeVar($key, $value);
+			$this->context->getContext()->setInstanceVarById($key, $value);
 		}
 	}
 

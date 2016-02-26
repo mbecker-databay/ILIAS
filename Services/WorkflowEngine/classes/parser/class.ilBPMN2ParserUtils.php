@@ -25,6 +25,10 @@ class ilBPMN2ParserUtils
 
 	private function add_node ($node, &$parent=null, $namespace='', $recursive=false) 
 	{
+		if(!($node instanceof SimpleXMLElement))
+		{
+			$a = 1;
+		}
 		$namespaces = $node->getNameSpaces(true);
 		$content="$node";
 
@@ -180,7 +184,7 @@ class ilBPMN2ParserUtils
 				foreach($child['children'] as $extension)
 				{
 					$prefix = 'ilias:';
-					if($child['namespace'] == 'ilias')
+					if($extension['namespace'] == 'ilias')
 					{
 						$prefix = '';
 					}
@@ -274,6 +278,41 @@ class ilBPMN2ParserUtils
 							if($child['name'] == 'inputproperty')
 							{
 								$retval[$child['attributes']['name']] = $child['attributes']['value'];
+							}
+						}
+					}
+				}
+			}
+		}
+		return $retval;
+	}
+
+	public static function extractILIASDataObjectDefinitionFromElement($element)
+	{
+		if(!isset($element['children']))
+		{
+			return null;
+		}
+		$retval = null;
+		foreach((array)$element['children'] as $child)
+		{
+			if($child['name'] == 'extensionElements')
+			{
+				foreach($child['children'] as $extension)
+				{
+					$prefix = 'ilias:';
+					if($extension['children'][0]['namespace'] == 'ilias')
+					{
+						$prefix = '';
+					}
+					if($extension['name'] == $prefix.'properties')
+					{
+						foreach((array)$extension['children'] as $child)
+						{
+							if($child['name'] == 'dataobject')
+							{
+								$retval['role'] = $child['attributes']['role'];
+								$retval['type'] = $child['attributes']['type'];
 							}
 						}
 					}

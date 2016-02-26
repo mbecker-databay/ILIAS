@@ -5,7 +5,7 @@ require_once './Services/WorkflowEngine/classes/emitters/class.ilDataEmitter.php
 require_once './Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php';
 require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 
-		class DataObject_Simple extends ilBaseWorkflow
+		class DataObject_Role extends ilBaseWorkflow
 		{
 		
 			public static $startEventRequired = false;
@@ -32,7 +32,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$this->addNode($_v_EndEvent_1);
 			$_v_EndEvent_1->setName('$_v_EndEvent_1');
 		
-			$this->defineInstanceVar("DataObject_1","dataObject", false, "", "mixed", "undefined" );
+			$this->defineInstanceVar("DataObject_1","dataObject", false, "", "integer", "crsRefId" );
 		
 			$this->defineInstanceVar("DataObjectReference_1","dataObjectReference", true, "DataObject_1" );
 		

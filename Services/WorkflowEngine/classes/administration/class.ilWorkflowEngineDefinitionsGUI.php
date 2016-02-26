@@ -233,7 +233,7 @@ class ilWorkflowEngineDefinitionsGUI
 				{
 					$show_launcher_form = true;
 				} else {
-					$workflow_instance->setInstanceVarById($input_var, $_POST[$input_var]);
+					$workflow_instance->setInstanceVarById($input_var['name'], $_POST[$input_var['name']]);
 				}
 			}
 

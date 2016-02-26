@@ -84,10 +84,10 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_StartEvent_2_detector->setEventSubject(	"", 	"");
 			$_v_StartEvent_2_detector->setEventContext(	"", 	"");
 			
-			$this->defineInstanceVar("DataObject_1","dataObject" );
-		
-			$this->defineInstanceVar("DataObject_2","dataObject" );
-		
+			$this->defineInstanceVar("DataObject_1","dataObject", false, "", "mixed", "undefined" );
+
+			$this->defineInstanceVar("DataObject_2","dataObject", false, "", "mixed", "undefined" );
+
 			$_v_ServiceTask_1 = new ilBasicNode($this);
 			$this->addNode($_v_ServiceTask_1);
 			$_v_ServiceTask_1->setName('$_v_ServiceTask_1');
@@ -104,9 +104,9 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_ServiceTask_2 = new ilBasicNode($this);
 			$this->addNode($_v_ServiceTask_2);
 			$_v_ServiceTask_2->setName('$_v_ServiceTask_2');
-		
-			$this->defineInstanceVar("DataObject_3","dataObject" );
-		
+
+			$this->defineInstanceVar("DataObject_3","dataObject", false, "", "mixed", "undefined" );
+
 			$_v_SendTask_2 = new ilBasicNode($this);
 			$this->addNode($_v_SendTask_2);
 			$_v_SendTask_2->setName('$_v_SendTask_2');
@@ -115,126 +115,126 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_ExclusiveGateway_3->setName('$_v_ExclusiveGateway_3');
 			$_v_ExclusiveGateway_3->setIsExclusiveJoin(true);
 			$this->addNode($_v_ExclusiveGateway_3);
-		
+
 			$_v_EndEvent_3 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_3);
 			$_v_EndEvent_3->setName('$_v_EndEvent_3');
-		
+
 			$_v_StartEvent_3 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_3);
 			$_v_StartEvent_3->setName('$_v_StartEvent_3');
-		
+
 			$_v_StartEvent_3_detector = new ilEventDetector($_v_StartEvent_3);
 			$_v_StartEvent_3_detector->setName('$_v_StartEvent_3_detector');
 			$_v_StartEvent_3_detector->setEvent(			"", 			"");
 			$_v_StartEvent_3_detector->setEventSubject(	"", 	"");
 			$_v_StartEvent_3_detector->setEventContext(	"", 	"");
-			
+
 			$_v_ScriptTask_1 = new ilBasicNode($this);
 			$this->addNode($_v_ScriptTask_1);
 			$_v_ScriptTask_1->setName('$_v_ScriptTask_1');
-		
+
 			$_v_ScriptTask_1_scriptActivity = new ilScriptActivity($_v_ScriptTask_1);
 			$_v_ScriptTask_1_scriptActivity->setName('$_v_ScriptTask_1');
 			$_v_ScriptTask_1_scriptActivity->setMethod('_v_ScriptTask_1_script');
 			$_v_ScriptTask_1->addActivity($_v_ScriptTask_1_scriptActivity);
-			
+
 			$_v_SendTask_3 = new ilBasicNode($this);
 			$this->addNode($_v_SendTask_3);
 			$_v_SendTask_3->setName('$_v_SendTask_3');
-		
+
 			$_v_EndEvent_4 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_4);
 			$_v_EndEvent_4->setName('$_v_EndEvent_4');
-		
+
 			$_v_StartEvent_4 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_4);
 			$_v_StartEvent_4->setName('$_v_StartEvent_4');
-		
+
 			$_v_StartEvent_4_detector = new ilEventDetector($_v_StartEvent_4);
 			$_v_StartEvent_4_detector->setName('$_v_StartEvent_4_detector');
 			$_v_StartEvent_4_detector->setEvent(			"", 			"");
 			$_v_StartEvent_4_detector->setEventSubject(	"", 	"");
 			$_v_StartEvent_4_detector->setEventContext(	"", 	"");
-			
+
 			$_v_ScriptTask_2 = new ilBasicNode($this);
 			$this->addNode($_v_ScriptTask_2);
 			$_v_ScriptTask_2->setName('$_v_ScriptTask_2');
-		
+
 			$_v_ScriptTask_2_scriptActivity = new ilScriptActivity($_v_ScriptTask_2);
 			$_v_ScriptTask_2_scriptActivity->setName('$_v_ScriptTask_2');
 			$_v_ScriptTask_2_scriptActivity->setMethod('_v_ScriptTask_2_script');
 			$_v_ScriptTask_2->addActivity($_v_ScriptTask_2_scriptActivity);
-			
+
 			$_v_SendTask_4 = new ilBasicNode($this);
 			$this->addNode($_v_SendTask_4);
 			$_v_SendTask_4->setName('$_v_SendTask_4');
-		
+
 			$_v_IntermediateThrowEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_IntermediateThrowEvent_1);
 			$_v_IntermediateThrowEvent_1->setName('$_v_IntermediateThrowEvent_1');
-		
+
 			$_v_EndEvent_6 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_6);
 			$_v_EndEvent_6->setName('$_v_EndEvent_6');
-		
+
 			$_v_StartEvent_5 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_5);
 			$_v_StartEvent_5->setName('$_v_StartEvent_5');
-		
+
 			$_v_StartEvent_5_detector = new ilEventDetector($_v_StartEvent_5);
 			$_v_StartEvent_5_detector->setName('$_v_StartEvent_5_detector');
 			$_v_StartEvent_5_detector->setEvent(			"", 			"");
 			$_v_StartEvent_5_detector->setEventSubject(	"", 	"");
 			$_v_StartEvent_5_detector->setEventContext(	"", 	"");
-			
+
 			$_v_ScriptTask_3 = new ilBasicNode($this);
 			$this->addNode($_v_ScriptTask_3);
 			$_v_ScriptTask_3->setName('$_v_ScriptTask_3');
-		
+
 			$_v_ScriptTask_3_scriptActivity = new ilScriptActivity($_v_ScriptTask_3);
 			$_v_ScriptTask_3_scriptActivity->setName('$_v_ScriptTask_3');
 			$_v_ScriptTask_3_scriptActivity->setMethod('_v_ScriptTask_3_script');
 			$_v_ScriptTask_3->addActivity($_v_ScriptTask_3_scriptActivity);
-			
+
 			$_v_ExclusiveGateway_4 = new ilCaseNode($this);
 			$_v_ExclusiveGateway_4->setName('$_v_ExclusiveGateway_4');
 			$_v_ExclusiveGateway_4->setIsExclusiveJoin(true);
 			$this->addNode($_v_ExclusiveGateway_4);
-		
+
 			$_v_ScriptTask_5 = new ilBasicNode($this);
 			$this->addNode($_v_ScriptTask_5);
 			$_v_ScriptTask_5->setName('$_v_ScriptTask_5');
-		
+
 			$_v_ScriptTask_5_scriptActivity = new ilScriptActivity($_v_ScriptTask_5);
 			$_v_ScriptTask_5_scriptActivity->setName('$_v_ScriptTask_5');
 			$_v_ScriptTask_5_scriptActivity->setMethod('_v_ScriptTask_5_script');
 			$_v_ScriptTask_5->addActivity($_v_ScriptTask_5_scriptActivity);
-			
+
 			$_v_SendTask_5 = new ilBasicNode($this);
 			$this->addNode($_v_SendTask_5);
 			$_v_SendTask_5->setName('$_v_SendTask_5');
-		
+
 			$_v_ExclusiveGateway_5 = new ilCaseNode($this);
 			$_v_ExclusiveGateway_5->setName('$_v_ExclusiveGateway_5');
 			$_v_ExclusiveGateway_5->setIsExclusiveJoin(true);
 			$this->addNode($_v_ExclusiveGateway_5);
-		
+
 			$_v_EndEvent_7 = new ilBasicNode($this);
 			$this->addNode($_v_EndEvent_7);
 			$_v_EndEvent_7->setName('$_v_EndEvent_7');
-		
+
 			$_v_StartEvent_6 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_6);
 			$_v_StartEvent_6->setName('$_v_StartEvent_6');
-		
+
 			$_v_StartEvent_6_detector = new ilEventDetector($_v_StartEvent_6);
 			$_v_StartEvent_6_detector->setName('$_v_StartEvent_6_detector');
 			$_v_StartEvent_6_detector->setEvent(			"", 			"");
 			$_v_StartEvent_6_detector->setEventSubject(	"", 	"");
 			$_v_StartEvent_6_detector->setEventContext(	"", 	"");
-			
-			$this->defineInstanceVar("DataObject_4","dataObject" );
+
+			$this->defineInstanceVar("DataObject_4","dataObject", false, "", "mixed", "undefined" );
 		
 			$_v_IntermediateCatchEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_IntermediateCatchEvent_1);

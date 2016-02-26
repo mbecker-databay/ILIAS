@@ -34,7 +34,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_Task_1_outputDataEmitter->setName($_v_Task_1_outputDataEmitter);
 			$_v_Task_1->addEmitter($_v_Task_1_outputDataEmitter);
 		
-			$this->defineInstanceVar("DataObject_1","dataObject" );
+			$this->defineInstanceVar("DataObject_1","dataObject", false, "", "mixed", "undefined" );
 		
 			$this->defineInstanceVar("DataObjectReference_1","ioval1", true, "DataObject_1" );
 		

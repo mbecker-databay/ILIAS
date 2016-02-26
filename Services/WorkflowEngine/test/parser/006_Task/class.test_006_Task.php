@@ -222,4 +222,66 @@ class test_006_Task extends PHPUnit_Framework_TestCase
 
 		unlink($this->getTestOutputFilename($test_name));
 	}
+
+	public static $wasListRequestTriggered;
+	public static $callParams;
+	public static $retval = array(1,2,3,4,5);
+
+	public static function requestList($context, $params)
+	{
+		self::$wasListRequestTriggered = true;
+		self::$callParams = $params;
+		return array('DataObjectReference_1' => self::$retval);
+	}
+
+	public function test_ReadLearnersFromCourseShouldOutputAccordingly()
+	{
+		$test_name = 'Task_ReadLearnersFromCourse';
+		$xml = file_get_contents($this->getTestInputFilename($test_name));
+		$parser = new ilBPMN2Parser();
+		$parse_result = $parser->parseBPMN2XML($xml);
+
+		file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
+		$return = exec('php -l ' . $this->getTestOutputFilename($test_name));
+
+		$this->assertTrue(substr($return,0,25) == 'No syntax errors detected', 'Lint of output code failed.');
+
+		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
+		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
+
+		require_once $this->getTestOutputFilename($test_name);
+		self::$wasListRequestTriggered = false;
+		$process = new $test_name;
+
+		$process->setInstanceVarById('DataInput_1', 123456789);
+		$this->assertEquals(123456789, $process->getInstanceVarById('DataInput_1'));
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
+		$this->assertTrue(self::$wasListRequestTriggered, 'Static method call was not called.');
+		$this->assertEquals(self::$retval, $process->getInstanceVarById('DataObject_1'));
+
+		unlink($this->getTestOutputFilename($test_name));
+	}
+
 }

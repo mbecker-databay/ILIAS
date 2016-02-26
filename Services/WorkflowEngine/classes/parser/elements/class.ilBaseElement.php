@@ -64,4 +64,50 @@ abstract class ilBaseElement
 		}
 		return $code;
 	}
+
+	public function getDataInputAssociationIdentifiers($element)
+	{
+		$retval = array();
+
+		if(isset($element['children']))
+		{
+			foreach($element['children'] as $child)
+			{
+				if($child['namespace'] == 'bpmn2' && $child['name'] == 'dataInputAssociation')
+				{
+					foreach($child['children'] as $reference)
+					{
+						if($reference['namespace'] == 'bpmn2' && $reference['name'] == 'sourceRef')
+						{
+							$retval[] = $reference['content'];
+						}
+					}
+				}
+			}
+		}
+		return $retval;
+	}
+
+	public function getDataOutputAssociationIdentifiers($element)
+	{
+		$retval = array();
+
+		if(isset($element['children']))
+		{
+			foreach($element['children'] as $child)
+			{
+				if($child['namespace'] == 'bpmn2' && $child['name'] == 'dataOutputAssociation')
+				{
+					foreach($child['children'] as $reference)
+					{
+						if($reference['namespace'] == 'bpmn2' && $reference['name'] == 'targetRef')
+						{
+							$retval[] = $reference['content'];
+						}
+					}
+				}
+			}
+		}
+		return $retval;
+	}
 }

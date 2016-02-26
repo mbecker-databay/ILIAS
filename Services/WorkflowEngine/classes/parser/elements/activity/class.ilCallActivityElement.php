@@ -23,6 +23,20 @@ class ilCallActivityElement extends ilBaseElement
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilStaticMethodCallActivity.php');
 
+		$data_inputs = $this->getDataInputAssociationIdentifiers($element);
+		$activity_parameters = '';
+		if(count($data_inputs))
+		{
+			$activity_parameters = '"'.implode('","', $data_inputs).'"';
+		}
+
+		$data_outputs = $this->getDataOutputAssociationIdentifiers($element);
+		$activity_outputs = '';
+		if(count($data_outputs))
+		{
+			$activity_outputs = '"'.implode('","', $data_outputs).'"';
+		}
+
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
@@ -32,8 +46,10 @@ class ilCallActivityElement extends ilBaseElement
 			' . $this->element_varname . '_callActivity->setName(\'' . $this->element_varname . '_callActivity\');
 			' . $this->element_varname . '_callActivity->setIncludeFilename("'.$library_definition['include_filename'].'");
 			' . $this->element_varname . '_callActivity->setClassAndMethodName("'.$library_definition['class_and_method'].'");
-			' . $this->element_varname . '_callActivity_params = array(); // Requires Parsing of Data Associations!
-			' . $this->element_varname . '_callActivity->setParameters($this, ' . $this->element_varname . '_callActivity_params);
+			' . $this->element_varname . '_callActivity_params = array(' . $activity_parameters . ');
+			' . $this->element_varname . '_callActivity->setParameters(' . $this->element_varname . '_callActivity_params);
+			' . $this->element_varname . '_callActivity_outputs = array(' . $activity_outputs . ');
+			' . $this->element_varname . '_callActivity->setOutputs(' . $this->element_varname . '_callActivity_outputs);
 			' . $this->element_varname . '->addActivity(' . $this->element_varname . '_callActivity);
 		';
 		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);

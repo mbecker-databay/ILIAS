@@ -133,14 +133,14 @@ class ilStaticMethodCallActivityTest extends PHPUnit_Framework_TestCase
 	
 	public static function executionTargetMethod($context, $param)
 	{
-		$parameters = array('homer', 'marge', 'bart', 'lisa', 'maggy');
+		$parameters = array('homer' => 'homer', 'marge' => 'marge', 'bart' => 'bart', 'lisa' => 'lisa', 'maggy' => 'maggy');
 		
 		if ($context == null)
 		{
 			throw new Exception('Something went wrong with the context.');
 		}
 		
-		if ($param != $parameters)
+		if ($param[0] != $parameters)
 		{
 			throw new Exception('Something went wrong with the parameters.');
 		}

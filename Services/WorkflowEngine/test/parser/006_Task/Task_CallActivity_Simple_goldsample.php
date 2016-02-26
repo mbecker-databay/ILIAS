@@ -21,8 +21,10 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_Task_1_callActivity->setName('$_v_Task_1_callActivity');
 			$_v_Task_1_callActivity->setIncludeFilename("Services/WorkflowEngine/test/parser/006_Task/class.test_006_Task.php");
 			$_v_Task_1_callActivity->setClassAndMethodName("test_006_Task::triggerMe");
-			$_v_Task_1_callActivity_params = array(); // Requires Parsing of Data Associations!
-			$_v_Task_1_callActivity->setParameters($this, $_v_Task_1_callActivity_params);
+			$_v_Task_1_callActivity_params = array();
+			$_v_Task_1_callActivity->setParameters($_v_Task_1_callActivity_params);
+			$_v_Task_1_callActivity_outputs = array();
+			$_v_Task_1_callActivity->setOutputs($_v_Task_1_callActivity_outputs);
 			$_v_Task_1->addActivity($_v_Task_1_callActivity);
 		
 			$_v_EndEvent_4 = new ilBasicNode($this);

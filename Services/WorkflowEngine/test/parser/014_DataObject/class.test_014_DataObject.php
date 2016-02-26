@@ -36,9 +36,55 @@ class test_014_DataObject extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
 
-	public function test_WorkflowWithSimpleEndEventShouldOutputAccordingly()
+	public function test_DataObject_SimpleShouldOutputAccordingly()
 	{
 		$test_name = 'DataObject_Simple';
+		$xml = file_get_contents($this->getTestInputFilename($test_name));
+		$parser = new ilBPMN2Parser();
+		$parse_result = $parser->parseBPMN2XML($xml);
+
+		file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
+		$return = exec('php -l ' . $this->getTestOutputFilename($test_name));
+
+		$this->assertTrue(substr($return,0,25) == 'No syntax errors detected', 'Lint of output code failed.');
+
+		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
+		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
+
+		require_once $this->getTestOutputFilename($test_name);
+		/** @var ilBaseWorkflow $process */
+		$process = new $test_name;
+		$process->setInstanceVarById('DataObject_1', 'YaddaYadda');
+		$process->startWorkflow();
+		$all_triggered = true;
+		foreach($process->getNodes() as $node)
+		{
+			/** @var ilNode $node*/
+			foreach($node->getDetectors() as $detector)
+			{
+				/** @var ilSimpleDetector $detector */
+				if(!$detector->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+			foreach($node->getEmitters() as $emitter)
+			{
+				/** @var ilActivationEmitter $emitter */
+				if(!$emitter->getActivated())
+				{
+					$all_triggered = false;
+				}
+			}
+		}
+		$this->assertEquals('YaddaYadda', $process->getInstanceVarById('DataObject_1'), 'Instancevar was not kept.');
+		$this->assertTrue($all_triggered, 'Not all nodes were triggered.');
+		unlink($this->getTestOutputFilename($test_name));
+	}
+
+	public function test_DataObject_RoleShouldOutputAccordingly()
+	{
+		$test_name = 'DataObject_Role';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
 		$parser = new ilBPMN2Parser();
 		$parse_result = $parser->parseBPMN2XML($xml);

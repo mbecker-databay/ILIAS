@@ -129,7 +129,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * @var Array Associative array of  mixed.
 	 */
-	protected $instance_vars;
+	protected $instance_vars = array();
 
 	/** @var array $data_inputs Input data for the workflow (readonly). */
 	protected $data_inputs;
@@ -475,14 +475,17 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * );
 	 * 
 	 */
-	public function defineInstanceVar($id, $name, $reference = false, $reference_target = '')
+	public function defineInstanceVar($id, $name, $reference = false, $reference_target = '',
+									  $type = 'mixed', $role = 'undefined')
 	{
 		$this->instance_vars[] = array(
 			'id' => $id, 
 			'name' => $name, 
 			'value' => null, 
 			'reference' => $reference, 
-			'target' => $reference_target
+			'target' => $reference_target,
+			'type' => $type,
+			'role' => $role
 		);
 	}
 
