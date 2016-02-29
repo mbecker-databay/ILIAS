@@ -91,16 +91,16 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_ServiceTask_1 = new ilBasicNode($this);
 			$this->addNode($_v_ServiceTask_1);
 			$_v_ServiceTask_1->setName('$_v_ServiceTask_1');
-		
+
 			$_v_ExclusiveGateway_1 = new ilCaseNode($this);
 			$_v_ExclusiveGateway_1->setName('$_v_ExclusiveGateway_1');
 			$_v_ExclusiveGateway_1->setIsExclusiveJoin(true);
 			$this->addNode($_v_ExclusiveGateway_1);
-		
+
 			$_v_SendTask_1 = new ilBasicNode($this);
 			$this->addNode($_v_SendTask_1);
 			$_v_SendTask_1->setName('$_v_SendTask_1');
-		
+
 			$_v_ServiceTask_2 = new ilBasicNode($this);
 			$this->addNode($_v_ServiceTask_2);
 			$_v_ServiceTask_2->setName('$_v_ServiceTask_2');
@@ -110,7 +110,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_SendTask_2 = new ilBasicNode($this);
 			$this->addNode($_v_SendTask_2);
 			$_v_SendTask_2->setName('$_v_SendTask_2');
-		
+
 			$_v_ExclusiveGateway_3 = new ilCaseNode($this);
 			$_v_ExclusiveGateway_3->setName('$_v_ExclusiveGateway_3');
 			$_v_ExclusiveGateway_3->setIsExclusiveJoin(true);
