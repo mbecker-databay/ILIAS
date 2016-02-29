@@ -157,13 +157,29 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 		$params = array();
 		foreach($this->parameters as $parameter)
 		{
-			$params[$parameter] = $parameter;
+			$set = false;
 			foreach($list as $instance_var)
 			{
 				if($instance_var['id'] == $parameter)
 				{
-					$params[$parameter] = $this->context->getContext()->getInstanceVarById($parameter);
+					$set = true;
+					$role = $instance_var['role'];
+					if($instance_var['reference'] == true)
+					{
+						foreach($list as $definitions)
+						{
+							if($definitions['id'] == $instance_var['target'])
+							{
+								$role = $definitions['role'];
+							}
+						}
+					}
+					$params[$role] = $this->context->getContext()->getInstanceVarById($parameter);
 				}
+			}
+			if(!$set)
+			{
+				$params[$parameter] = $parameter;
 			}
 		}
 

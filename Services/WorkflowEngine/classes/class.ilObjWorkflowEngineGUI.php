@@ -121,6 +121,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 				$this->ilCtrl->getLinkTarget($this, 'definitions.view')
 		);
 
+		/*
 		$this->ilTabs->addTab(
 				'instances',
 				$this->lng->txt('instances'),
@@ -132,6 +133,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 				$this->lng->txt('settings'),
 				$this->ilCtrl->getLinkTarget($this, 'settings.view')
 		);
+		*/
 
 		$this->ilTabs->setTabActive($section);
 	}

@@ -9,6 +9,7 @@
                     	<ilias:inputproperty name="requirement" value="required" />
                     	<ilias:inputproperty name="caption" value="ID des Vorgangs-Gegenstands" />
                     	<ilias:inputproperty name="description" value="Geben Sie bitte die Ref-ID des Vorgangs-Gegenstands an." />
+                    	<ilias:dataobject role="objId" type="integer" />
                 	</ilias:properties>
             	</bpmn2:extensionElements>
             </bpmn2:dataInput>
@@ -20,6 +21,7 @@
                     	<ilias:inputproperty name="requirement" value="required" />
                     	<ilias:inputproperty name="caption" value="Kurs" />
                     	<ilias:inputproperty name="description" value="Bitte wählen Sie einen Kurs für den Prozess aus." />
+                    	<ilias:dataobject role="crsRefId" type="integer" />
                 	</ilias:properties>
             	</bpmn2:extensionElements>
             </bpmn2:dataInput>

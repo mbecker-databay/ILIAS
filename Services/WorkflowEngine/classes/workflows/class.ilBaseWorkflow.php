@@ -534,11 +534,18 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 */
 	public function getInstanceVarByName($name)
 	{
-		foreach($this->instance_vars as $instance_var)
+		foreach($this->instance_vars as &$instance_var)
 		{
 			if($instance_var['name'] == $name)
 			{
-				return $instance_var['value'];
+				if($instance_var['reference'] === true)
+				{
+					return $this->getInstanceVarByName($instance_var['target']);
+				}
+				else
+				{
+					return $instance_var['value'];
+				}
 			}
 		}
 		return false;
@@ -552,11 +559,18 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 */
 	public function getInstanceVarById($id)
 	{
-		foreach((array)$this->instance_vars as $instance_var)
+		foreach($this->instance_vars as &$instance_var)
 		{
 			if($instance_var['id'] == $id)
 			{
-				return $instance_var['value'];
+				if($instance_var['reference'] === true)
+				{
+					return $this->getInstanceVarById($instance_var['target']);
+				}
+				else
+				{
+					return $instance_var['value'];
+				}
 			}
 		}
 		return false;

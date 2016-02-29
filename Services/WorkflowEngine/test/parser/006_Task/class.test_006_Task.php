@@ -128,7 +128,7 @@ class test_006_Task extends PHPUnit_Framework_TestCase
 
 	public static $wasTriggered; // See test above.
 
-	public static function triggerMe() // See test above.
+	public static function triggerMe($context, $params) // See test above.
 	{
 		self::$wasTriggered = true;
 	}
