@@ -89,7 +89,8 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 	 */
 	public function emit()
 	{
-		$instance_vars = $this->getContext()->getContext()->getInstanceVars();
+		return;
+		$instance_vars = $this->context->getContext()->getInstanceVars();
 
 		$target = $this->var_name;
 		foreach($instance_vars as $instance_var)
@@ -104,7 +105,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 			}
 		}
 
-		foreach((array)$this->getContext()->getRuntimeVars() as $key => $value)
+		foreach((array)$this->context->getContext()->getInstanceVars() as $key => $value)
 		{
 			if($key == $name)
 			{

@@ -32,6 +32,13 @@ class ilSendTaskElement extends ilBaseElement
 				}
 			}
 		}
+		$message_element = false;
+		if(isset($element['attributes']['ilias:message']))
+		{
+			$message_element = $element['attributes']['ilias:message'];
+		}
+
+
 
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
 		$code .= '
@@ -51,6 +58,25 @@ class ilSendTaskElement extends ilBaseElement
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_sendTaskActivity);
 			';
 		}
+		if($message_element)
+		{
+			$data_inputs = $this->getDataInputAssociationIdentifiers($element);
+			$task_parameters = '';
+			if(count($data_inputs))
+			{
+				$task_parameters = '"'.implode('","', $data_inputs).'"';
+			}
+
+			$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilSendMailActivity.php');
+			$code .= '
+				' . $this->element_varname . '_sendTaskActivity = new ilSendMailActivity(' . $this->element_varname . ');
+				' . $this->element_varname . '_sendTaskActivity->setMessageName(\'' . $message_element . '\');
+				' . $this->element_varname . '_sendTaskActivity_params = array(' . $task_parameters . ');
+				' . $this->element_varname . '_sendTaskActivity->setParameters(' . $this->element_varname . '_sendTaskActivity_params);
+				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_sendTaskActivity);
+			';
+		}
+
 		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}

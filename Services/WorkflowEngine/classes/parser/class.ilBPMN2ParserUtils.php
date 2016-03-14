@@ -321,4 +321,38 @@ class ilBPMN2ParserUtils
 		}
 		return $retval;
 	}
+
+	public static function extractILIASMessageDefinitionFromElement($element)
+	{
+		if(!isset($element['children']))
+		{
+			return null;
+		}
+		$retval = null;
+		foreach((array)$element['children'] as $child)
+		{
+			if($child['name'] == 'extensionElements')
+			{
+				foreach($child['children'] as $extension)
+				{
+					$prefix = 'ilias:';
+					if($extension['children'][0]['namespace'] == 'ilias')
+					{
+						$prefix = '';
+					}
+					if($extension['name'] == $prefix.'properties')
+					{
+						foreach((array)$extension['children'] as $child)
+						{
+							if($child['attributes']['name'] == 'mailtext')
+							{
+								$retval['mailtext'] = base64_encode($child['content']);
+							}
+						}
+					}
+				}
+			}
+		}
+		return $retval;
+	}
 }

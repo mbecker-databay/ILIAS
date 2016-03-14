@@ -16,6 +16,7 @@ class ilBPMN2Parser
 	{
 		$bpmn2_array = $this->convertXmlToArray( $bpmn2_xml );
 		$process = $this->getProcessNodeFromArray( $bpmn2_array );
+		$messages = $this->getMessageNodesFromArray( $bpmn2_array );
 
 		$workflow_name = $this->determineWorkflowClassName( $workflow_name, $bpmn2_array, $process );
 
@@ -72,6 +73,25 @@ class ilBPMN2Parser
 			}
 		}
 
+		if(count($messages))
+		{
+			$message_definitions = array();
+			foreach ($messages as $message)
+			{
+				$element_object = $loader->load('messageDefinition');
+				$message_definitions[] = $element_object->getMessageDefinitionArray($message);
+			}
+			$code = '
+			public static function getMessageDefinition($id)
+			{
+				$definitions = array('.implode(',', $message_definitions).'
+				);
+				return $definitions[$id];
+			}
+			';
+			$class_object->addAuxilliaryMethod($code);
+		}
+
 		$class_object->setConstructorMethodContent($constructor_method_content);
 		$class_source = '';
 		if (strlen($constructor_method_content))
@@ -112,6 +132,20 @@ class ilBPMN2Parser
 			}
 		}
 		return $process;
+	}
+
+	public function getMessageNodesFromArray($bpmn2)
+	{
+		$messages = array();
+		foreach ((array)@$bpmn2['children'] as $bpmn2_part)
+		{
+			if ($bpmn2_part['name'] == 'message')
+			{
+				$messages[] = $bpmn2_part;
+				break;
+			}
+		}
+		return $messages;
 	}
 
 	/**
