@@ -119,7 +119,13 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 			$stats[$row['workflow_class']] = array( 'total' => $row['total'], 'active' => $row['active'] );
 		}
 
-		$entries = scandir(ilObjWorkflowEngine::getRepositoryDir());
+		$entries = array();
+
+		if(is_dir(ilObjWorkflowEngine::getRepositoryDir()))
+		{
+			$entries = scandir(ilObjWorkflowEngine::getRepositoryDir());
+		}
+
 		$base_list = array();
 		foreach($entries as $entry)
 		{

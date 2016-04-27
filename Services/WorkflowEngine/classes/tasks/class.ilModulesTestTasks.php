@@ -20,6 +20,10 @@ class ilModulesTestTasks
 		$test_object->createReference();
 		$test_object->putInTree($input_params['crsRefId']);
 		$test_object->setPermissions($input_params['crsRefId']);
+		$test_object->setFixedParticipants(1);
+		$test_object->createMetaData();
+		$test_object->updateMetaData();
+		$test_object->saveToDb();
 
 		$retval = array($output_params[0] => $test_object->getRefId());
 		return $retval;
