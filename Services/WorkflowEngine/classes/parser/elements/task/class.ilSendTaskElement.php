@@ -16,6 +16,7 @@ class ilSendTaskElement extends ilBaseElement
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
+		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
 		$this->element_varname = '$_v_'.$element['attributes']['id'];
 		$event_definition = null;
 		if(count($element['children']))

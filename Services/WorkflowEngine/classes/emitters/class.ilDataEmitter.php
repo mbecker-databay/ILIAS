@@ -89,7 +89,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 	 */
 	public function emit()
 	{
-		return;
+		//return;
 		$instance_vars = $this->context->getContext()->getInstanceVars();
 
 		$target = $this->var_name;

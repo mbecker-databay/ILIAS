@@ -17,7 +17,7 @@ class ilDataObjectReferenceElement extends ilBaseElement
 	{
 		// Good folks, we're a data object reference. So what does it mean?
 		// We need to register an instance var that is a reference.
-		
+		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
 		$name = $element['name'];
 		$ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
 		if($ext_name != null)
@@ -26,7 +26,7 @@ class ilDataObjectReferenceElement extends ilBaseElement
 		}
 		$code = "";
 		$code .= '
-			$this->defineInstanceVar("'.$element['attributes']['id'].'","'.$name.'", true, "'.$element['attributes']['dataObjectRef'].'" );
+			$this->defineInstanceVar("'.$element_id.'","'.$name.'", true, "'.$element['attributes']['dataObjectRef'].'" );
 		';
 
 		return $code;

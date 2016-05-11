@@ -2,6 +2,7 @@
 
 class ilServicesUserTasks
 {
+
 	public static function createAnonymousUsers($context, $params)
 	{
 		$a = 1;

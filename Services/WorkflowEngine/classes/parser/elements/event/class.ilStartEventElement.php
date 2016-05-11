@@ -16,7 +16,8 @@ class ilStartEventElement extends ilBaseElement
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
-		$this->element_varname = '$_v_'.$element['attributes']['id']; // TODO: xsd:ID allows hyphens and periods. Deal with it!
+		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
+		$this->element_varname = '$_v_'.$element_id; // TODO: xsd:ID allows hyphens and periods. Deal with it!
 
 		$event_definition = null;
 		if(count(@$element['children']))

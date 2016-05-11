@@ -33,6 +33,8 @@ class ilBPMN2Parser
 											   // so we need to stash the connectors to add them after the nodes.
 			$stashed_associations = array(); // There can be no assumption, that the workflow is modeled in sequence,
 											   // so we need to stash the connectors to add them after the nodes.
+			$stashed_process_extensions = array(); // It was found that modelers add extensions at process level,
+											   // they are stored for possible future use.
 			require_once './Services/WorkflowEngine/classes/parser/elements/class.ilBPMN2ElementLoader.php';
 			$loader = new ilBPMN2ElementLoader($bpmn2_array);
 			foreach($process['children'] as $element)
@@ -54,7 +56,11 @@ class ilBPMN2Parser
 				else if($element['name'] == 'association')
 				{
 					$stashed_associations[] = $element;
-				} 
+				}
+				else if($element['name'] == 'extensionElements')
+				{
+					$stashed_process_extensions[] = $element;
+				}
 				else
 				{
 					$element_object = $loader->load($element['name']);

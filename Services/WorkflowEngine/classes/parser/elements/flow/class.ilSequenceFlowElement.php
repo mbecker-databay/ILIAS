@@ -16,7 +16,8 @@ class ilSequenceFlowElement extends ilBaseElement
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
-		$this->element_varname = '$_v_'.$element['attributes']['id'];
+		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
+		$this->element_varname = '$_v_'.$element_id;
 
 		$source_element = '$_v_'.$element['attributes']['sourceRef'];
 		$target_element = '$_v_'.$element['attributes']['targetRef'];

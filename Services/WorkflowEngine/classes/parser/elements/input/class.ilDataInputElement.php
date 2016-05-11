@@ -16,6 +16,7 @@ class ilDataInputElement extends ilBaseElement
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$name = $element['name'];
+		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
 		$ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
 		if($ext_name != null)
 		{
@@ -40,8 +41,8 @@ class ilDataInputElement extends ilBaseElement
 		}
 		$code = "";
 		$code .= '
-			$this->defineInstanceVar("'.$element['attributes']['id'].'", "'.$name.'", false, "", "'.$type.'", "'.$role.'" );
-			$this->registerInputVar("'.$element['attributes']['id'].'", '.$definition.');
+			$this->defineInstanceVar("'.$element_id.'", "'.$name.'", false, "", "'.$type.'", "'.$role.'" );
+			$this->registerInputVar("'.$element_id.'", '.$definition.');
 ';
 
 		return $code;
