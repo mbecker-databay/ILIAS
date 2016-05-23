@@ -36,6 +36,18 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilEventDetector.
 			$_v_StartEvent_2_detector->setEventContext(	"crs", 	"0");
 			$_v_StartEvent_2_detector->setListeningTimeframe(0, 0);
 			}
+			
+			
+			public static function getMessageDefinition($id)
+			{
+				$definitions = array( 'Message_3' =>  array(
+		'name' => 'ILIASEvent::Course::UserWasAssigned',
+		'content' => '')
+				);
+				return $definitions[$id];
+			}
+			
+			
 		}
 		
 ?>
