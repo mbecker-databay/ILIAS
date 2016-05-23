@@ -105,11 +105,11 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 			}
 		}
 
-		foreach((array)$this->context->getContext()->getInstanceVars() as $key => $value)
+		foreach((array)$this->context->getContext()->getInstanceVars() as $value)
 		{
-			if($key == $name)
+			if($value['id'] == $name)
 			{
-				$this->getContext()->getContext()->setInstanceVarById($target, $value);
+				$this->getContext()->getContext()->setInstanceVarById($target, $value['value']);
 			}
 		}
 

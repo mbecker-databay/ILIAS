@@ -559,7 +559,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 */
 	public function getInstanceVarById($id)
 	{
-		foreach($this->instance_vars as &$instance_var)
+		foreach($this->instance_vars as $instance_var)
 		{
 			if($instance_var['id'] == $id)
 			{
