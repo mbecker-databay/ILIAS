@@ -217,7 +217,7 @@
     ]]></ilias:properties>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
       <bpmn2:dataInputAssociation id="DataInputAssociation_13">
         <bpmn2:sourceRef>DataObjectReference_8</bpmn2:sourceRef>
       </bpmn2:dataInputAssociation>
@@ -235,15 +235,31 @@
     </bpmn2:dataObject>
     <bpmn2:dataObjectReference id="DataObjectReference_8" name="Data Object 5 Reference (TestTef)" dataObjectRef="DataObject_5"/>
     <bpmn2:endEvent id="EndEvent_2">
-      <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:callActivity id="CallActivity_10" name="SendMailToManagement&#xD;&#xA;">
-      <bpmn2:incoming>SequenceFlow_13</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_14</bpmn2:outgoing>
-    </bpmn2:callActivity>
-    <bpmn2:sequenceFlow id="SequenceFlow_13" name="" sourceRef="CallActivity_9" targetRef="CallActivity_10"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_14" name="" sourceRef="CallActivity_10" targetRef="EndEvent_2"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" name="" sourceRef="CallActivity_9" targetRef="SendTask_1"/>
+    <bpmn2:sendTask id="SendTask_1" name="Send Mail" ilias:message="Message_1">
+      <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
+    </bpmn2:sendTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_11" name="" sourceRef="SendTask_1" targetRef="EndEvent_2"/>
   </bpmn2:process>
+  <bpmn2:message id="Message_1" name="testmail">
+<bpmn2:extensionElements>
+		<ilias:properties>
+			<ilias:inputproperty name="mailtext" value="content">
+			<![CDATA[
+				Sehr geehrter Herr Müller!
+                [DataInput_1]
+				Bitte melden Sie sich zum Empfang von Muskatnuss in der Küche![DataInput_2]!
+
+				Mit freundlichen Grüßen,
+
+				[PLACEHOLDER]
+    		]]></ilias:inputproperty>
+    </ilias:properties>
+	</bpmn2:extensionElements>
+  </bpmn2:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="_BPMNShape_DataInput_3" bpmnElement="DataInput_1">
@@ -490,15 +506,18 @@
       <bpmndi:BPMNShape id="_BPMNShape_EndEvent_6" bpmnElement="EndEvent_2">
         <dc:Bounds height="36.0" width="36.0" x="1146.0" y="514.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_16" bpmnElement="CallActivity_10">
-        <dc:Bounds height="80.0" width="100.0" x="954.0" y="492.0"/>
+      <bpmndi:BPMNShape id="_BPMNShape_SendTask_2" bpmnElement="SendTask_1">
+        <dc:Bounds height="80.0" width="100.0" x="963.0" y="492.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_13" bpmnElement="SequenceFlow_13" sourceElement="_BPMNShape_CallActivity_15" targetElement="_BPMNShape_CallActivity_16">
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="_BPMNShape_CallActivity_15" targetElement="_BPMNShape_SendTask_2">
         <di:waypoint xsi:type="dc:Point" x="904.0" y="532.0"/>
-        <di:waypoint xsi:type="dc:Point" x="954.0" y="532.0"/>
+        <di:waypoint xsi:type="dc:Point" x="963.0" y="532.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="931.0" y="532.0"/>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_14" bpmnElement="SequenceFlow_14" sourceElement="_BPMNShape_CallActivity_16" targetElement="_BPMNShape_EndEvent_6">
-        <di:waypoint xsi:type="dc:Point" x="1054.0" y="532.0"/>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="SequenceFlow_11" sourceElement="_BPMNShape_SendTask_2" targetElement="_BPMNShape_EndEvent_6">
+        <di:waypoint xsi:type="dc:Point" x="1063.0" y="532.0"/>
         <di:waypoint xsi:type="dc:Point" x="1146.0" y="532.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

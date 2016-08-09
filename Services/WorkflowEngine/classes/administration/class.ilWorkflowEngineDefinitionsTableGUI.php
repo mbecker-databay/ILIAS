@@ -121,9 +121,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
 		$entries = array();
 
-		if(is_dir(ilObjWorkflowEngine::getRepositoryDir()))
+		if(is_dir(ilObjWorkflowEngine::getRepositoryDir().'/'))
 		{
-			$entries = scandir(ilObjWorkflowEngine::getRepositoryDir());
+			$entries = scandir(ilObjWorkflowEngine::getRepositoryDir().'/');
 		}
 
 		$base_list = array();
@@ -141,7 +141,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 				$parts = explode('_', substr($entry, 6, strlen($entry)-12));
 
 				$file_entry['status'] = 'OK';
-				if(!file_exists(ilObjWorkflowEngine::getRepositoryDir() . $file_entry['id']. '.php'))
+				if(!file_exists(ilObjWorkflowEngine::getRepositoryDir() . '/' . $file_entry['id']. '.php'))
 				{
 					$file_entry['status'] = $this->lng->txt('missing_parsed_class');
 				}

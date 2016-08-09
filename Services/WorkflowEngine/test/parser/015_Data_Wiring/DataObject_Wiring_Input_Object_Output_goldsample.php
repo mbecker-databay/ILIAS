@@ -14,7 +14,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			public function __construct()
 			{
 		
-			$this->defineInstanceVar("DataInput_1","ioval1" );
+			$this->defineInstanceVar("DataInput_1", "ioval1", false, "", "mixed", "undefined" );
 			$this->registerInputVar("DataInput_1", array());
 
 			$this->defineInstanceVar("DataOutput_1","ioval1" );

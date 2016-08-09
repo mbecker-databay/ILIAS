@@ -52,6 +52,18 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_StartEvent_1->addEmitter($_v_StartEvent_1_emitter);
 		
 			}
+			
+			
+			public static function getMessageDefinition($id)
+			{
+				$definitions = array( 'Message_1' =>  array(
+		'name' => 'Message',
+		'content' => '')
+				);
+				return $definitions[$id];
+			}
+			
+			
 		}
 		
 ?>

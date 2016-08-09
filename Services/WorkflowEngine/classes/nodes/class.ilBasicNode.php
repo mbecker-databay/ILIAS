@@ -220,7 +220,7 @@ class ilBasicNode extends ilBaseNode
 		{
 			/** @var ilBasicNode $source_node */
 			$source_node = $detector->getSourceNode();
-			if ($source_node->is_forward_condition_node)
+			if ($source_node && $source_node->is_forward_condition_node)
 			{
 				$source_node->deactivateForwardConditionNodes( $this );
 			}

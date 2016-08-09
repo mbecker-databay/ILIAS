@@ -66,4 +66,11 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
 
 		return true; // ORLY?
 	}
+
+	function _checkGoto($a_target)
+	{
+		//$workflow = substr($params, 2, strpos($params,'EVT')-2);
+		//$event = substr($params, strpos($params, 'EVT')+3);
+		return true; // TODO Validate Event Syntax
+	}
 }

@@ -221,7 +221,7 @@ class ilWorkflowEngineDefinitionsGUI
 		/** @var ilBaseWorkflow $workflow_instance */
 		$workflow_instance = new $class;
 
-		$workflow_instance->setWorkflowClass($class);
+		$workflow_instance->setWorkflowClass('wfd.'.$class.'.php');
 		$workflow_instance->setWorkflowLocation(ilObjWorkflowEngine::getRepositoryDir());
 
 		if(count($workflow_instance->getInputVars()))
@@ -249,6 +249,9 @@ class ilWorkflowEngineDefinitionsGUI
 				return $form->getHTML();
 			}
 		}
+		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
+		ilWorkflowDbHelper::writeWorkflow( $workflow_instance );
+
 		$workflow_instance->startWorkflow();
 		$workflow_instance->handleEvent(
 				array(
@@ -260,7 +263,7 @@ class ilWorkflowEngineDefinitionsGUI
 						0
 				)
 		);
-		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
+
 		ilWorkflowDbHelper::writeWorkflow( $workflow_instance );
 
 		ilUtil::sendSuccess($this->parent_gui->lng->txt('process_started'), true);

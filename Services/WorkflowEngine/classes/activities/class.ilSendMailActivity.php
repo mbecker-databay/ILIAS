@@ -53,41 +53,39 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 	 */
 	public function execute()
 	{
+		/** @var ilBaseWorkflow $workflow */
+		$workflow = $this->getContext()->getContext();
+		$definitions = $workflow->getInstanceVars();
+
+		foreach($this->parameters as $parameter)
+		{
+			foreach($definitions as $definition)
+			{
+				if($definition['id'] = $parameter)
+				{
+					switch (strtolower($definition['role']))
+					{
+						case 'emailaddress':
+							$recipient = $definition['value'];
+							break;
+						case 'subject':
+							$subject = $definition['value'];
+							break;
+					}
+				}
+			}
+		}
+
 		$mail_data = $this->context->getContext()->getMessageDefinition($this->message_name);
 		$mail_text = $this->decodeMessageText($mail_data['content']);
 		$mail_text = $this->processPlaceholders($mail_text);
 
+		require_once './Services/WorkflowEngine/classes/activities/class.ilWorkflowEngineMailNotification.php';
+		$mail = new ilWorkflowEngineMailNotification();
+		$mail->setSubjectText($subject);
+		$mail->setBodyText($mail_text);
 
-		$list = (array)$this->context->getContext()->getInstanceVars();
-		$params = array();
-		foreach($this->parameters as $parameter)
-		{
-			$set = false;
-			foreach($list as $instance_var)
-			{
-				if($instance_var['id'] == $parameter)
-				{
-					$set = true;
-					$role = $instance_var['role'];
-					if($instance_var['reference'] == true)
-					{
-						foreach($list as $definitions)
-						{
-							if($definitions['id'] == $instance_var['target'])
-							{
-								$role = $definitions['role'];
-							}
-						}
-					}
-					$params[$role] = $this->context->getContext()->getInstanceVarById($parameter);
-				}
-			}
-			if(!$set)
-			{
-				$params[$parameter] = $parameter;
-			}
-		}
-
+		$mail->send($recipient);
 		$a = 1;
 	}
 
@@ -172,12 +170,46 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 		foreach($matches[0] as $match)
 		{
 			$placeholder = substr($match, 1, strlen($match)-2);
-			$content = $this->context->getContext()->getInstanceVarById($placeholder);
+
+			$handled = false;
+			if(strtolower(substr($placeholder, 0 , strlen('EVENTLINK'))) == 'eventlink')
+			{
+				$handled = true;
+				$content = $this->getEventLink($match);
+			}
+
+			if(!$handled)
+			{
+				$content = $this->context->getContext()->getInstanceVarById($placeholder);
+			}
+
 			if(strlen($content))
 			{
 				$message_text = str_replace($match, $content, $message_text);
 			}
 		}
 		return $message_text;
+	}
+
+	public function getEventLink($eventlink_string)
+	{
+		$type = substr($eventlink_string, 1, strpos($eventlink_string, ' ')-1);
+		$params = substr($eventlink_string, strpos($eventlink_string, ' ')+1, -1);
+
+		$matches = array();
+		preg_match_all('/\{{(.*?)\}}/',$params, $matches, PREG_PATTERN_ORDER);
+		foreach($matches[1] as $match)
+		{
+			if($match == 'THIS:WFID')
+			{
+				$params = str_replace('{{'.$match.'}}',$this->getContext()->getContext()->getDbId(),$params);
+			}
+		}
+		$pieces = explode(':', $params);
+		/** @var ilias $ilias */
+		global $ilias;
+		$address = ilUtil::_getHttpPath() . '/goto.php?target=wfe_WF'. $pieces[0] . 'EVT' . $pieces[1] . '&client_id=' . $ilias->getClientId();
+
+		return $address;
 	}
 }

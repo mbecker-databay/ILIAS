@@ -618,6 +618,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 				else
 				{
 					$instance_var['value'] = $value;
+					return;
 				}
 			}
 		}

@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject2GUI.php" ;
+require_once './Services/Object/classes/class.ilObject2GUI.php';
+require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
 
 /**
  * Class ilObjWorkflowEngineGUI
@@ -54,9 +55,50 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->assignObject();
 	}
 
-	function getType()
+	public function getType()
 	{
 		return null; // Just sayin.
+	}
+
+	/**
+	 * Goto-Method for the workflow engine
+	 *
+	 * Handles calls via GOTO, e.g. request
+	 * http://.../goto.php?target=wfe_WF61235EVT12308154711&client_id=default
+	 * would end up here with $params = WF61235EVT12308154711
+	 * It will be unfolded to
+	 *   Workflow 61235
+	 *   Event 12308154711
+	 * Used to trigger an event for the engine.
+	 *
+	 * @param string $params Params from $_GET after wfe_
+	 */
+	public static function _goto($params)
+	{
+		global $lng;
+
+		$workflow = substr($params, 2, strpos($params,'EVT')-2);
+		$event = substr($params, strpos($params, 'EVT')+3);
+
+		$type = 'endpoint_event';
+		$content = 'was_requested';
+		$subject_type = 'workflow';
+		$subject_id = $workflow;
+		$context_type = 'event';
+		$context_id = $event;
+
+		$engine = new ilWorkflowEngine();
+		$engine->processEvent(
+			$type,
+			$content,
+			$subject_type,
+			$subject_id,
+			$context_type,
+			$context_id
+		);
+
+		ilUtil::sendSuccess($lng->txt('ok'), true);
+		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 	}
 
 	/**

@@ -151,7 +151,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 	public function setEventSubject($a_event_subject_type, $a_event_subject_identifier)
 	{
 		$this->event_subject_type = (string) $a_event_subject_type;
-		$this->event_subject_identifier = (int) $a_event_subject_identifier;
+		$this->event_subject_identifier = $a_event_subject_identifier;
 	}
 	
 	/**
@@ -173,7 +173,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 	public function setEventContext($a_event_context_type, $a_event_context_identifier)
 	{
 		$this->event_context_type = (string) $a_event_context_type;
-		$this->event_context_identifier = (int) $a_event_context_identifier;
+		$this->event_context_identifier = $a_event_context_identifier;
 	}
 	
 	/**

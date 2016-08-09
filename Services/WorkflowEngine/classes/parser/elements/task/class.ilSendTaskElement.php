@@ -50,7 +50,7 @@ class ilSendTaskElement extends ilBaseElement
 
 		if(isset($event_definition['type']) && isset($event_definition['content']))
 		{
-			$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilStaticMethodCallActivity.php');
+			$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php');
 			$code .= '
 				' . $this->element_varname . '_sendTaskActivity = new ilEventRaisingActivity(' . $this->element_varname . ');
 				' . $this->element_varname . '_sendTaskActivity->setName(\'' . $this->element_varname . '_sendTaskActivity\');
@@ -59,10 +59,16 @@ class ilSendTaskElement extends ilBaseElement
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_sendTaskActivity);
 			';
 		}
-		if($message_element)
+
+		if(isset($element['attributes']['message']))
 		{
 			$data_inputs = $this->getDataInputAssociationIdentifiers($element);
 			$task_parameters = '';
+			$message_name = $element['attributes']['message'];
+			if(substr($message_name,0, 6) == 'ilias:')
+			{
+				$message_name = substr($message_name,6);
+			}
 			if(count($data_inputs))
 			{
 				$task_parameters = '"'.implode('","', $data_inputs).'"';
@@ -71,7 +77,7 @@ class ilSendTaskElement extends ilBaseElement
 			$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilSendMailActivity.php');
 			$code .= '
 				' . $this->element_varname . '_sendTaskActivity = new ilSendMailActivity(' . $this->element_varname . ');
-				' . $this->element_varname . '_sendTaskActivity->setMessageName(\'' . $message_element . '\');
+				' . $this->element_varname . '_sendTaskActivity->setMessageName(\'' . $message_name . '\');
 				' . $this->element_varname . '_sendTaskActivity_params = array(' . $task_parameters . ');
 				' . $this->element_varname . '_sendTaskActivity->setParameters(' . $this->element_varname . '_sendTaskActivity_params);
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_sendTaskActivity);

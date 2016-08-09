@@ -168,7 +168,7 @@ class ilWorkflowDbHelper
 			return;
 		}
 	}
-	
+
 	/**
 	 * Takes a detector as an argument and saves it to the database.
 	 * 
@@ -179,7 +179,7 @@ class ilWorkflowDbHelper
 	public static function writeDetector(ilDetector $a_detector)
 	{
 		global $ilDB;
-		
+
 		if ($a_detector->hasDbId())
 		{
 			$det_id = $a_detector->getDbId();
@@ -205,6 +205,15 @@ class ilWorkflowDbHelper
 		$det_subject = $a_detector->getEventSubject();
 		$det_context = $a_detector->getEventContext();
 		$det_listen = $a_detector->getListeningTimeframe();
+
+		if($det_context['identifier'] == '{{THIS:WFID}}')
+		{
+			$det_context['identifier'] = $wf_id;
+		}
+		if($det_subject['identifier'] == '{{THIS:WFID}}')
+		{
+			$det_subject['identifier'] = $wf_id;
+		}
 
 		if ($mode == self::DB_MODE_UPDATE)
 		{
@@ -292,14 +301,14 @@ class ilWorkflowDbHelper
 		$a_subject_type,
 		$a_subject_id,
 		$a_context_type,
-		$a_context_id			
+		$a_context_id
 	)
 	{
 		global $ilDB;
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
 		$now = ilWorkflowUtils::time();
 		$workflows = array();
-		
+
 		$result = $ilDB->query(
 			'SELECT workflow_id
 			FROM wfe_det_listening
@@ -313,15 +322,15 @@ class ilWorkflowDbHelper
 				 OR (listening_start < ' . $ilDB->quote($now, 'integer') . ' AND listening_end = '. $ilDB->quote(0, 'integer') . ') 
 				 OR listening_end > ' . $ilDB->quote($now, 'integer') . ')'
 		);
-		
+
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$workflows[] = $row['workflow_id'];
 		}
-		
+
 		return $workflows;
 	}
-	
+
 	/**
 	 * Wakes a workflow from the database.
 	 * 
@@ -340,11 +349,11 @@ class ilWorkflowDbHelper
 			FROM wfe_workflows
 			WHERE workflow_id = ' . $ilDB->quote($a_id, 'integer')
 		);
-		
+
 		$workflow = $ilDB->fetchAssoc($result);
-		
+
 		require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
-		$path = './' . $workflow['workflow_location'] . '/' . $workflow['workflow_class'];
+		$path = $workflow['workflow_location'] . $workflow['workflow_class'];
 		require_once $path;
 		$instance = unserialize($workflow['workflow_instance']);
 

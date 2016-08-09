@@ -122,6 +122,22 @@ class ilModulesCourseTasks
 		return $retval;
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * @param $context
 	 * @param $params
@@ -151,6 +167,28 @@ class ilModulesCourseTasks
 		}
 		return;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public static function assignTutorsToCourse($context, $params)
 	{
