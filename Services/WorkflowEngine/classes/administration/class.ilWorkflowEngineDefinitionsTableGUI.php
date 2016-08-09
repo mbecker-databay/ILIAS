@@ -230,6 +230,14 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 			'start',
 			$this->ilCtrl->getLinkTarget($this->parent_obj ,'definitions.start')
 		);
+		if(0+$set['instances']['active'] == 0)
+		{
+			$action->addItem(
+				$this->lng->txt('delete_definition'),
+				'delete',
+				$this->ilCtrl->getLinkTarget($this->parent_obj,'definitions.delete')
+			);
+		}
 
 		$this->tpl->setVariable('HTML_ASL', $action->getHTML());
 	}

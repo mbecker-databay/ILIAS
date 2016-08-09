@@ -56,6 +56,10 @@ class ilWorkflowEngineDefinitionsGUI
 				return $this->startProcess();
 				break;
 
+			case 'delete':
+				return $this->deleteDefinition();
+				break;
+
 			case 'view':
 			default:
 				return $this->showDefinitionsTable();
@@ -133,7 +137,7 @@ class ilWorkflowEngineDefinitionsGUI
 			return $form->getHTML();
 		}
 
-		$repo_dir_name = ilObjWorkflowEngine::getRepositoryDir();
+		$repo_dir_name = ilObjWorkflowEngine::getRepositoryDir() . '/';
 		if(!is_dir($repo_dir_name))
 		{
 			mkdir($repo_dir_name, 0777, true);
@@ -150,7 +154,26 @@ class ilWorkflowEngineDefinitionsGUI
 		move_uploaded_file($temp_name, $temp_dir_name.$file_name);
 
 		$repo_base_name = 'il'.substr($file_name,0,strpos($file_name,'.'));
+		$wf_base_name = 'wfd.'.$repo_base_name.'_v';
 		$version = 0;
+		if ($handle = opendir($repo_dir_name))
+		{
+			while (false !== ($file = readdir($handle)))
+			{
+				if(substr(strtolower($file), 0, strlen($wf_base_name)) == strtolower($wf_base_name)
+					&& substr($file, -4) == '.php')
+				{
+					$number = substr($file, strlen($wf_base_name), -4);
+					if($number > $version)
+					{
+						$version = $number;
+					}
+				}
+			}
+			closedir($handle);
+		}
+		$version++;
+/*		$version = 0;
 		$next_version_found = false;
 		while($next_version_found == false)
 		{
@@ -160,6 +183,8 @@ class ilWorkflowEngineDefinitionsGUI
 				$next_version_found = true;
 			}
 		}
+*/
+
 		$repo_name = $repo_base_name.'_v'.$version.'.php';
 
 		// Parse
@@ -271,6 +296,20 @@ class ilWorkflowEngineDefinitionsGUI
 				html_entity_decode(
 						$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
 				)
+		);
+	}
+
+	public function deleteDefinition()
+	{
+		$a = 1;
+		unlink(ilObjWorkflowEngine::getRepositoryDir() . '/' . stripslashes($_GET['process_id']).'.php');
+		unlink(ilObjWorkflowEngine::getRepositoryDir() . '/' . stripslashes($_GET['process_id']).'.bpmn2');
+
+		ilUtil::sendSuccess($this->parent_gui->lng->txt('definition_deleted'), true);
+		ilUtil::redirect(
+			html_entity_decode(
+				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+			)
 		);
 	}
 }

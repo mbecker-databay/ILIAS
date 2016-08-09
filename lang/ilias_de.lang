@@ -15234,6 +15234,8 @@ wfe#:#start_process#:#Prozess starten
 wfe#:#process_started#:#Prozess gestartet
 wfe#:#input_variables_required#:#Eingaben erforderlich
 wfe#:#input_variables_desc#:#Der Prozess benötigt zum Start folgende Angaben:
+wfe#:#delete_definition#:#Definition l&ouml;schen
+wfe#:#definition_deleted#:#Workflow-Definition gel&ouml;scht.
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
 dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
 administration#:#adm_missing_entries#:#Fehlende Einträge
