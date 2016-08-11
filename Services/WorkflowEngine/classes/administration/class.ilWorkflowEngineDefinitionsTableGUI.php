@@ -148,7 +148,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
 				$file_entry['version'] = substr(array_pop($parts),1);
 				$file_entry['title'] = implode(' ', $parts);
-				$file_entry['instances'] = $stats[substr($file_entry['id'],4)];
+				$file_entry['instances'] = $stats[$file_entry['id'].'.php'];
 
 				if(!$this->isFiltered($file_entry))
 				{
