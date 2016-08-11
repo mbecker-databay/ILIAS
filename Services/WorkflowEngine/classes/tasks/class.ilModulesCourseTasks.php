@@ -122,22 +122,6 @@ class ilModulesCourseTasks
 		return $retval;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * @param $context
 	 * @param $params
