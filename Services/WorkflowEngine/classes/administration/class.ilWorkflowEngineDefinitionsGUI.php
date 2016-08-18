@@ -60,6 +60,13 @@ class ilWorkflowEngineDefinitionsGUI
 				return $this->deleteDefinition();
 				break;
 
+			case 'startlistening':
+				return $this->startListening();
+				break;
+
+			case'stoplistening':
+				break;
+
 			case 'view':
 			default:
 				return $this->showDefinitionsTable();
@@ -227,6 +234,71 @@ class ilWorkflowEngineDefinitionsGUI
 		}
 	}
 
+	public function startListening()
+	{
+		$identifier = basename($_GET['process_id']);
+
+		require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
+		$class = substr($identifier,4);
+		/** @var ilBaseWorkflow $workflow_instance */
+		$workflow_instance = new $class;
+
+		$workflow_instance->setWorkflowClass('wfd.'.$class.'.php');
+		$workflow_instance->setWorkflowLocation(ilObjWorkflowEngine::getRepositoryDir());
+
+		$show_armer_form = true;
+		switch(true)
+		{
+			case isset($_POST['process_id']):
+			case isset($_POST['se_type']):
+			case isset($_POST['se_content']):
+			case isset($_POST['se_subject_type']):
+			case isset($_POST['se_context_type']):
+				$show_armer_form = false;
+				break;
+			default:
+				$show_armer_form = true;
+		}
+
+		// Check for Event definitions
+		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowArmerGUI.php';
+		$this->parent_gui->ilCtrl->saveParameter($this->parent_gui, 'process_id', $identifier);
+		$action = $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.start');
+		$armer = new ilWorkflowArmerGUI($action, $identifier);
+
+		$form = $armer->getForm($workflow_instance->getInputVars(), $workflow_instance->getStartEventInfo());
+
+		if($show_armer_form)
+		{
+			return $form->getHTML();
+		}
+
+		$event_data = array(
+			'type'			=> stripslashes($_POST['se_type']),
+			'content'		=> stripslashes($_POST['se_content']),
+			'subject_type'	=> stripslashes($_POST['se_subject_type']),
+			'subject_id'	=> (int)$_POST['se_subject_id'],
+			'context_type'	=> stripslashes($_POST['se_context_type']),
+			'context_id'	=> (int)$_POST['se_context_id']
+		);
+		$process_id = stripslashes($_POST['process_id']);
+
+		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
+		$event_id = ilWorkflowDbHelper::writeStartEventData($event_data, $process_id);
+
+		foreach($workflow_instance->getInputVars() as $input_var)
+		{
+			ilWorkflowDbHelper::writeStaticInput($input_var['name'], stripslashes($_POST[$input_var['name']]), $event_id);
+		}
+
+		ilUtil::sendSuccess($this->parent_gui->lng->txt('started_listening'), true);
+		ilUtil::redirect(
+			html_entity_decode(
+				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+			)
+		);
+	}
+
 	public function startProcess()
 	{
 		if(isset($_POST['cmd']['cancel']))
@@ -301,7 +373,6 @@ class ilWorkflowEngineDefinitionsGUI
 
 	public function deleteDefinition()
 	{
-		$a = 1;
 		unlink(ilObjWorkflowEngine::getRepositoryDir() . '/' . stripslashes($_GET['process_id']).'.php');
 		unlink(ilObjWorkflowEngine::getRepositoryDir() . '/' . stripslashes($_GET['process_id']).'.bpmn2');
 

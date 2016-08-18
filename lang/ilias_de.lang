@@ -15234,8 +15234,21 @@ wfe#:#start_process#:#Prozess starten
 wfe#:#process_started#:#Prozess gestartet
 wfe#:#input_variables_required#:#Eingaben erforderlich
 wfe#:#input_variables_desc#:#Der Prozess benötigt zum Start folgende Angaben:
+wfe#:#input_static_variables_desc#:#Der Prozess benötigt zu seinen Starts folgende Angaben:
 wfe#:#delete_definition#:#Definition l&ouml;schen
 wfe#:#definition_deleted#:#Workflow-Definition gel&ouml;scht.
+wfe#:#subject_type#:#Subjekt Typ
+wfe#:#subject_id#:#Subjekt ID
+wfe#:#subject_by_id#:#Subjekt nach ID
+wfe#:#subject_by_mask#:#Maskiertes Subjekt
+wfe#:#context_type#:#Kontext Typ
+wfe#:#context_id#:#Kontext ID
+wfe#:#context_by_id#:#Kontext nach ID
+wfe#:#context_by_mask#:#Maskierter Kontext
+wfe#:#start_listening#:#Listener aktivieren
+wfe#:#stop_listening#:#Listener deaktivieren
+wfe#:#static_input_form_header#:#Eingabedaten f&uuml;r alle Instanzen des Workflows
+wfe#:#start_event_form_header#:#Relevante Ereignisse f&uuml;r den Start der Workflows
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
 dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
 administration#:#adm_missing_entries#:#Fehlende Einträge

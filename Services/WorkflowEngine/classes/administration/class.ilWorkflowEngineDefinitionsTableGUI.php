@@ -239,6 +239,22 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 			);
 		}
 
+		require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $set['id']. '.php';
+		$class = substr($set['id'],4);
+		if($class::$startEventRequired == true)
+		{
+			$action->addItem(
+				$this->lng->txt('start_listening'),
+				'startlistening',
+				$this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.startlistening')
+			);
+			$action->addItem(
+				$this->lng->txt('stop_listening'),
+				'stoplistening',
+				$this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.stoplistening')
+			);
+		}
+
 		$this->tpl->setVariable('HTML_ASL', $action->getHTML());
 	}
 }

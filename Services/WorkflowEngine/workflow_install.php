@@ -50,10 +50,10 @@ if (!$ilDB->tableExists('wfe_workflows'))
 	'subject_id'		=> array('type' => 'integer', 'length' => 4),
 	'context_type'		=> array('type' => 'text',    'length' => 30),
 	'context_id'		=> array('type' => 'integer', 'length' => 4),
-	'workflow_instance'	=> array('type' => 'clob',	  'notnull' => false, 'default' => null),		
+	'workflow_instance'	=> array('type' => 'clob',	  'notnull' => false, 'default' => null),
 	'active'			=> array('type' => 'integer', 'length' => 4)
 	);
-	
+
 	$ilDB->createTable('wfe_workflows', $fields);
 	$ilDB->addPrimaryKey('wfe_workflows', array('workflow_id'));
 	$ilDB->createSequence('wfe_workflows');
@@ -79,34 +79,42 @@ if (!$ilDB->tableExists('wfe_det_listening'))
 	$ilDB->createSequence('wfe_det_listening');
 }
 
-if (!$ilDB->tableExists('wfe_io_inputs'))
-{
-	$fields = array (
-		'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'name'				=> array('type' => 'text',	  'length' => 255),
-		'value'				=> array('type' => 'text',	  'length' => 255),
-	);
-
-	$ilDB->createTable('wfe_io_inputs', $fields);
-	$ilDB->addPrimaryKey('wfe_io_inputs', array('workflow_id','name'));
-}
-
-if (!$ilDB->tableExists('wfe_io_outputs'))
-{
-	$fields = array (
-		'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'name'				=> array('type' => 'text',	  'length' => 255),
-		'value'				=> array('type' => 'text',	  'length' => 255),
-	);
-
-	$ilDB->createTable('wfe_io_outputs', $fields);
-	$ilDB->addPrimaryKey('wfe_io_outputs', array('workflow_id','name'));
-}
-
 if(false) // Just once
 {
 	require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 	ilDBUpdateNewObjectType::addAdminNode('wfe', 'WorkflowEngine');
+}
+
+if(!$ilDB->tableExists('wfe_startup_events'))
+{
+	$fields = array (
+		'event_id'		=> array('type' => 'integer',	'length' => 4, 	'notnull' => true),
+		'workflow_id'	=> array('type' => 'text',		'length' => 60, 'notnull' => true),
+		'type'			=> array('type' => 'text',		'length' => 255),
+		'content'		=> array('type' => 'text',		'length' => 255),
+		'subject_type'	=> array('type' => 'text',		'length' => 30),
+		'subject_id'	=> array('type' => 'integer',	'length' => 4),
+		'context_type'	=> array('type' => 'text',		'length' => 30),
+		'context_id'	=> array('type' => 'integer',	'length' => 4)
+	);
+
+	$ilDB->createTable('wfe_startup_events', $fields);
+	$ilDB->addPrimaryKey('wfe_startup_events', array('event_id'));
+	$ilDB->createSequence('wfe_startup_events');
+}
+
+if(!$ilDB->tableExists('wfe_static_inputs'))
+{
+	$fields = array (
+		'input_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
+		'event_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
+		'name'			=> array('type' => 'text',	  'length' => 255),
+		'value'			=> array('type' => 'clob')
+	);
+
+	$ilDB->createTable('wfe_static_inputs', $fields);
+	$ilDB->addPrimaryKey('wfe_static_inputs', array('input_id'));
+	$ilDB->createSequence('wfe_static_inputs');
 }
 
 // -----------------------------------------------------------------------------

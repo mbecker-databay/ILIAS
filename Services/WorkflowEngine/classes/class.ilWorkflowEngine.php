@@ -21,11 +21,24 @@ class ilWorkflowEngine
 	 */
 	private $mass_action;
 
+	/**
+	 * ilWorkflowEngine constructor.
+	 *
+	 * @param bool $a_mass_action
+	 */
 	public function __construct($a_mass_action = false)
 	{
 		$this->mass_action = (bool) $a_mass_action;
 	}
 
+	/**
+	 * @param string  $a_type
+	 * @param string  $a_content
+	 * @param string  $a_subject_type
+	 * @param integer $a_subject_id
+	 * @param string  $a_context_type
+	 * @param integer $a_context_id
+	 */
 	public function processEvent(
 		$a_type,
 		$a_content,
@@ -35,8 +48,8 @@ class ilWorkflowEngine
 		$a_context_id
 	)
 	{
-		// TODO During process, it needs to check for uninitialized workflows that start on an event.
-		// Get listening events.
+
+		// Get listening event-detectors.
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 		$workflows = ilWorkflowDbHelper::getDetectors(
 			$a_type, 
@@ -69,26 +82,25 @@ class ilWorkflowEngine
 
 	public function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		// Event incoming, check ServiceDisco, call appropriate extractors.
-		#$extractor = ilExtractorFactory::getExtractorByEventDescriptorPair($a_component, $a_event);
-		#$extracted_params = $extractor->extract($a_parameter);
-		#Until we have this goodness, we return here.
-		return;
+		// Event incoming, check ServiceDisco (TODO, for now we're using a non-disco factory), call appropriate extractors.
 
-		$extracted_params = array(
-			'subject_type' 	=> 'example_subject',
-			'subject_id'	=> 123,
-			'context_type'	=> 'example_context',
-			'context_id'	=> 456
-		);
+		require_once './Services/WorkflowEngine/classes/extractors/class.ilExtractorFactory.php';
+		require_once './Services/WorkflowEngine/interfaces/ilExtractor.php';
 
-		$this->processEvent(
-			$a_component, 
-			$a_event, 
-			$extracted_params['subject_type'],
-			$extracted_params['subject_id'],
-			$extracted_params['context_type'],
-			$extracted_params['context_id']
-		);
+		$extractor = ilExtractorFactory::getExtractorByEventDescriptor($a_component);
+
+		if($extractor instanceof ilExtractor)
+		{
+			$extracted_params = $extractor->extract($a_event, $a_parameter);
+
+			$this->processEvent(
+				$a_component,
+				$a_event,
+				$extracted_params->getSubjectType(),
+				$extracted_params->getSubjectId(),
+				$extracted_params->getContextType(),
+				$extracted_params->getContextId()
+			);
+		}
 	}
 }

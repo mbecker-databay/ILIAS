@@ -359,4 +359,47 @@ class ilWorkflowDbHelper
 
 		return $instance;
 	}
+
+	/**
+	 * Takes a detector as an argument and saves it to the database.
+	 *
+	 * @global ilDB $ilDB
+	 *
+	 * @param array $event
+	 */
+	public static function writeStartEventData($event, $process_id)
+	{
+		global $ilDB;
+
+		$event_id = $ilDB->nextId('wfe_startup_events');
+
+		$ilDB->insert('wfe_startup_events',
+					  array(
+						  'event_id'		=> array ('integer', $event_id),
+						  'workflow_id'		=> array ('text', $process_id),
+						  'type'				=> array ('text', $event['type'] ),
+						  'content'			=> array ('text', $event['content']),
+						  'subject_type'		=> array ('text', $event['subject_type']),
+						  'subject_id'		=> array ('integer', $event['subject_id']),
+						  'context_type'		=> array ('text', $event['context_type']),
+						  'context_id'		=> array ('integer', $event['context_id'])
+					  )
+		);
+		return $event_id;
+	}
+
+	public static function writeStaticInput($key, $value, $start_event)
+	{
+		global $ilDB;
+
+		$ilDB->insert(
+			'wfe_static_inputs',
+			array(
+				'input_id'	=> array ('integer', $ilDB->nextId('wfe_static_inputs')),
+				'event_id'	=> array ('integer', $start_event),
+				'name'		=> array ('text',    $key),
+				'value'		=> array ('text',    $value)
+			)
+		);
+	}
 }

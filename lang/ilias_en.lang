@@ -15234,8 +15234,21 @@ wfe#:#start_process#:#Start Process
 wfe#:#process_started#:#Process started
 wfe#:#input_variables_required#:#Input required
 wfe#:#input_variables_desc#:#The process requires the following data to start:
+wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:
 wfe#:#delete_definition#:#Delete Definition
 wfe#:#definition_deleted#:#Workflow-Definition deleted.
+wfe#:#subject_type#:#Subject Type
+wfe#:#subject_id#:#Subject ID
+wfe#:#subject_by_id#:#Subject By ID
+wfe#:#subject_by_mask#:#Masked Subject
+wfe#:#context_type#:#Context Type
+wfe#:#context_id#:#Context ID
+wfe#:#context_by_id#:#Context By ID
+wfe#:#context_by_mask#:#Masked Context
+wfe#:#start_listening#:#Activate Listener
+wfe#:#stop_listening#:#Deactivate Listener
+wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
+wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
 dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.
 administration#:#adm_missing_entries#:#Missing Entries
