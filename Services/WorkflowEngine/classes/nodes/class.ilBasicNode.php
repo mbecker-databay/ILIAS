@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
@@ -14,8 +14,6 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
  */
 class ilBasicNode extends ilBaseNode
 {
-
-
 	/**
 	 * This holds if the node represents a forward condition.
 	 * 
@@ -29,15 +27,20 @@ class ilBasicNode extends ilBaseNode
 	 */
 	private $is_forward_condition_node;
 
+	/** @var bool $is_forward_condition_event*/
+	public $is_forward_condition_event;
+
+	/** @var string $ident */
+	public $ident;
 
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilWorkflow $a_context Reference to the workflow the node is attached to.
+	 * @param ilWorkflow $context Reference to the workflow the node is attached to.
 	 */
-	public function __construct(ilWorkflow $a_context)
+	public function __construct(ilWorkflow $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 		$this->detectors = array();
 		$this->emitters = array();
 		$this->activities = array();
@@ -79,7 +82,7 @@ class ilBasicNode extends ilBaseNode
 		}
 		$this->onDeactivate();
 	}
-	
+
 	/**
 	 * Checks, if the preconditions of the node to transit are met.
 	 * 
@@ -133,6 +136,7 @@ class ilBasicNode extends ilBaseNode
 			}
 		}
 	}
+
 	/**
 	 * Executes all attached emitters.
 	 */
@@ -160,10 +164,12 @@ class ilBasicNode extends ilBaseNode
 
 	/**
 	 * This method is called by detectors, that just switched to being satisfied.
-	 * 
-	 * @param ilDetector $a_detector ilDetector which is now satisfied.
+	 *
+	 * @param ilDetector $detector ilDetector which is now satisfied.
+	 *
+	 * @return mixed|void
 	 */
-	public function notifyDetectorSatisfaction(ilDetector $a_detector) 
+	public function notifyDetectorSatisfaction(ilDetector $detector)
 	{
 		if ($this->isActive())
 		{
@@ -191,7 +197,7 @@ class ilBasicNode extends ilBaseNode
 	 * Deactivates all forward condition nodes except for the given one.
 	 * 
 	 * @see is_forward_condition_node for how this thing works.
-	 *                                
+	 *
 	 * @param ilNode $activated_node
 	 */
 	public function deactivateForwardConditionNodes(ilNode $activated_node)
@@ -202,8 +208,10 @@ class ilBasicNode extends ilBaseNode
 			{
 				/** @var ilSimpleEmitter $emitter */
 				$target_detector = $emitter->getTargetDetector();
+
 				/** @var ilWorkflowEngineElement $target_node */
 				$target_node = $target_detector->getContext();
+
 				if ($target_node === $activated_node)
 				{
 					continue;
@@ -226,6 +234,4 @@ class ilBasicNode extends ilBaseNode
 			}
 		}
 	}
-
-
 }

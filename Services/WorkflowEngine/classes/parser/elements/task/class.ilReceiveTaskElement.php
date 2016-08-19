@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilReceiveTaskElement
@@ -11,8 +11,15 @@
  */
 class ilReceiveTaskElement extends ilBaseElement
 {
+	/** @var string $element_varname */
 	public $element_varname;
-	
+
+	/**
+	 * @param                     $element
+	 * @param \ilWorkflowScaffold $class_object
+	 *
+	 * @return string
+	 */
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
@@ -26,24 +33,29 @@ class ilReceiveTaskElement extends ilBaseElement
 			{
 				if($child['name'] == 'messageEventDefinition')
 				{
-					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['messageRef'], 'message', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+						$child['attributes']['messageRef'], 'message', $this->bpmn2_array);
 				}
 				if($child['name'] == 'signalEventDefinition')
 				{
-					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+						$child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
 				}
 				if($child['name'] == 'timerEventDefinition')
 				{
-					$event_definition = ilBPMN2ParserUtils::extractTimeDateEventDefinitionFromElement($child['attributes']['id'], 'intermediateCatchEvent', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractTimeDateEventDefinitionFromElement(
+						$child['attributes']['id'], 'intermediateCatchEvent', $this->bpmn2_array);
 				}
 			}
 		}
+
 		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
 		$code .= '
 			' . $this->element_varname . ' = new ilBasicNode($this);
 			$this->addNode(' . $this->element_varname . ');
 			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
+
 		if(is_array($event_definition))
 		{
 			$class_object->registerRequire('./Services/WorkflowEngine/classes/detectors/class.ilEventDetector.php');
@@ -60,7 +72,9 @@ class ilReceiveTaskElement extends ilBaseElement
 					', ' . (int) $event_definition['listening_end'] . ');';
 			}
 		}
+
 		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
+
 		return $code;
 	}
-} 
+}

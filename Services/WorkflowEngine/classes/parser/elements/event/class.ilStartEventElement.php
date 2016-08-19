@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilStartEventElement
@@ -11,8 +11,15 @@
  */
 class ilStartEventElement extends ilBaseElement
 {
+	/** @var string $element_varname */
 	public $element_varname;
-	
+
+	/**
+	 * @param                     $element
+	 * @param \ilWorkflowScaffold $class_object
+	 *
+	 * @return string
+	 */
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
@@ -27,17 +34,20 @@ class ilStartEventElement extends ilBaseElement
 				if($child['name'] == 'messageEventDefinition')
 				{
 					$class_object->registerStartEventRef($child['attributes']['messageRef']);
-					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['messageRef'], 'message', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+						$child['attributes']['messageRef'], 'message', $this->bpmn2_array);
 				}
 				if($child['name'] == 'signalEventDefinition')
 				{
 					$class_object->registerStartSignalRef($child['attributes']['signalRef']);
-					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+						$child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
 				}
 				if($child['name'] == 'timerEventDefinition')
 				{
 					$class_object->registerStartTimerRef($child['attributes']['id']);
-					$event_definition = ilBPMN2ParserUtils::extractTimeDateEventDefinitionFromElement($child['attributes']['id'], 'startEvent', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractTimeDateEventDefinitionFromElement(
+						$child['attributes']['id'], 'startEvent', $this->bpmn2_array);
 					//$event_definition = $class_object->getTimeDateEventDefinition($child['attributes']['id']);
 				}
 			}
@@ -48,6 +58,7 @@ class ilStartEventElement extends ilBaseElement
 			$this->addNode(' . $this->element_varname . ');
 			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
+
 		if(is_array($event_definition))
 		{
 			$class_object->registerRequire('./Services/WorkflowEngine/classes/detectors/class.ilEventDetector.php');
@@ -63,13 +74,16 @@ class ilStartEventElement extends ilBaseElement
 				$code .= $this->element_varname . '_detector->setListeningTimeframe(' .(int) $event_definition['listening_start'] . 
 					', ' . (int) $event_definition['listening_end'] . ');';
 			}
-			$a = 1;
-		} else {
+		}
+		else
+		{
 			$code .= '
 			$this->setStartNode(' . $this->element_varname . ');
 			';
 		}
+
 		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
+
 		return $code;
 	}
-} 
+}

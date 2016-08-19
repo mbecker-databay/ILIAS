@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilIntermediateThrowEventElement
@@ -11,8 +11,15 @@
  */
 class ilIntermediateThrowEventElement extends ilBaseElement
 {
+	/** @var string $element_varname */
 	public $element_varname;
-	
+
+	/**
+	 * @param                     $element
+	 * @param \ilWorkflowScaffold $class_object
+	 *
+	 * @return string
+	 */
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
@@ -41,6 +48,7 @@ class ilIntermediateThrowEventElement extends ilBaseElement
 			$this->addNode(' . $this->element_varname . ');
 			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
+
 		if(isset($event_definition['type']) && isset($event_definition['content']))
 		{
 			$class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php');
@@ -52,6 +60,7 @@ class ilIntermediateThrowEventElement extends ilBaseElement
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_throwEventActivity);
 			';
 		}
+
 		return $code;
 	}
-} 
+}

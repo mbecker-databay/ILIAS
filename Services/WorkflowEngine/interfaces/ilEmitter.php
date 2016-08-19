@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilEmitter Interface is part of the petri net based workflow engine.
@@ -15,5 +15,8 @@
  */
 interface ilEmitter
 {
+	/**
+	 * @return mixed
+	 */
 	public function emit();
 }

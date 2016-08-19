@@ -1,6 +1,7 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
 require_once './Services/Component/classes/class.ilPlugin.php';
 
 /**

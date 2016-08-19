@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilWorkflowEngine is part of the petri net based workflow engine.
@@ -32,32 +32,33 @@ class ilWorkflowEngine
 	}
 
 	/**
-	 * @param string  $a_type
-	 * @param string  $a_content
-	 * @param string  $a_subject_type
-	 * @param integer $a_subject_id
-	 * @param string  $a_context_type
-	 * @param integer $a_context_id
+	 * @param string  $type
+	 * @param string  $content
+	 * @param string  $subject_type
+	 * @param integer $subject_id
+	 * @param string  $context_type
+	 * @param integer $context_id
 	 */
 	public function processEvent(
-		$a_type,
-		$a_content,
-		$a_subject_type,
-		$a_subject_id,
-		$a_context_type,
-		$a_context_id
+		$type,
+		$content,
+		$subject_type,
+		$subject_id,
+		$context_type,
+		$context_id
 	)
 	{
 
 		// Get listening event-detectors.
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 		$workflows = ilWorkflowDbHelper::getDetectors(
-			$a_type, 
-			$a_content, 
-			$a_subject_type, 
-			$a_subject_id, 
-			$a_context_type, 
-			$a_context_id
+			$type,
+			$content,
+			$subject_type,
+			$subject_id,
+			$context_type,
+			$context_id
 		);
 
 		if (count($workflows) != 0)
@@ -67,12 +68,12 @@ class ilWorkflowEngine
 				$wf_instance = ilWorkflowDbHelper::wakeupWorkflow($workflow_id);
 				$wf_instance->handleEvent(
 					array(
-						$a_type, 
-						$a_content, 
-						$a_subject_type, 
-						$a_subject_id, 
-						$a_context_type, 
-						$a_context_id
+						$type,
+						$content,
+						$subject_type,
+						$subject_id,
+						$context_type,
+						$context_id
 					)
 				);
 				ilWorkflowDbHelper::writeWorkflow($wf_instance);
@@ -80,22 +81,29 @@ class ilWorkflowEngine
 		}
 	}
 
-	public function handleEvent($a_component, $a_event, $a_parameter)
+	/**
+	 * @param string $component
+	 * @param string $event
+	 * @param array  $parameter
+	 */
+	public function handleEvent($component, $event, $parameter)
 	{
 		// Event incoming, check ServiceDisco (TODO, for now we're using a non-disco factory), call appropriate extractors.
 
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/extractors/class.ilExtractorFactory.php';
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/interfaces/ilExtractor.php';
 
-		$extractor = ilExtractorFactory::getExtractorByEventDescriptor($a_component);
+		$extractor = ilExtractorFactory::getExtractorByEventDescriptor($component);
 
 		if($extractor instanceof ilExtractor)
 		{
-			$extracted_params = $extractor->extract($a_event, $a_parameter);
+			$extracted_params = $extractor->extract($event, $parameter);
 
 			$this->processEvent(
-				$a_component,
-				$a_event,
+				$component,
+				$event,
 				$extracted_params->getSubjectType(),
 				$extracted_params->getSubjectId(),
 				$extracted_params->getContextType(),

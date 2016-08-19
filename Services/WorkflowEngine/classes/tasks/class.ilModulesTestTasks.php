@@ -1,8 +1,21 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Class ilModulesTestTasks
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ * @version $Id$
+ *
+ */
 class ilModulesTestTasks
 {
-
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
+	 * @return array
+	 */
 	public static function createTestInCourse($context, $params)
 	{
 		//IN: targetref, titlestring
@@ -26,9 +39,16 @@ class ilModulesTestTasks
 		$test_object->saveToDb();
 
 		$retval = array($output_params[0] => $test_object->getRefId());
+
 		return $retval;
 	}
 
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
+	 * @return array
+	 */
 	public static function assignUsersToTest($context, $params)
 	{
 		require_once './Modules/Test/classes/class.ilObjTest.php';
@@ -44,5 +64,4 @@ class ilModulesTestTasks
 			$test_object->inviteUser($user_id);
 		}
 	}
-
 }

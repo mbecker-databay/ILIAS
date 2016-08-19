@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
@@ -19,24 +19,28 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 	/** @var ilWorkflowEngineElement $context Holds a reference to the parent object */
 	private $context;
 
+	/** @var string $method */
 	private $method = '';
-	
+
 	/** @var string $name */
 	protected $name;
 
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilNode $a_context 
+	 * @param ilNode $context
 	 */
-	public function __construct(ilNode $a_context)
+	public function __construct(ilNode $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 	}
 
-	public function setMethod($a_value)
+	/**
+	 * @param string $value
+	 */
+	public function setMethod($value)
 	{
-		$this->method = $a_value;
+		$this->method = $value;
 	}
 
 	/**
@@ -54,8 +58,6 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 	/**
 	 * Executes this action according to its settings.
 	 * 
-	 * @todo Use exceptions / internal logging.
-	 *
 	 * @return void
 	 */
 	public function execute()
@@ -78,15 +80,19 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 		return $this->context;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
-
-
 }

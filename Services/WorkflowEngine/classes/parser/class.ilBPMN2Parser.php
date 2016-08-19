@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBPMN2Parser
@@ -11,7 +11,12 @@
  */
 class ilBPMN2Parser 
 {
-
+	/**
+	 * @param string      $bpmn2_xml
+	 * @param string|null $workflow_name
+	 *
+	 * @return string
+	 */
 	public function parseBPMN2XML($bpmn2_xml, $workflow_name = null)
 	{
 		$bpmn2_array = $this->convertXmlToArray( $bpmn2_xml );
@@ -36,19 +41,22 @@ class ilBPMN2Parser
 			$stashed_process_extensions = array(); // It was found that modelers add extensions at process level,
 											   // they are stored for possible future use.
 			require_once './Services/WorkflowEngine/classes/parser/elements/class.ilBPMN2ElementLoader.php';
+
 			$loader = new ilBPMN2ElementLoader($bpmn2_array);
+
 			foreach($process['children'] as $element)
 			{
 				if($element['name'] == 'ioSpecification')
 				{
-					$a = 1;
 					foreach($element['children'] as $iospec_element)
 					{
 						$element_object = $loader->load($iospec_element['name']);
 						$constructor_method_content .= $element_object->getPHP($iospec_element, $class_object);
 					}
+
 					continue;
 				}
+
 				if($element['name'] == 'sequenceFlow')
 				{
 					$stashed_sequence_flows[] = $element;
@@ -67,11 +75,13 @@ class ilBPMN2Parser
 					$constructor_method_content .= $element_object->getPHP($element, $class_object);
 				}
 			}
+
 			foreach($stashed_sequence_flows as $element)
 			{
 				$element_object = $loader->load($element['name']);
 				$constructor_method_content .= $element_object->getPHP($element, $class_object);
 			}
+
 			foreach($stashed_associations as $element)
 			{
 				$element_object = $loader->load($element['name']);
@@ -87,6 +97,7 @@ class ilBPMN2Parser
 				$element_object = $loader->load('messageDefinition');
 				$message_definitions[] = $element_object->getMessageDefinitionArray($message);
 			}
+
 			$code = '
 			public static function getMessageDefinition($id)
 			{
@@ -100,6 +111,7 @@ class ilBPMN2Parser
 
 		$class_object->setConstructorMethodContent($constructor_method_content);
 		$class_source = '';
+
 		if (strlen($constructor_method_content))
 		{
 			$class_source .= $class_object->getPHP();
@@ -109,7 +121,7 @@ class ilBPMN2Parser
 	}
 
 	/**
-	 * @param $xml
+	 * @param string $xml
 	 *
 	 * @return mixed
 	 */
@@ -122,7 +134,7 @@ class ilBPMN2Parser
 	}
 
 	/**
-	 * @param $bpmn2
+	 * @param array $bpmn2
 	 *
 	 * @return array
 	 */
@@ -140,6 +152,11 @@ class ilBPMN2Parser
 		return $process;
 	}
 
+	/**
+	 * @param array $bpmn2
+	 *
+	 * @return array
+	 */
 	public function getMessageNodesFromArray($bpmn2)
 	{
 		$messages = array();
@@ -155,9 +172,9 @@ class ilBPMN2Parser
 	}
 
 	/**
-	 * @param $workflow_name
-	 * @param $bpmn2_array
-	 * @param $process
+	 * @param string $workflow_name
+	 * @param array  $bpmn2_array
+	 * @param array  $process
 	 *
 	 * @return mixed
 	 */
@@ -180,4 +197,4 @@ class ilBPMN2Parser
 		}
 		return $workflow_name;
 	}
-} 
+}

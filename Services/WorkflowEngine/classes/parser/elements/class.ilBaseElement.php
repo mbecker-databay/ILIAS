@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBaseElement
@@ -11,6 +11,7 @@
  */
 abstract class ilBaseElement
 {
+	/** @var array $bpmn2_array */
 	protected $bpmn2_array;
 
 	/**
@@ -29,6 +30,13 @@ abstract class ilBaseElement
 		$this->bpmn2_array = $bpmn2_array;
 	}
 
+	/**
+	 * @param array              $element
+	 * @param ilWorkflowScaffold $class_object
+	 * @param string             $element_varname
+	 *
+	 * @return string
+	 */
 	public function handleDataAssociations($element, $class_object, $element_varname)
 	{
 		$code = '';
@@ -62,9 +70,15 @@ abstract class ilBaseElement
 				}
 			}
 		}
+
 		return $code;
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return array
+	 */
 	public function getDataInputAssociationIdentifiers($element)
 	{
 		$retval = array();
@@ -85,9 +99,15 @@ abstract class ilBaseElement
 				}
 			}
 		}
+
 		return $retval;
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return array
+	 */
 	public function getDataOutputAssociationIdentifiers($element)
 	{
 		$retval = array();
@@ -108,6 +128,7 @@ abstract class ilBaseElement
 				}
 			}
 		}
+
 		return $retval;
 	}
 }

@@ -9,31 +9,38 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-
-// as per http://php.net/manual/en/simplexmlelement.children.php#100603
-
-
 class ilBPMN2ParserUtils 
 {
 	#region XML to Array conversion
+	// as per http://php.net/manual/en/simplexmlelement.children.php#100603
 
-	public function load_string ($xml_string) 
+	/**
+	 * @param string $xml_string
+	 *
+	 * @return mixed
+	 */
+	public function load_string ($xml_string)
 	{
 		$node=@simplexml_load_string($xml_string);
 		return $this->add_node($node);
 	}
 
+	/**
+	 * @param        $node
+	 * @param null   $parent
+	 * @param string $namespace
+	 * @param bool   $recursive
+	 *
+	 * @return mixed
+	 */
 	private function add_node ($node, &$parent=null, $namespace='', $recursive=false) 
 	{
-		if(!($node instanceof SimpleXMLElement))
-		{
-			$a = 1;
-		}
 		$namespaces = $node->getNameSpaces(true);
 		$content="$node";
 
 		$r['name']=$node->getName();
-		if (!$recursive) {
+		if (!$recursive)
+		{
 			$tmp=array_keys($node->getNameSpaces(false));
 			$r['namespace']=$tmp[0];
 			$r['namespaces']=$namespaces;
@@ -41,27 +48,40 @@ class ilBPMN2ParserUtils
 		if ($namespace) $r['namespace']=$namespace;
 		if ($content) $r['content']=$content;
 
-		foreach ($namespaces as $pre=>$ns) {
-			foreach ($node->children($ns) as $k=>$v) {
+		foreach ($namespaces as $pre=>$ns)
+		{
+			foreach ($node->children($ns) as $k=>$v)
+			{
 				$this->add_node($v, $r['children'], $pre, true);
 			}
-			foreach ($node->attributes($ns) as $k=>$v) {
+			foreach ($node->attributes($ns) as $k=>$v)
+			{
 				$r['attributes'][$k]="$pre:$v";
 			}
 		}
-		foreach ($node->children() as $k=>$v) {
+
+		foreach ($node->children() as $k=>$v)
+		{
 			$this->add_node($v, $r['children'], '', true);
 		}
-		foreach ($node->attributes() as $k=>$v) {
+
+		foreach ($node->attributes() as $k=>$v)
+		{
 			$r['attributes'][$k]="$v";
 		}
 
 		$parent[]=&$r;
+
 		return $parent[0];
 	}
 
 	#endregion
 
+	/**
+	 * @param string $xsID
+	 *
+	 * @return string
+	 */
 	public static function xsIDToPHPVarname($xsID)
 	{
 		/*
@@ -84,6 +104,13 @@ class ilBPMN2ParserUtils
 		return $xsID_converted;
 	}
 
+	/**
+	 * @param srting $start_event_ref
+	 * @param string $type
+	 * @param array  $bpmn2_array
+	 *
+	 * @return array
+	 */
 	public static function extractILIASEventDefinitionFromProcess($start_event_ref, $type, $bpmn2_array)
 	{
 		$descriptor_extension = array();
@@ -141,6 +168,13 @@ class ilBPMN2ParserUtils
 		return $event_definition;
 	}
 
+	/**
+	 * @param string $start_event_ref
+	 * @param string $type
+	 * @param array  $bpmn2_array
+	 *
+	 * @return array
+	 */
 	public static function extractTimeDateEventDefinitionFromElement($start_event_ref, $type, $bpmn2_array)
 	{
 		$content = '';
@@ -154,7 +188,7 @@ class ilBPMN2ParserUtils
 					{
 						if($event_child['name'] == 'timerEventDefinition')
 						{
-							$content       = $event_child['children'][0]['content'];
+							$content = $event_child['children'][0]['content'];
 						}
 					}
 				}
@@ -162,6 +196,7 @@ class ilBPMN2ParserUtils
 		}
 		$start = date('U',strtotime($content));
 		$end = 0;
+
 		return array(
 			'type' 				=> 'time_passed',
 			'content'			=> 'time_passed',
@@ -174,6 +209,11 @@ class ilBPMN2ParserUtils
 		);
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return array
+	 */
 	public static function extractILIASLibraryCallDefinitionFromElement($element)
 	{
 		$library_call = array();
@@ -208,6 +248,11 @@ class ilBPMN2ParserUtils
 		);
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return string
+	 */
 	public static function extractScriptDefinitionFromElement($element)
 	{
 		$code = '';
@@ -221,12 +266,18 @@ class ilBPMN2ParserUtils
 		return $code;
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return null
+	 */
 	public static function extractDataNamingFromElement($element)
 	{
 		if(!isset($element['children']))
 		{
 			return null;
 		}
+
 		foreach($element['children'] as $child)
 		{
 			if($child['name'] == 'extensionElements')
@@ -250,15 +301,22 @@ class ilBPMN2ParserUtils
 				}
 			}
 		}
+
 		return null;
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return null|array
+	 */
 	public static function extractILIASInputPropertiesFromElement($element)
 	{
 		if(!isset($element['children']))
 		{
 			return null;
 		}
+
 		$retval = null;
 		foreach((array)$element['children'] as $child)
 		{
@@ -287,12 +345,18 @@ class ilBPMN2ParserUtils
 		return $retval;
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return null|array
+	 */
 	public static function extractILIASDataObjectDefinitionFromElement($element)
 	{
 		if(!isset($element['children']))
 		{
 			return null;
 		}
+
 		$retval = null;
 		foreach((array)$element['children'] as $child)
 		{
@@ -322,12 +386,18 @@ class ilBPMN2ParserUtils
 		return $retval;
 	}
 
+	/**
+	 * @param array $element
+	 *
+	 * @return null|array
+	 */
 	public static function extractILIASMessageDefinitionFromElement($element)
 	{
 		if(!isset($element['children']))
 		{
 			return null;
 		}
+
 		$retval = null;
 		foreach((array)$element['children'] as $child)
 		{
@@ -353,6 +423,7 @@ class ilBPMN2ParserUtils
 				}
 			}
 		}
+
 		return $retval;
 	}
 }

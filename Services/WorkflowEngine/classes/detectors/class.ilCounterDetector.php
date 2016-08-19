@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
@@ -36,21 +36,21 @@ class ilCounterDetector extends ilSimpleDetector
 	/**
 	 * Default constructor, passing the context to the parent constructor.
 	 * 
-	 * @param ilNode $a_context 
+	 * @param ilNode $context
 	 */
-	public function __construct(ilNode $a_context)
+	public function __construct(ilNode $context)
 	{
-		parent::__construct($a_context);
+		parent::__construct($context);
 	}
 
 	/**
 	 * Set the expected trigger event count before the detector is satisfied.
 	 * 
-	 * @param integer $a_count 
+	 * @param integer $count
 	 */
-	public function setExpectedTriggerEvents($a_count)
+	public function setExpectedTriggerEvents($count)
 	{
-		$this->expected_trigger_events = (int) $a_count;
+		$this->expected_trigger_events = (int) $count;
 	}
 
 	/**
@@ -80,35 +80,33 @@ class ilCounterDetector extends ilSimpleDetector
 	 * Reason this method exists, is to allow the workflow controller to 
 	 * "fast forward" workflows to set a non-default state. I.e. a workflow
 	 * has to be set into a state in the middle of running. Use with care.
-	 * 
-	 * @todo Throw exception on illegal $a_count
-	 * 
-	 * @param integer $a_count Number of past trigger events.
+	 *
+	 * @param integer $count Number of past trigger events.
 	 * 
 	 */
-	public function setActualTriggerEvents($a_count)
+	public function setActualTriggerEvents($count)
 	{
-		if ($this->expected_trigger_events < (int) $a_count)
+		if ($this->expected_trigger_events < (int) $count)
 		{
-			$this->actual_trigger_events = $a_count;
+			$this->actual_trigger_events = $count;
 		} 
 		else 
 		{
-			// throw actual must be smaller than expected.
+			// TODO: throw actual must be smaller than expected.
 		}
 	}
-		
+
 	/**
 	 * Trigger this detector. Params are an array. These are part of the interface
 	 * but ignored here.
 	 * 
 	 * @todo Handle ignored $a_params.
 	 * 
-	 * @param array $a_params
+	 * @param array $params
 	 * 
 	 * @return boolean False, if detector was already satisfied before. 
-	 */	
-	public function trigger($a_params)
+	 */
+	public function trigger($params)
 	{
 		if ($this->actual_trigger_events < $this->expected_trigger_events)
 		{

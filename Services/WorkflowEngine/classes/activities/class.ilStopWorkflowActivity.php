@@ -1,9 +1,13 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
+/** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
+/** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilNode.php';
+
 /**
  * Workflow Node of the petri net based workflow engine.
  * 
@@ -32,22 +36,23 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilNode $a_context 
+	 * @param ilNode $context
 	 */
-	public function __construct(ilNode $a_context)
+	public function __construct(ilNode $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 	}
-	
+
 	/**
 	 * Returns the parent object. Type is ilNode, implements ilWorkflowEngineElement
+	 *
 	 * @return ilNode Parent node of this element.
 	 */
 	public function getContext()
 	{
 		return $this->context;
 	}
-	
+
 	/**
 	 * Executes this action according to its settings.
 	 * 
@@ -63,20 +68,27 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
 		$workflow->stopWorkflow();
 	}
 
+	/**
+	 * Destructor
+	 */
 	public function __destruct()
 	{
 		unset($this->context);
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
-
-
 }

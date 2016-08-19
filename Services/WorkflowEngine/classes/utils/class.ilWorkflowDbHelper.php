@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilWorkflowDbHelper is part of the petri net based workflow engine.
@@ -18,38 +18,38 @@ class ilWorkflowDbHelper
 {
 	const DB_MODE_CREATE = 0;
 	const DB_MODE_UPDATE = 1;
-	
+
 	/**
 	 * Takes a workflow as an argument and saves it to the database.
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDB      $ilDB
 	 * 
-	 * @param ilWorkflow $a_workflow 
+	 * @param ilWorkflow $workflow
 	 */
-	public static function writeWorkflow(ilWorkflow $a_workflow)
+	public static function writeWorkflow(ilWorkflow $workflow)
 	{
 		global $ilDB;
 
-		$require_data_persistance = $a_workflow->isDataPersistenceRequired();
-		$a_workflow->resetDataPersistenceRequirement();
+		$require_data_persistance = $workflow->isDataPersistenceRequired();
+		$workflow->resetDataPersistenceRequirement();
 
-		if ($a_workflow->hasDbId())
+		if ($workflow->hasDbId())
 		{
-			$wf_id = $a_workflow->getDbId();
+			$wf_id = $workflow->getDbId();
 			$mode = self::DB_MODE_UPDATE;
 		} 
 		else
 		{
 			$wf_id = $ilDB->nextId('wfe_workflows');
-			$a_workflow->setDbId($wf_id);
+			$workflow->setDbId($wf_id);
 			$mode = self::DB_MODE_CREATE;
 		}
 
-		$wf_data = $a_workflow->getWorkflowData();
-		$wf_subject = $a_workflow->getWorkflowSubject();
-		$wf_context = $a_workflow->getWorkflowContext();
-		$active = $a_workflow->isActive();
-		$instance = serialize($a_workflow);
+		$wf_data = $workflow->getWorkflowData();
+		$wf_subject = $workflow->getWorkflowSubject();
+		$wf_context = $workflow->getWorkflowContext();
+		$active = $workflow->isActive();
+		$instance = serialize($workflow);
 
 		if ($mode == self::DB_MODE_UPDATE)
 		{
@@ -57,8 +57,8 @@ class ilWorkflowDbHelper
 				array(
 					'workflow_type'		=> array ('text', $wf_data['type'] ),
 					'workflow_content'	=> array ('text', $wf_data['content']),
-					'workflow_class'	=> array ('test', $a_workflow->getWorkflowClass()),
-					'workflow_location' => array ('test', $a_workflow->getWorkflowLocation()),
+					'workflow_class'	=> array ('test', $workflow->getWorkflowClass()),
+					'workflow_location' => array ('test', $workflow->getWorkflowLocation()),
 					'subject_type'		=> array ('text', $wf_subject['type']),
 					'subject_id'		=> array ('integer', $wf_subject['identifier']),
 					'context_type'		=> array ('text', $wf_context['type']),
@@ -78,8 +78,8 @@ class ilWorkflowDbHelper
 				array(
 					'workflow_id'		=> array ('integer', $wf_id),
 					'workflow_type'		=> array ('text', $wf_data['type'] ),
-					'workflow_class'	=> array ('test', $a_workflow->getWorkflowClass()),
-					'workflow_location' => array ('test', $a_workflow->getWorkflowLocation()),
+					'workflow_class'	=> array ('test', $workflow->getWorkflowClass()),
+					'workflow_location' => array ('test', $workflow->getWorkflowLocation()),
 					'workflow_content'	=> array ('text', $wf_data['content']),
 					'subject_type'		=> array ('text', $wf_subject['type']),
 					'subject_id'		=> array ('integer', $wf_subject['identifier']),
@@ -93,16 +93,19 @@ class ilWorkflowDbHelper
 
 		if($require_data_persistance)
 		{
-			self::persistWorkflowIOData($a_workflow);
+			self::persistWorkflowIOData($workflow);
 		}
 	}
 
-	public static function persistWorkflowIOData(ilWorkflow $a_workflow)
+	/**
+	 * @param \ilWorkflow $workflow
+	 */
+	public static function persistWorkflowIOData(ilWorkflow $workflow)
 	{
 		global $ilDB;
-		$workflow_id = $a_workflow->getId();
+		$workflow_id = $workflow->getId();
 
-		$input_data = $a_workflow->getInputVars();
+		$input_data = $workflow->getInputVars();
 		foreach($input_data as $name => $value)
 		{
 			$ilDB->replace(
@@ -112,7 +115,7 @@ class ilWorkflowDbHelper
 			);
 		}
 
-		$output_data = $a_workflow->getOutputVars();
+		$output_data = $workflow->getOutputVars();
 		foreach($output_data as $name => $value)
 		{
 			$ilDB->replace(
@@ -210,6 +213,7 @@ class ilWorkflowDbHelper
 		{
 			$det_context['identifier'] = $wf_id;
 		}
+
 		if($det_subject['identifier'] == '{{THIS:WFID}}')
 		{
 			$det_subject['identifier'] = $wf_id;
@@ -253,27 +257,28 @@ class ilWorkflowDbHelper
 			);
 		}
 	}
-	
+
 	/**
 	 * Takes a detector as an argument and deletes the corresponding entry
 	 * from the database.
-	 * 
-	 * @global ilDB $ilDB
-	 * 
-	 * @param ilDetector $a_detector 
+	 *
+	 * @param \ilDetector|\ilExternalDetector $detector
+	 *
+	 * @global ilDB                           $ilDB
+	 *
 	 */
-	public static function deleteDetector(ilExternalDetector $a_detector)
+	public static function deleteDetector(ilExternalDetector $detector)
 	{
 		global $ilDB;
-		
-		if ($a_detector->hasDbId())
+
+		if ($detector->hasDbId())
 		{
 			$ilDB->manipulate(
 				'DELETE
 				FROM wfe_det_listening
-				WHERE detector_id = ' . $ilDB->quote($a_detector->getDbId(), 'integer')
+				WHERE detector_id = ' . $ilDB->quote($detector->getDbId(), 'integer')
 			);
-			$a_detector->setDbId(null);
+			$detector->setDbId(null);
 		}
 		else
 		{
@@ -284,27 +289,28 @@ class ilWorkflowDbHelper
 	/**
 	 * Gets a list of all listening detectors for the given event.
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDB   $ilDB
 	 * 
-	 * @param string  $a_type Type of the event.
-	 * @param string  $a_content Content of the event.
-	 * @param string  $a_subject_type Type of the subject, e.g. usr.
-	 * @param integer $a_subject_id Identifier of the subject, eg. 6.
-	 * @param string  $a_context_type Type of the context, e.g. crs.
-	 * @param integer $a_context_id Identifier of the context, e.g. 48
+	 * @param string  $type         Type of the event.
+	 * @param string  $content      Content of the event.
+	 * @param string  $subject_type Type of the subject, e.g. usr.
+	 * @param integer $subject_id   Identifier of the subject, eg. 6.
+	 * @param string  $context_type Type of the context, e.g. crs.
+	 * @param integer $context_id   Identifier of the context, e.g. 48
 	 * 
 	 * @return \integer	Array of workflow ids with listening detectors. 
 	 */
 	public static function getDetectors(
-		$a_type,
-		$a_content,
-		$a_subject_type,
-		$a_subject_id,
-		$a_context_type,
-		$a_context_id
+		$type,
+		$content,
+		$subject_type,
+		$subject_id,
+		$context_type,
+		$context_id
 	)
 	{
 		global $ilDB;
+
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
 		$now = ilWorkflowUtils::time();
 		$workflows = array();
@@ -312,12 +318,12 @@ class ilWorkflowDbHelper
 		$result = $ilDB->query(
 			'SELECT workflow_id
 			FROM wfe_det_listening
-			WHERE type = ' . $ilDB->quote($a_type, 'text') . '
-			AND content = ' . $ilDB->quote($a_content, 'text') . '
-			AND subject_type = ' . $ilDB->quote($a_subject_type, 'text') . '
-			AND subject_id = ' . $ilDB->quote($a_subject_id, 'integer') . '
-			AND context_type = ' . $ilDB->quote($a_context_type, 'text') . '
-			AND context_id = ' . $ilDB->quote($a_context_id, 'integer') . '			
+			WHERE type = ' . $ilDB->quote($type, 'text') . '
+			AND content = ' . $ilDB->quote($content, 'text') . '
+			AND subject_type = ' . $ilDB->quote($subject_type, 'text') . '
+			AND subject_id = ' . $ilDB->quote($subject_id, 'integer') . '
+			AND context_type = ' . $ilDB->quote($context_type, 'text') . '
+			AND context_id = ' . $ilDB->quote($context_id, 'integer') . '
 			AND (listening_start = ' . $ilDB->quote(0, 'integer') . ' 
 				 OR (listening_start < ' . $ilDB->quote($now, 'integer') . ' AND listening_end = '. $ilDB->quote(0, 'integer') . ') 
 				 OR listening_end > ' . $ilDB->quote($now, 'integer') . ')'
@@ -334,27 +340,29 @@ class ilWorkflowDbHelper
 	/**
 	 * Wakes a workflow from the database.
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDB   $ilDB
 	 * 
-	 * @param integer $a_id workflow_id.
+	 * @param integer $id workflow_id.
 	 * 
 	 * @return \ilWorkflow An ilWorkflow-implementing instance.
 	 *  
 	 */
-	public static function wakeupWorkflow($a_id)
+	public static function wakeupWorkflow($id)
 	{
 		global $ilDB;
 		$result = $ilDB->query(
 			'SELECT workflow_class, workflow_location, workflow_instance
 			FROM wfe_workflows
-			WHERE workflow_id = ' . $ilDB->quote($a_id, 'integer')
+			WHERE workflow_id = ' . $ilDB->quote($id, 'integer')
 		);
 
 		$workflow = $ilDB->fetchAssoc($result);
 
 		require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 		$path = $workflow['workflow_location'] . $workflow['workflow_class'];
+
 		require_once $path;
+
 		$instance = unserialize($workflow['workflow_instance']);
 
 		return $instance;
@@ -385,9 +393,15 @@ class ilWorkflowDbHelper
 						  'context_id'		=> array ('integer', $event['context_id'])
 					  )
 		);
+
 		return $event_id;
 	}
 
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @param string $start_event
+	 */
 	public static function writeStaticInput($key, $value, $start_event)
 	{
 		global $ilDB;

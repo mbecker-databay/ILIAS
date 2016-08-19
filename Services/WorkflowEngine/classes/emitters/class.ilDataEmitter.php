@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
@@ -46,22 +46,22 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilNode Reference to the parent node. 
+	 * @param ilNode $context Reference to the parent node.
 	 */
-	public function __construct(ilNode $a_context)
+	public function __construct(ilNode $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 		$this->emitted = false;
 	}
-	
+
 	/**
 	 * Sets the target detector for this emitter.
 	 * 
-	 * @param ilDetector $a_target_detector 
+	 * @param ilDetector $target_detector
 	 */
-	public function setTargetDetector(ilDetector $a_target_detector)
+	public function setTargetDetector(ilDetector $target_detector)
 	{
-		$this->target_detector = $a_target_detector;
+		$this->target_detector = $target_detector;
 	}
 
 	/**
@@ -73,7 +73,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 	{
 		return $this->target_detector;
 	}
-	
+
 	/**
 	 * Returns a reference to the parent node of this emitter.
 	 * 
@@ -83,13 +83,12 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 	{
 		return $this->context;
 	}
-	
+
 	/**
 	 * Executes this emitter after activating the target node. 
 	 */
 	public function emit()
 	{
-		//return;
 		$instance_vars = $this->context->getContext()->getInstanceVars();
 
 		$target = $this->var_name;
@@ -97,7 +96,6 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 		{
 			if($instance_var['id'] == $this->var_name)
 			{
-				$name = $instance_var['name'];
 				if($instance_var['reference'])
 				{
 					$target    = $instance_var['target'];
@@ -119,17 +117,26 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 		}
 		$this->emitted = true;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public function getActivated()
 	{
 		return $this->emitted;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
@@ -150,5 +157,4 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 	{
 		$this->var_name = $var_name;
 	}
-
 }

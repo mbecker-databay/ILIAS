@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
@@ -31,6 +31,10 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
 	/** @var string $name */
 	protected $name;
 
+	/**
+	 * @param string $key
+	 * @param mixed  $value
+	 */
 	public function addFixedParam($key, $value)
 	{
 		$this->fixed_params[] = array('key' => $key, 'value' => $value);
@@ -98,6 +102,9 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getParamsArray()
 	{
 		// TODO: Get logic for getting values from incoming data associations.
@@ -118,15 +125,19 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
 		return $this->context;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
-
-
 }

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
@@ -17,6 +17,9 @@ require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.p
  */
 class ilEmptyWorkflow extends ilBaseWorkflow
 {
+	/**
+	 * ilEmptyWorkflow constructor.
+	 */
 	public function __construct()
 	{
 		$this->workflow_type				= 'Empty';
@@ -26,6 +29,6 @@ class ilEmptyWorkflow extends ilBaseWorkflow
 		$this->workflow_context_type		= 'none';
 		$this->workflow_context_id			= '0';
 		$this->workflow_class				= 'class.ilEmptyWorkflow.php';
-		$this->workflow_location			= 'Services/WorkflowEngine/classes/workflows';		
+		$this->workflow_location			= 'Services/WorkflowEngine/classes/workflows';
 	}
 }

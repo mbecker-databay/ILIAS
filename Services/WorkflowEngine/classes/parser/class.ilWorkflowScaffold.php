@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilWorkflowScaffold
@@ -13,8 +13,24 @@ class ilWorkflowScaffold
 {
 	#region Requires / File inclusion
 
+	/** @var array $requires */
 	public $requires = array();
 
+	/** @var string $constructor_method_content */
+	public $constructor_method_content;
+
+	/** @var array $bpmn2_array */
+	public $bpmn2_array;
+
+	/** @var array $auxilliary_methods */
+	public $auxilliary_methods;
+
+	/** @var string $workflow_name */
+	public $workflow_name;
+
+	/**
+	 * @param string $require
+	 */
 	public function registerRequire($require)
 	{
 		if(!in_array($require, $this->requires))
@@ -23,6 +39,9 @@ class ilWorkflowScaffold
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getRequires()
 	{
 		$requires = '';
@@ -37,23 +56,36 @@ class ilWorkflowScaffold
 
 	#region StartEvent Message Registration and Handling
 
+	/** @var array $start_event_refs */
 	public $start_event_refs;
 
+	/**
+	 * @param string $start_event_ref
+	 */
 	public function registerStartEventRef($start_event_ref)
 	{
 		$this->start_event_refs[] = array('type' => 'message', 'ref' => $start_event_ref);
 	}
 
+	/**
+	 * @param string $start_event_ref
+	 */
 	public function registerStartSignalRef($start_event_ref)
 	{
 		$this->start_event_refs[] = array('type' => 'signal', 'ref' => $start_event_ref);
 	}
 
+	/**
+	 * @param string $start_event_ref
+	 */
 	public function registerStartTimerRef($start_event_ref)
 	{
 		$this->start_event_refs[] = array('type' => 'timeDate', 'ref' => $start_event_ref);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getStartEventInfo()
 	{
 		$event_definitions = array();
@@ -119,8 +151,6 @@ class ilWorkflowScaffold
 
 	#endregion 
 
-	public $workflow_name;
-
 	/**
 	 * @param mixed $workflow_name
 	 */
@@ -128,10 +158,6 @@ class ilWorkflowScaffold
 	{
 		$this->workflow_name = $workflow_name;
 	}
-
-	public $bpmn2_array;
-
-	public $auxilliary_methods;
 
 	/**
 	 * @param string $auxilliary_method
@@ -147,8 +173,6 @@ class ilWorkflowScaffold
 		$this->bpmn2_array = $bpmn2_array;
 		$this->auxilliary_methods = array();
 	}
-
-	public $constructor_method_content;
 
 	/**
 	 * @return mixed
@@ -166,6 +190,9 @@ class ilWorkflowScaffold
 		$this->constructor_method_content = $constructor_method_content;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getPHP()
 	{
 		$pre_constructor_content = $this->getRequires();
@@ -176,23 +203,28 @@ class ilWorkflowScaffold
 			public function __construct()
 			{
 		";
-		
+
 		$post_constructor_content = "
 			}";
 		foreach($this->auxilliary_methods as $auxilliary_method)
 		{
 			$post_constructor_content .= "
-			
+
 			" . $auxilliary_method . "
 			";
 		}
 		$post_constructor_content .= "
 		}
 		";
-		
+
 		return $pre_constructor_content . $this->constructor_method_content . $post_constructor_content;
 	}
 
+	/**
+	 * @param string $start_event_ref
+	 *
+	 * @return array
+	 */
 	public function getTimeDateEventDefinition($start_event_ref)
 	{
 		$content = '';
@@ -200,7 +232,6 @@ class ilWorkflowScaffold
 		{
 			foreach((array)$elements['children'] as $element)
 			{
-				$a = 1;
 				if ($element['name'] == 'startEvent' && @$element['children'][0]['name'] == 'timerEventDefinition')
 				{
 					$timer_element = $element['children'][0];
@@ -208,8 +239,10 @@ class ilWorkflowScaffold
 				}
 			}
 		}
+
 		$start = date('U',strtotime($content));
 		$end = 0;
+
 		return array(
 			'type' 				=> 'time_passed',
 			'content'			=> 'time_passed',
@@ -221,5 +254,4 @@ class ilWorkflowScaffold
 			'listening_end'		=> $end
 		);
 	}
-
-} 
+}

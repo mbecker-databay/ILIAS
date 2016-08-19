@@ -1,10 +1,11 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
 require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 
 /**
- * Booking definition
+ * Upload definition
  *
  * @author Maximilian Becker <mbecker@databay.de>
  *
@@ -16,6 +17,9 @@ class ilUploadDefinitionForm
 {
 	/** @var ilPropertyFormGUI $form */
 	protected $form;
+
+	/** @var \ilLanguage $lng */
+	protected $lng;
 
 	public function __construct()
 	{
@@ -37,6 +41,7 @@ class ilUploadDefinitionForm
 
 		$this->form->addCommandButton('upload',$this->lng->txt('upload_process'));
 		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+
 		return $this->form;
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
@@ -86,7 +86,6 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 		$mail->setBodyText($mail_text);
 
 		$mail->send($recipient);
-		$a = 1;
 	}
 
 	/**
@@ -99,11 +98,17 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 		return $this->context;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
@@ -208,7 +213,8 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 		$pieces = explode(':', $params);
 		/** @var ilias $ilias */
 		global $ilias;
-		$address = ilUtil::_getHttpPath() . '/goto.php?target=wfe_WF'. $pieces[0] . 'EVT' . $pieces[1] . '&client_id=' . $ilias->getClientId();
+		$address = ilUtil::_getHttpPath() . '/goto.php?target=wfe_WF'
+			. $pieces[0] . 'EVT' . $pieces[1] . '&client_id=' . $ilias->getClientId();
 
 		return $address;
 	}

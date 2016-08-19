@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilWorkflowCron is part of the petri net based workflow engine.
@@ -31,9 +31,10 @@ class ilWorkflowCron
 	 */
 	public static function raiseTimePassedEvent()
 	{
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
 		$workflow_engine = new ilWorkflowEngine();
-		
+
 		$workflow_engine->processEvent(
 			'time_passed', 
 			'time_passed', 
@@ -41,6 +42,6 @@ class ilWorkflowCron
 			0, 
 			'none', 
 			0
-		);		
+		);
 	}
 }

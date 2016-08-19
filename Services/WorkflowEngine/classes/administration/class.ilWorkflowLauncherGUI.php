@@ -1,9 +1,25 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
+require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+
+/**
+ * Class ilWorkflowLauncherGUI
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ */
 class ilWorkflowLauncherGUI
 {
 	/** @var string $form_action */
 	protected $form_action;
+
+	/** @var \ilLanguage $lng */
+	protected $lng;
 
 	/**
 	 * ilWorkflowLauncherGUI constructor.
@@ -12,21 +28,22 @@ class ilWorkflowLauncherGUI
 	 */
 	public function __construct($form_action)
 	{
+		global $lng;
+		$this->lng = $lng;
+
 		$this->form_action = $form_action;
 	}
 
 	/**
 	 * @param array $input_vars
+	 *
 	 * @return ilPropertyFormGUI
 	 */
 	public function getForm($input_vars)
 	{
-		global $lng;
-
-		require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($lng->txt('input_variables_required'));
-		$form->setDescription($lng->txt('input_variables_desc'));
+		$form->setTitle($this->lng->txt('input_variables_required'));
+		$form->setDescription($this->lng->txt('input_variables_desc'));
 
 		foreach($input_vars as $input_var)
 		{
@@ -48,8 +65,8 @@ class ilWorkflowLauncherGUI
 			$form->addItem($item);
 		}
 
-		$form->addCommandButton('start', $lng->txt('start_process'));
-		$form->addCommandButton('cancel', $lng->txt('cancel'));
+		$form->addCommandButton('start', $this->lng->txt('start_process'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		return $form;
 	}
 

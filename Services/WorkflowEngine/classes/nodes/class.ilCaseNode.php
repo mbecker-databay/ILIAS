@@ -17,19 +17,26 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
  */
 class ilCaseNode extends ilBaseNode
 {
-
+	/** @var bool $is_exclusive_join */
 	private $is_exclusive_join;
 
+	/** @var bool $is_exclusive_fork */
 	private $is_exclusive_fork;
+
+	/** @var ilEmitter[] $else_emitters */
+	public $else_emitters;
+
+	/** @var bool $is_exclusive */
+	public $is_exclusive;
 
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilWorkflow Reference to the parent workflow.
+	 * @param ilWorkflow $context Reference to the parent workflow.
 	 */
-	public function __construct(ilWorkflow $a_context)
+	public function __construct(ilWorkflow $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 		$this->detectors = array();
 		$this->emitters = array();
 		$this->else_emitters = array();
@@ -160,23 +167,25 @@ class ilCaseNode extends ilBaseNode
 	/**
 	 * Adds an emitter to one of the lists attached to the node.
 	 * 
-	 * @param ilEmitter	$a_emitter
-	 * @param boolean	$else_emitter True, if the emitter should be an 'else'-emitter.
+	 * @param ilEmitter $emitter
+	 * @param boolean   $else_emitter True, if the emitter should be an 'else'-emitter.
 	 */
-	public function addEmitter(ilEmitter $a_emitter, $expression = 'return true;')
+	public function addEmitter(ilEmitter $emitter, $expression = 'return true;')
 	{
 		$this->condition_emitter_pairs[] = array(
-			'emitter'	=> $a_emitter,
+			'emitter'	=> $emitter,
 			'expression'	=> $expression
 		);
 	}
 
 	/**
 	 * This method is called by detectors, that just switched to being satisfied.
-	 * 
-	 * @param ilDetector $a_detector ilDetector which is now satisfied.
+	 *
+	 * @param ilDetector $detector ilDetector which is now satisfied.
+	 *
+	 * @return mixed|void
 	 */
-	public function notifyDetectorSatisfaction(ilDetector $a_detector) 
+	public function notifyDetectorSatisfaction(ilDetector $detector)
 	{
 		if ($this->isActive())
 		{

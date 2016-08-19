@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTextAnnotationElement
@@ -11,8 +11,15 @@
  */
 class ilTextAnnotationElement extends ilBaseElement
 {
+	/** @var string $element_varname */
 	public $element_varname;
 
+	/**
+	 * @param                     $element
+	 * @param \ilWorkflowScaffold $class_object
+	 *
+	 * @return string
+	 */
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		return '';

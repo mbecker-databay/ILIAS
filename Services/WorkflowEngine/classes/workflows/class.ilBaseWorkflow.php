@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilExternalDetector.php';
@@ -21,35 +21,35 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	/**
 	 *Holds a list of references nodes attached to the workflow.
 	 * 
-	 * @var \ilNode Array of ilNode
+	 * @var \ilNode[] $nodes Array of ilNode
 	 */
 	protected $nodes;
 
 	/**
 	 * Holds a list of references to all external detectors of all nodes attached to the workflow.
 	 * 
-	 * @var \ilExternalDetector Array of ilDetector 
+	 * @var \ilExternalDetector[] $detectors Array of ilDetector
 	 */
 	protected $detectors;
 
 	/**
 	 * Holds a reference to the start node of the workflow.
 	 * 
-	 * @var ilNode Node, which is to be activated to start the workflow. 
+	 * @var ilNode $start_node Node, which is to be activated to start the workflow.
 	 */
 	protected $start_node;
 
 	/**
 	 * Holds the activation state of the workflow.
 	 * 
-	 * @var boolean 
+	 * @var boolean $active
 	 */
 	protected $active;
 
 	/**
 	 * This holds the database id of the workflow
 	 * 
-	 * @var integer
+	 * @var integer $db_id
 	 */
 	protected $db_id;
 
@@ -61,7 +61,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * This is intended to be a per-workflow information.
 	 * 
-	 * @var string Name of type of the workflow.
+	 * @var string $workflow_type Name of type of the workflow.
 	 */
 	protected $workflow_type;
 
@@ -72,19 +72,19 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * This is intended to be a per-instance information,
 	 * 
-	 * @var string Content description of the workflow.
+	 * @var string $workflow_content Content description of the workflow.
 	 */
 	protected $workflow_content;
 
 	/**
 	 * Holds the classname of the workflow definition.
-	 * @var string Name of the class. e.g. ComplianceWorkflow1 for class.ilComplianceWorkflow1.php
+	 * @var string $workflow_class Name of the class. e.g. ComplianceWorkflow1 for class.ilComplianceWorkflow1.php
 	 */
 	protected $workflow_class;
 
 	/**
 	 * Holds the path to the workflow definition class relative to the applications root.
-	 * @var string Path to class, e.g. Services/WorkflowEngine for './Services/WorkflowEngine/classes/class..."
+	 * @var string $workflow_location Path to class, e.g. Services/WorkflowEngine for './Services/WorkflowEngine/classes/class..."
 	 */
 	protected $workflow_location;
 
@@ -93,7 +93,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * This setting holds the identifier 'what kind of' the workflow is about.
 	 * E.g. crs, usr
-	 * @var string Name of the subject type. 
+	 * @var string $workflow_subject_type Name of the subject type.
 	 */
 	protected $workflow_subject_type;
 
@@ -101,8 +101,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * This is the actual identifier of the 'who'. If subject_type is a usr, this
 	 * is a usr_id. If subject_type is a grp, this is a group_id. (or  group ref id)
 	 * 
-	 * @var integer Identifier of the events subject.
-	 * 
+	 * @var integer $workflow_subject_identifier Identifier of the events subject.
 	 */
 	protected $workflow_subject_identifier;
 
@@ -111,7 +110,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * This is the second 'what kind of' the workflow is rigged to.
 	 * 
-	 * @var string Type if the events context type.
+	 * @var string $workflow_context_type Type if the events context type.
 	 */
 	protected $workflow_context_type;
 
@@ -120,14 +119,14 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * This is the 'who' for second entity the workflow is bound to.
 	 * 
-	 * @var integer Identifier of the events context. 
+	 * @var integer $workflow_context_identifier Identifier of the events context.
 	 */
-	protected $workflow_context_identifier;	// 48 (ref_id if ctx. is crs.
+	protected $workflow_context_identifier;
 
 	/**
 	 * Array of instance variables to be shared across the workflow.
 	 * 
-	 * @var Array Associative array of  mixed.
+	 * @var array $instance_vars Associative array of  mixed.
 	 */
 	protected $instance_vars = array();
 
@@ -152,11 +151,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 */
 	public function startWorkflow()
 	{
-		// Write the workflow to the database, so detectors find a parent id
-		// to save with them.
+		// Write the workflow to the database, so detectors find a parent id to save with them.
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 		$this->active = true;
-		//ilWorkflowDbHelper::writeWorkflow($this);  TODO Check if this is necessarily to be done by the workflow.
 		$this->onStartWorkflow();
 
 		// Figure out, if there is a start-node set - or nodes at all.
@@ -171,7 +168,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
 			}
 		}
 		$this->start_node->activate();
-		// Why was this in here? DAFUQ? ilWorkflowDbHelper::writeWorkflow($this);
 	}
 
 	/**
@@ -235,9 +231,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * The event is passed to all active event handlers.
 	 * 
-	 * @param string[] $a_params
+	 * @param string[] $params
 	 */
-	public function handleEvent($a_params)
+	public function handleEvent($params)
 	{
 		$active_nodes_available = false;
 		// Hier nur an aktive Nodes dispatchen.
@@ -246,7 +242,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 			$node = $detector->getContext();
 			if ($node->isActive())
 			{
-				$detector->trigger($a_params);
+				$detector->trigger($params);
 				$node = $detector->getContext();
 				if ($node->isActive())
 				{
@@ -254,6 +250,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 				}
 			}
 		}
+
 		if ($active_nodes_available == false)
 		{
 			$this->active = false;
@@ -261,12 +258,15 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		}
 	}
 
-	public function registerDetector(ilDetector $a_detector)
+	/**
+	 * @param \ilDetector $detector
+	 */
+	public function registerDetector(ilDetector $detector)
 	{
-		$reflection_class = new ReflectionClass($a_detector);
+		$reflection_class = new ReflectionClass($detector);
 		if (in_array('ilExternalDetector', $reflection_class->getInterfaceNames()))
 		{
-			$this->detectors[] = $a_detector;
+			$this->detectors[] = $detector;
 		}
 	}
 
@@ -303,17 +303,18 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	/**
 	 * Sets the database id of the detector.
 	 * 
-	 * @param integer $a_id 
+	 * @param integer $id
 	 */
-	public function setDbId($a_id)
+	public function setDbId($id)
 	{
-		$this->db_id = $a_id;
+		$this->db_id = $id;
 	}
 
 	/**
 	 * Returns the database id of the detector if set.
-	 * 
-	 * @return integer 
+	 *
+	 * @return int
+	 * @throws \ilWorkflowObjectStateException
 	 */
 	public function getDbId()
 	{
@@ -345,21 +346,21 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * Sets the start node of the workflow. This node is activated, when the
 	 * workflow is started.
 	 * 
-	 * @param ilNode $a_node 
+	 * @param ilNode $node
 	 */
-	public function setStartNode(ilNode $a_node)
+	public function setStartNode(ilNode $node)
 	{
-		$this->start_node = $a_node;
+		$this->start_node = $node;
 	}
 
 	/**
 	 * This method adds a node to the workflow.
 	 * 
-	 * @param ilNode $a_node 
+	 * @param ilNode $node
 	 */
-	public function addNode(ilNode $a_node)
+	public function addNode(ilNode $node)
 	{
-		$this->nodes[] = $a_node;
+		$this->nodes[] = $node;
 	}
 
 	/**
@@ -367,11 +368,11 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * @see $this->workflow_class
 	 * 
-	 * @param string $a_class 
+	 * @param string $class
 	 */
-	public function setWorkflowClass($a_class)
+	public function setWorkflowClass($class)
 	{
-		$this->workflow_class = $a_class;
+		$this->workflow_class = $class;
 	}
 
 	/**
@@ -391,11 +392,11 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * @see $this->workflow_location
 	 * 
-	 * @param string $a_path e.g. Services/WorkflowEngine 
+	 * @param string $path e.g. Services/WorkflowEngine
 	 */
-	public function setWorkflowLocation($a_path)
+	public function setWorkflowLocation($path)
 	{
-		$this->workflow_location = $a_path;
+		$this->workflow_location = $path;
 	}
 
 	/**
@@ -454,11 +455,17 @@ abstract class ilBaseWorkflow implements ilWorkflow
 
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function isDataPersistenceRequired()
 	{
 		return $this->require_data_persistence;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function resetDataPersistenceRequirement()
 	{
 		$this->require_data_persistence = false;
@@ -474,6 +481,15 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 	'value' => mixed
 	 * );
 	 * 
+	 */
+
+	/**
+	 * @param string $id
+	 * @param string $name
+	 * @param bool   $reference
+	 * @param string $reference_target
+	 * @param string $type
+	 * @param string $role
 	 */
 	public function defineInstanceVar($id, $name, $reference = false, $reference_target = '',
 									  $type = 'mixed', $role = 'undefined')
@@ -602,8 +618,8 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	/**
 	 * Sets the given instance var with the given content.
 	 * 
-	 * @param string $name Name of the variable
-	 * @param mixed $value
+	 * @param string $id    Name of the variable
+	 * @param mixed  $value
 	 */
 	public function setInstanceVarById($id, $value)
 	{
@@ -735,12 +751,19 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		return (array)$this->data_outputs;
 	}
 
+	/**
+	 * @param string $name
+	 * @param mixed  $definition
+	 */
 	public function registerInputVar($name, $definition)
 	{
 		$definition['name'] = $name;
 		$this->data_inputs[$name] = $definition;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function registerOutputVar($name)
 	{
 		$this->data_outputs[] = $name;

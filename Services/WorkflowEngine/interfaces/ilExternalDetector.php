@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
@@ -19,19 +19,68 @@ require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
 interface ilExternalDetector extends ilDetector
 {
 	// Event listener table persistence scheme.
+
+	/**
+	 * @param $a_id
+	 *
+	 * @return mixed
+	 */
 	public function setDbId($a_id);
+
+	/**
+	 * @return mixed
+	 */
 	public function getDbId();
+
+	/**
+	 * @return mixed
+	 */
 	public function hasDbId();
+
+	/**
+	 * @return mixed
+	 */
 	public function writeDetectorToDb();
+
+	/**
+	 * @return mixed
+	 */
 	public function deleteDetectorFromDb();
-	
+
 	// Listening only at certain times scheme.
+
+	/**
+	 * @return mixed
+	 */
 	public function isListening();
+
+	/**
+	 * @return mixed
+	 */
 	public function getListeningTimeframe();
-	public function setListeningTimeframe($a_listening_start, $a_listening_end);
-	
+
+	/**
+	 * @param integer $listening_start
+	 * @param integer $listening_end
+	 *
+	 * @return mixed
+	 */
+	public function setListeningTimeframe($listening_start, $listening_end);
+
 	// Event description scheme.
+
+	/**
+	 * @return mixed
+	 */
 	public function getEvent();
+
+	/**
+	 * @return mixed
+	 */
 	public function getEventSubject();
+
+	/**
+	 * @return mixed
+	 */
 	public function getEventContext();
 }

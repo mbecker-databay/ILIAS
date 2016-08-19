@@ -1,7 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
 require_once './Services/Table/classes/class.ilTable2GUI.php';
+/** @noinspection PhpIncludeInspection */
+require_once './Services/Form/classes/class.ilTextInputGUI.php';
+/** @noinspection PhpIncludeInspection */
+require_once './Services/Form/classes/class.ilCheckboxInputGUI.php';
+/** @noinspection PhpIncludeInspection */
 require_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
@@ -21,6 +27,13 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 	/** @var ilLanguage $lng */
 	protected $lng;
 
+	/**
+	 * ilWorkflowEngineDefinitionsTableGUI constructor.
+	 *
+	 * @param        $parent_obj
+	 * @param string $parent_cmd
+	 * @param string $template_context
+	 */
 	public function __construct($parent_obj, $parent_cmd, $template_context ="")
 	{
 		$this->setId('wfedef');
@@ -43,9 +56,11 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt("definitions"));
 	}
 
+	/**
+	 * @return void
+	 */
 	public function initFilter()
 	{
-		require_once './Services/Form/classes/class.ilTextInputGUI.php';
 		$title_filter_input = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$title_filter_input->setMaxLength(64);
 		$title_filter_input->setSize(20);
@@ -53,13 +68,15 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		$title_filter_input->readFromSession();
 		$this->filter["title"] = $title_filter_input->getValue();
 
-		require_once './Services/Form/classes/class.ilCheckboxInputGUI.php';
 		$instances_filter_input = new ilCheckboxInputGUI($this->lng->txt('instances'), 'instances');
 		$this->addFilterItem($instances_filter_input);
 		$instances_filter_input->readFromSession();
 		$this->filter['instances'] = $instances_filter_input->getChecked();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function initColumns()
 	{
 		$this->addColumn($this->lng->txt("title"), "title", "20%");
@@ -89,6 +106,10 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"), "", "10%");
 
 	}
+
+	/**
+	 * @return array
+	 */
 	public function getSelectableColumns()
 	{
 		$cols["file"] = array(
@@ -106,6 +127,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		return $cols;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function getProcessesForDisplay()
 	{
 		global $ilDB;
@@ -133,6 +157,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 			{
 				continue;
 			}
+
 			if(substr($entry, strlen($entry)-6) == '.bpmn2')
 			{
 				$file_entry = array();
@@ -162,6 +187,11 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		$this->setData($base_list);
 	}
 
+	/**
+	 * @param array $row
+	 *
+	 * @return bool
+	 */
 	public function isFiltered($row)
 	{
 		// Title filter
@@ -184,6 +214,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		return false;
 	}
 
+	/**
+	 * @param array $set
+	 */
 	protected function fillRow($set)
 	{
 
@@ -230,6 +263,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 			'start',
 			$this->ilCtrl->getLinkTarget($this->parent_obj ,'definitions.start')
 		);
+
 		if(0+$set['instances']['active'] == 0)
 		{
 			$action->addItem(
@@ -248,6 +282,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 				'startlistening',
 				$this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.startlistening')
 			);
+
 			$action->addItem(
 				$this->lng->txt('stop_listening'),
 				'stoplistening',

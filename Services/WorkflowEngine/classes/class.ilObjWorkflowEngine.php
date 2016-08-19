@@ -12,17 +12,29 @@
  */
 class ilObjWorkflowEngine extends ilObject
 {
-	public function __construct($a_id = 0, $a_call_by_reference = true)
+	/**
+	 * ilObjWorkflowEngine constructor.
+	 *
+	 * @param int  $id
+	 * @param bool $call_by_reference
+	 */
+	public function __construct($id = 0, $call_by_reference = true)
 	{
 		$this->type = "wfe";
-		parent::__construct($a_id,$a_call_by_reference);
+		parent::__construct($id, $call_by_reference);
 	}
 
+	/**
+	 * @return string
+	 */
 	public static function getTempDir()
 	{
 		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/wfe/upload_temp/';
 	}
 
+	/**
+	 * @return string
+	 */
 	public static function getRepositoryDir()
 	{
 		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/wfe/repository/';

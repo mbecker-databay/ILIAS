@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilEventBasedGatewayElement
@@ -11,8 +11,15 @@
  */
 class ilEventBasedGatewayElement extends ilBaseElement
 {
+	/** @var string $element_varname */
 	public $element_varname;
-	
+
+	/**
+	 * @param                     $element
+	 * @param \ilWorkflowScaffold $class_object
+	 *
+	 * @return string
+	 */
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
@@ -28,7 +35,9 @@ class ilEventBasedGatewayElement extends ilBaseElement
 			' . $this->element_varname . '->setIsForwardConditionNode(true);
 			$this->addNode(' . $this->element_varname . ');
 		';
+
 		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
+
 		return $code;
 	}
-} 
+}

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilDetector Interface is part of the petri net based workflow engine.
@@ -15,8 +15,25 @@
  */
 interface ilDetector
 {
-	public function trigger($a_params);
+	/**
+	 * @param $params
+	 *
+	 * @return mixed
+	 */
+	public function trigger($params);
+
+	/**
+	 * @return mixed
+	 */
 	public function getDetectorState();
+
+	/**
+	 * @return mixed
+	 */
 	public function onActivate();
+
+	/**
+	 * @return mixed
+	 */
 	public function onDeactivate();
 }

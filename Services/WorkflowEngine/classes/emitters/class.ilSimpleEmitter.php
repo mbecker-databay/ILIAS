@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
@@ -16,8 +16,6 @@ require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
  * The simple emitter is the internal signals yeoman, doing nothing but triggering
  * the designated simple detector.
  *
- * @todo Implement a WorkflowEngineHelper class to make dealing with detectors/emitters even easier.
- * 
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
@@ -45,21 +43,21 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilNode Reference to the parent node. 
+	 * @param ilNode $context Reference to the parent node.
 	 */
-	public function __construct(ilNode $a_context)
+	public function __construct(ilNode $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 	}
-	
+
 	/**
 	 * Sets the target detector for this emitter.
 	 * 
-	 * @param ilDetector $a_target_detector 
+	 * @param ilDetector $target_detector
 	 */
-	public function setTargetDetector(ilDetector $a_target_detector)
+	public function setTargetDetector(ilDetector $target_detector)
 	{
-		$this->target_detector = $a_target_detector;
+		$this->target_detector = $target_detector;
 	}
 
 	/**
@@ -71,7 +69,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
 	{
 		return $this->target_detector;
 	}
-	
+
 	/**
 	 * Returns a reference to the parent node of this emitter.
 	 * 
@@ -81,7 +79,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
 	{
 		return $this->context;
 	}
-	
+
 	/**
 	 * Executes this emitter. 
 	 */
@@ -90,11 +88,17 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
 		$this->target_detector->trigger(array());
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;

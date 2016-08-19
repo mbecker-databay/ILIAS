@@ -1,11 +1,30 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
 require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 
+/**
+ * Class ilWorkflowArmerGUI
+ *
+ * GUI showed when 'arming' a workflow definition, preparing it to listen for incoming events.
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ *
+ * @version $Id$
+ *
+ * @ingroup Services/WorkflowEngine
+ */
 class ilWorkflowArmerGUI
 {
 	/** @var string $form_action */
 	protected $form_action;
+
+	/** @var \ilLanguage $lng */
+	protected $lng;
+
+	/** @var \ilTree $tree */
+	protected $tree;
 
 	/**
 	 * ilWorkflowLauncherGUI constructor.
@@ -14,43 +33,44 @@ class ilWorkflowArmerGUI
 	 */
 	public function __construct($form_action)
 	{
+		global $lng, $tree;
+		$this->lng = $lng;
+		$this->tree = $tree;
+
 		$this->form_action = $form_action;
 	}
 
 	/**
 	 * @param array $input_vars
-	 * @return ilPropertyFormGUI
+	 * @param array $event_definition
+	 *
+	 * @return \ilPropertyFormGUI
 	 */
 	public function getForm($input_vars, $event_definition)
 	{
-		global $lng;
-
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($lng->txt('input_variables_required'));
-		$form->setDescription($lng->txt('input_static_variables_desc'));
+		$form->setTitle($this->lng->txt('input_variables_required'));
+		$form->setDescription($this->lng->txt('input_static_variables_desc'));
 
 		$process_id_input = new ilHiddenInputGUI('process_id');
 		$process_id_input->setValue(stripslashes($_GET['process_id']));
 		$form->addItem($process_id_input);
 
 		$event = $event_definition[0];
-		$this->addStartEventInputItems($lng, $event, $form);
+		$this->addStartEventInputItems($this->lng, $event, $form);
 
-		$this->addStaticInputItems($lng, $input_vars, $form);
+		$this->addStaticInputItems($this->lng, $input_vars, $form);
 
-		$form->addCommandButton('listen', $lng->txt('start_listening'));
-		$form->addCommandButton('cancel', $lng->txt('cancel'));
+		$form->addCommandButton('listen', $this->lng->txt('start_listening'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		return $form;
 	}
 
 	public function getRepositoryObjectSelector($config)
 	{
-		/** @var ilTree $tree */
-		global $tree;
-
 		$item = new ilSelectInputGUI($config['caption'], $config['name']);
 
-		$children = $tree->getFilteredSubTree($tree->getRootId());
+		$children = $this->tree->getFilteredSubTree($this->tree->getRootId());
 
 		$options = array();
 		foreach ($children as $child)
@@ -60,7 +80,7 @@ class ilWorkflowArmerGUI
 				continue;
 			}
 
-			$path = $tree->getPathFull($child['child']);
+			$path = $this->tree->getPathFull($child['child']);
 			$option_elements = array();
 			foreach ($path as $node)
 			{

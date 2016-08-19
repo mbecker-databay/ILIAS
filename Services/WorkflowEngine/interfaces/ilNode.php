@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
@@ -7,7 +7,6 @@ require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
 require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
 
@@ -25,25 +24,107 @@ require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
  */
 interface ilNode extends ilWorkflowEngineElement
 {
+	/**
+	 * @return mixed
+	 */
 	public function attemptTransition();
+
+	/**
+	 * @return mixed
+	 */
 	public function checkTransitionPreconditions();
+
+	/**
+	 * @return mixed
+	 */
 	public function executeTransition();
 
-	public function addDetector(ilDetector $a_detector);
-	public function addEmitter(ilEmitter $a_emitter);
-	public function addActivity(ilActivity $a_activity);
 
+	/**
+	 * @param \ilDetector $detector
+	 *
+	 * @return mixed
+	 */
+	public function addDetector(ilDetector $detector);
+
+	/**
+	 * @param \ilEmitter $emitter
+	 *
+	 * @return mixed
+	 */
+	public function addEmitter(ilEmitter $emitter);
+
+	/**
+	 * @param \ilActivity $activity
+	 *
+	 * @return mixed
+	 */
+	public function addActivity(ilActivity $activity);
+
+
+	/**
+	 * @return mixed
+	 */
 	public function activate();
+
+	/**
+	 * @return mixed
+	 */
 	public function deactivate();
+
+	/**
+	 * @return mixed
+	 */
 	public function onActivate();
+
+	/**
+	 * @return mixed
+	 */
 	public function onDeactivate();
 
-	public function notifyDetectorSatisfaction(ilDetector $a_detector);
+
+	/**
+	 * @param \ilDetector $detector
+	 *
+	 * @return mixed
+	 */
+	public function notifyDetectorSatisfaction(ilDetector $detector);
+
+	/**
+	 * @return mixed
+	 */
 	public function getDetectors();
+
+	/**
+	 * @return mixed
+	 */
 	public function getEmitters();
 
+
+	/**
+	 * @return mixed
+	 */
 	public function getRuntimeVars();
+
+	/**
+	 * @param array $runtime_vars
+	 *
+	 * @return mixed
+	 */
 	public function setRuntimeVars($runtime_vars);
+
+	/**
+	 * @param string $name
+	 *
+	 * @return mixed
+	 */
 	public function getRuntimeVar($name);
+
+	/**
+	 * @param string $name
+	 * @param mixed  $value
+	 *
+	 * @return mixed
+	 */
 	public function setRuntimeVar($name, $value);
 }

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
@@ -122,7 +122,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
 	 * Sets the message to be logged.
 	 *
 	 * @param string $a_log_message Text of the log message
-	 *                              
+	 *
 	 * @return void
 	 */
 	public function setLogMessage($a_log_message)
@@ -306,6 +306,4 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
 	{
 		return $this->name;
 	}
-
-
 }

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilNode.php';
@@ -14,6 +14,10 @@ require_once './Services/WorkflowEngine/interfaces/ilWorkflow.php';
 
 /**
  * Class ilBaseNode
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ * @version $Id$
+ *
  */
 abstract class ilBaseNode implements ilNode
 {
@@ -44,32 +48,35 @@ abstract class ilBaseNode implements ilNode
 	 * @var \ilActivity Array of ilActivity 
 	 */
 	protected $activities;
+
 	/**
 	 * This holds the activation status of the node.
 	 * 
 	 * @var boolean
 	 */
 	protected $active = false;
+
 	/** @var string $name */
 	protected $name;
+
 	/** @var array $runtime_vars */
 	protected $runtime_vars;
 
 	/**
 	 * Adds a detector to the list of detectors.
 	 * 
-	 * @param ilDetector $a_detector 
+	 * @param ilDetector $detector
 	 */
-	public function addDetector(ilDetector $a_detector)
+	public function addDetector(ilDetector $detector)
 	{
-		$this->detectors[] = $a_detector;
-		$this->context->registerDetector( $a_detector );
+		$this->detectors[] = $detector;
+		$this->context->registerDetector($detector );
 	}
 
 	/**
 	 * Returns all currently set detectors
 	 * 
-	 * @return Array Array with objects of ilDetector 
+	 * @return ilDetector[] Array with objects of ilDetector
 	 */
 	public function getDetectors()
 	{
@@ -79,17 +86,17 @@ abstract class ilBaseNode implements ilNode
 	/**
 	 * Adds an emitter to the list of emitters.
 	 * 
-	 * @param ilEmitter $a_emitter 
+	 * @param ilEmitter $emitter
 	 */
-	public function addEmitter(ilEmitter $a_emitter)
+	public function addEmitter(ilEmitter $emitter)
 	{
-		$this->emitters[] = $a_emitter;
+		$this->emitters[] = $emitter;
 	}
 
 	/**
 	 * Returns all currently set emitters
 	 * 
-	 * @return Array Array with objects of ilEmitter 
+	 * @return ilEmitter[] Array with objects of ilEmitter
 	 */
 	public function getEmitters()
 	{
@@ -99,17 +106,17 @@ abstract class ilBaseNode implements ilNode
 	/**
 	 * Adds an activity to the list of activities.
 	 * 
-	 * @param ilActivity $a_activity 
+	 * @param ilActivity $activity
 	 */
-	public function addActivity(ilActivity $a_activity)
+	public function addActivity(ilActivity $activity)
 	{
-		$this->activities[] = $a_activity;
+		$this->activities[] = $activity;
 	}
 
 	/**
-	 * Returns all currently set activites
+	 * Returns all currently set activities
 	 * 
-	 * @return Array Array with objects of ilActivity 
+	 * @return ilActivity[] Array with objects of ilActivity
 	 */
 	public function getActivities()
 	{
@@ -126,11 +133,17 @@ abstract class ilBaseNode implements ilNode
 		return $this->context;
 	}
 
+	/***
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
@@ -152,11 +165,20 @@ abstract class ilBaseNode implements ilNode
 		$this->runtime_vars = $runtime_vars;
 	}
 
+	/**
+	 * @param string $name
+	 *
+	 * @return array
+	 */
 	public function getRuntimeVar($name)
 	{
 		return $this->runtime_vars[$name];
 	}
 
+	/**
+	 * @param string $name
+	 * @param mixed  $value
+	 */
 	public function setRuntimeVar($name, $value)
 	{
 		$this->runtime_vars[$name] = $value;
@@ -164,6 +186,7 @@ abstract class ilBaseNode implements ilNode
 
 	/**
 	 * Method called on activation of the node.
+	 *
 	 * @return void
 	 */
 	public function onActivate()
@@ -173,6 +196,7 @@ abstract class ilBaseNode implements ilNode
 
 	/**
 	 * Method calles on deactivation of the node.
+	 *
 	 * @return void
 	 */
 	public function onDeactivate()
@@ -190,16 +214,35 @@ abstract class ilBaseNode implements ilNode
 		return $this->active;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	abstract public function attemptTransition();
 
+	/**
+	 * @return mixed
+	 */
 	abstract public function checkTransitionPreconditions();
 
+	/**
+	 * @return mixed
+	 */
 	abstract public function executeTransition();
 
+	/**
+	 * @return mixed
+	 */
 	abstract public function activate();
 
+	/**
+	 * @return mixed
+	 */
 	abstract public function deactivate();
 
-	abstract public function notifyDetectorSatisfaction(ilDetector $a_detector);
-
-} 
+	/**
+	 * @param \ilDetector $detector
+	 *
+	 * @return mixed
+	 */
+	abstract public function notifyDetectorSatisfaction(ilDetector $detector);
+}

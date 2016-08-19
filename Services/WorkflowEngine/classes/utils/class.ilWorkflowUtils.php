@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilWorkflowUtils is part of the petri net based workflow engine.
@@ -16,7 +16,7 @@ class ilWorkflowUtils
 	/**
 	 * Method that wraps PHPs time in order to allow simulations with the workflow.
 	 * 
-	 * @return type 
+	 * @return integer
 	 */
 	public static function time()
 	{
@@ -25,10 +25,13 @@ class ilWorkflowUtils
 			global $ilSetting;
 			return $ilSetting->get('IL_PHPUNIT_TEST_TIME', time());
 		}
-		
+
 		return time();
 	}
-	
+
+	/**
+	 * @return mixed|string
+	 */
 	public static function microtime()
 	{
 		if (@defined(IL_PHPUNIT_TEST) && IL_PHPUNIT_TEST == TRUE)
@@ -36,24 +39,24 @@ class ilWorkflowUtils
 			global $ilSetting;
 			return $ilSetting->get('IL_PHPUNIT_TEST_MICROTIME', time());
 		}
-		
+
 		return microtime();
 	}
 
 	/**
 	 * Handles the generic time_passed event.
 	 * 
-	 * @param ilWorkflowEngine $a_workflow_engine 
+	 * @param ilWorkflowEngine $workflow_engine
 	 */
-	public static function handleTimePassedEvent($a_workflow_engine = null)
+	public static function handleTimePassedEvent($workflow_engine = null)
 	{
-		if (!$a_workflow_engine)
+		if (!$workflow_engine)
 		{
 			require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
-			$a_workflow_engine = new ilWorkflowEngine();
+			$workflow_engine = new ilWorkflowEngine();
 		}
-		
-		$a_workflow_engine->processEvent(
+
+		$workflow_engine->processEvent(
 			'time_passed', 
 			'time_passed', 
 			'none', 

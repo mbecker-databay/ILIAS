@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
 require_once './Services/Object/classes/class.ilObjectAccess.php';
 
 /**
@@ -18,25 +19,25 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
 	 * checks wether a user may invoke a command or not
 	 * (this method is called by ilAccessHandler::checkAccess)
 	 *
-	 * @param	string		$a_cmd		command (not permission!)
-	 * @param	string		$a_permission	permission
-	 * @param	int			$a_ref_id	reference id
-	 * @param	int			$a_obj_id	object id
-	 * @param	int			$a_user_id	user id (if not provided, current user is taken)
+	 * @param	string $cmd        command (not permission!)
+	 * @param	string $permission permission
+	 * @param	int    $ref_id     reference id
+	 * @param	int    $a_obj_id   object id
+	 * @param	int    $user_id    user id (if not provided, current user is taken)
 	 *
 	 * @return	boolean		true, if everything is ok
 	 */
-	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	function _checkAccess($cmd, $permission, $ref_id, $a_obj_id, $user_id = "")
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess;
 
-		if ($a_user_id == "")
+		if ($user_id == "")
 		{
-			$a_user_id = $ilUser->getId();
+			$user_id = $ilUser->getId();
 		}
 
 		// Deal with commands
-		switch ($a_cmd)
+		switch ($cmd)
 		{
 			case "view":
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
@@ -47,14 +48,14 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
 		}
 
 		// Deal with permissions
-		switch ($a_permission)
+		switch ($permission)
 		{
 			case 'visible':
-					return $rbacsystem->checkAccessOfUser($a_user_id,'visible',$a_ref_id);
+					return $rbacsystem->checkAccessOfUser($user_id, 'visible', $ref_id);
 				break;
 
 			case 'read':
-				return $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
+				return $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
 				// Sample denial.
 				if(!$active)
 				{
@@ -67,7 +68,12 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
 		return true; // ORLY?
 	}
 
-	function _checkGoto($a_target)
+	/**
+	 * @param string $target
+	 *
+	 * @return bool
+	 */
+	function _checkGoto($target)
 	{
 		//$workflow = substr($params, 2, strpos($params,'EVT')-2);
 		//$event = substr($params, strpos($params, 'EVT')+3);

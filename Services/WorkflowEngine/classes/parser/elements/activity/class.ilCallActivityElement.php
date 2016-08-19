@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilCallActivityElement
@@ -12,7 +12,7 @@
 class ilCallActivityElement extends ilBaseElement
 {
 	public $element_varname;
-	
+
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
@@ -56,4 +56,4 @@ class ilCallActivityElement extends ilBaseElement
 		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
 		return $code;
 	}
-} 
+}

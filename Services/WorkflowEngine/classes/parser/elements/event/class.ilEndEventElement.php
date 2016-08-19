@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilEndEventElement
@@ -11,8 +11,15 @@
  */
 class ilEndEventElement extends ilBaseElement
 {
+	/** @var string $element_varname */
 	public $element_varname;
 
+	/**
+	 * @param                     $element
+	 * @param \ilWorkflowScaffold $class_object
+	 *
+	 * @return string
+	 */
 	public function getPHP($element, ilWorkflowScaffold $class_object)
 	{
 		$code = "";
@@ -29,11 +36,13 @@ class ilEndEventElement extends ilBaseElement
 			{
 				if($child['name'] == 'messageEventDefinition')
 				{
-					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['messageRef'], 'message', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+						$child['attributes']['messageRef'], 'message', $this->bpmn2_array);
 				}
 				if($child['name'] == 'signalEventDefinition')
 				{
-					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
+					$event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+						$child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
 				}
 				if($child['name'] == 'terminateEventDefinition')
 				{
@@ -69,7 +78,9 @@ class ilEndEventElement extends ilBaseElement
 				' . $this->element_varname . '->addActivity(' . $this->element_varname . '_terminationEventActivity);
 			';
 		}
+
 		$code .= $this->handleDataAssociations($element, $class_object, $this->element_varname);
+
 		return $code;
 	}
-} 
+}

@@ -42,13 +42,13 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilNode $a_context 
-	 */	
-	public function __construct(ilNode $a_context)
+	 * @param ilNode $context
+	 */
+	public function __construct(ilNode $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 	}
-	
+
 	/**
 	 * Returns the parent object. Type is ilNode, implements ilWorkflowEngineElement
 	 * @return ilNode Parent node of this element.
@@ -57,18 +57,18 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 	{
 		return $this->context;
 	}
-	
+
 	/**
 	 * Trigger this detector. Params are an array. These are part of the interface
 	 * but ignored here.
 	 * 
-	 * @todo Handle ignored $a_params.
+	 * @todo Handle ignored $params.
 	 * 
-	 * @param array $a_params
+	 * @param array $params
 	 * 
 	 * @return boolean False, if detector was already satisfied before. 
 	 */
-	public function trigger($a_params)
+	public function trigger($params)
 	{
 		return true;
 	}
@@ -96,12 +96,13 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 				break;
 			}
 		}
-		$a = 1;
+
 		$this->getContext()->setRuntimeVar(
 			$name,
 			$this->getContext()->getContext()->getInstanceVarById($id)
 		);
 		$this->detection_state = true;
+
 		return true;
 	}
 
@@ -140,16 +141,25 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 		return;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getActivated()
 	{
 		return $this->detection_state;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
@@ -186,5 +196,4 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 	{
 		$this->var_name = $var_name;
 	}
-
 }

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
@@ -44,11 +44,11 @@ class ilPluginNode extends ilBaseNode
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilWorkflow Reference to the parent workflow.
+	 * @param ilWorkflow $context Reference to the parent workflow.
 	 */
-	public function __construct(ilWorkflow $a_context)
+	public function __construct(ilWorkflow $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 		$this->detectors = array();
 		$this->emitters = array();
 		$this->else_emitters = array();
@@ -82,7 +82,7 @@ class ilPluginNode extends ilBaseNode
 		}
 		$this->onDeactivate();
 	}
-	
+
 	/**
 	 * Passes a trigger to attached detectors.
 	 * @deprecated
@@ -141,7 +141,7 @@ class ilPluginNode extends ilBaseNode
 	 * false if preconditions are not met, aka detectors are not fully satisfied.
 	 * 
 	 * @return boolean True, if transition succeeded. 
-	 */	
+	 */
 	public function attemptTransition()
 	{
 		// TODO Call Plugin here.
@@ -205,36 +205,36 @@ class ilPluginNode extends ilBaseNode
 	/**
 	 * Adds an emitter to one of the lists attached to the node.
 	 * 
-	 * @param ilEmitter	$a_emitter
-	 * @param boolean	$else_emitter True, if the emitter should be an 'else'-emitter.
+	 * @param ilEmitter $emitter
+	 * @param boolean   $else_emitter True, if the emitter should be an 'else'-emitter.
 	 */
-	public function addEmitter(ilEmitter $a_emitter, $else_emitter = false)
+	public function addEmitter(ilEmitter $emitter, $else_emitter = false)
 	{
 		if (!$else_emitter)
 		{
-			$this->emitters[] = $a_emitter;
+			$this->emitters[] = $emitter;
 		}
 		else
 		{
-			$this->else_emitters[] = $a_emitter;
+			$this->else_emitters[] = $emitter;
 		}
 	}
 
 	/**
 	 * Adds an activity to one of the lists attached to the node.
 	 * 
-	 * @param ilActivity $a_activity
+	 * @param ilActivity $activity
 	 * @param boolean    $else_activity True, if the activity should be an 'else'-activity.
 	 */
-	public function addActivity(ilActivity $a_activity, $else_activity = false)
+	public function addActivity(ilActivity $activity, $else_activity = false)
 	{
 		if (!$else_activity)
 		{
-			$this->activities[] = $a_activity;
+			$this->activities[] = $activity;
 		}
 		else
 		{
-			$this->else_activities[] = $a_activity;
+			$this->else_activities[] = $activity;
 		}
 	}
 
@@ -282,10 +282,12 @@ class ilPluginNode extends ilBaseNode
 
 	/**
 	 * This method is called by detectors, that just switched to being satisfied.
-	 * 
-	 * @param ilDetector $a_detector ilDetector which is now satisfied.
+	 *
+	 * @param ilDetector $detector ilDetector which is now satisfied.
+	 *
+	 * @return mixed|void
 	 */
-	public function notifyDetectorSatisfaction(ilDetector $a_detector) 
+	public function notifyDetectorSatisfaction(ilDetector $detector)
 	{
 		if ($this->isActive())
 		{
@@ -324,5 +326,4 @@ class ilPluginNode extends ilBaseNode
 		}
 		return $this->emitters;
 	}
-
 }

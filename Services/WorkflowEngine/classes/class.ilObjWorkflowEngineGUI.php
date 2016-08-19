@@ -1,7 +1,9 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/** @noinspection PhpIncludeInspection */
 require_once './Services/Object/classes/class.ilObject2GUI.php';
+/** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
 
 /**
@@ -32,12 +34,15 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	/** @var ilTree $tree */
 	public $tree;
 
-	/** @var ilLocator $ilLocator */
+	/** @var ilLocatorGUI $ilLocator */
 	public $ilLocator;
 
 	/** @var ilToolbarGUI $ilToolbar */
 	public $ilToolbar;
 
+	/**
+	 * ilObjWorkflowEngineGUI constructor.
+	 */
 	public function __construct()
 	{
 		global $ilTabs, $lng, $ilCtrl, $tpl, $tree, $ilLocator, $ilToolbar;
@@ -55,9 +60,12 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->assignObject();
 	}
 
+	/**
+	 * @return null
+	 */
 	public function getType()
 	{
-		return null; // Just sayin.
+		return null;
 	}
 
 	/**
@@ -115,6 +123,11 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		}
 	}
 
+	/**
+	 * @param string $cmd
+	 *
+	 * @return string
+	 */
 	public function dispatchCommand($cmd)
 	{
 		$cmd_parts = explode('.', $cmd);
@@ -138,6 +151,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	public function prepareAdminOutput()
 	{
 		$this->tpl->getStandardTemplate();
@@ -149,6 +165,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->initLocator();
 	}
 
+	/**
+	 * @param string $section
+	 */
 	public function initTabs($section)
 	{
 		$this->ilTabs->addTab(
@@ -180,6 +199,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->ilTabs->setTabActive($section);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function initLocator()
 	{
 		$path = $this->tree->getPathFull((int)$_GET["ref_id"]);
@@ -195,38 +217,64 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 					ilFrameTargetInfo::_getFrame("MainContent"),
 					$row["child"]
 			);
+
 			$this->ilCtrl->setParameter($this, "ref_id", $_GET["ref_id"]);
 		}
+
 		$this->tpl->setLocator();
 	}
 
+	/**
+	 * @param string $command
+	 *
+	 * @return string
+	 */
 	public function dispatchToDashboard($command)
 	{
 		$this->initTabs('dashboard');
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDashboardGUI.php';
 		$target_handler = new ilWorkflowEngineDashboardGUI($this);
 		return $target_handler->handle($command);
 	}
 
+	/**
+	 * @param string $command
+	 *
+	 * @return string
+	 */
 	public function dispatchToDefinitions($command)
 	{
 		$this->initTabs('definitions');
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php';
 		$target_handler = new ilWorkflowEngineDefinitionsGUI($this);
 		return $target_handler->handle($command);
 	}
 
+	/**
+	 * @param string $command
+	 *
+	 * @return string
+	 */
 	public function dispatchToInstances($command)
 	{
 		$this->initTabs('instances');
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineInstancesGUI.php';
 		$target_handler = new ilWorkflowEngineInstancesGUI($this);
 		return $target_handler->handle($command);
 	}
 
+	/**
+	 * @param string $command
+	 *
+	 * @return string
+	 */
 	public function dispatchToSettings($command)
 	{
 		$this->initTabs('settings');
+		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineSettingsGUI.php';
 		$target_handler = new ilWorkflowEngineSettingsGUI($this);
 		return $target_handler->handle($command);

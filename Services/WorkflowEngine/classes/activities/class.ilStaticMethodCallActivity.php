@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
@@ -45,11 +45,11 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	/**
 	 * Default constructor.
 	 * 
-	 * @param ilNode $a_context 
+	 * @param ilNode $context
 	 */
-	public function __construct(ilNode $a_context)
+	public function __construct(ilNode $context)
 	{
-		$this->context = $a_context;
+		$this->context = $context;
 	}
 
 	/**
@@ -57,13 +57,13 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	 * 
 	 * @see $include_file
 	 * 
-	 * @param string $a_filename Name of the file to be included.
+	 * @param string $filename Name of the file to be included.
 	 * 
 	 * @return void
 	 */
-	public function setIncludeFilename($a_filename)
+	public function setIncludeFilename($filename)
 	{
-		$this->include_file = $a_filename;
+		$this->include_file = $filename;
 	}
 
 	/**
@@ -82,13 +82,13 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	 * 
 	 * @see $method_name
 	 * 
-	 * @param string $a_name Classname::Methodname.
+	 * @param string $name Classname::Methodname.
 	 *
 	 * @return void
 	 */
-	public function setClassAndMethodName($a_name)
+	public function setClassAndMethodName($name)
 	{
-		$this->class_and_method_name = $a_name;
+		$this->class_and_method_name = $name;
 	}
 
 	/**
@@ -105,13 +105,13 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 	 * Sets an array with params for the method. This will be set as second 
 	 * parameter. 
 	 * 
-	 * @param array Array with parameters.
+	 * @param array $params Array with parameters.
 	 *
 	 * @return void
 	 */
-	public function setParameters($a_params)
+	public function setParameters($params)
 	{
-		$this->parameters = $a_params;
+		$this->parameters = $params;
 	}
 
 	/**
@@ -204,15 +204,19 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 		return $this->context;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function setName($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
-
-
 }

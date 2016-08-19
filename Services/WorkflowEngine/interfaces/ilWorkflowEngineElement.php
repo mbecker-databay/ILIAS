@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilWorkflowEngineElement Interface is part of the petri net based workflow engine.
@@ -25,6 +25,16 @@ interface ilWorkflowEngineElement
 	 * @return ilWorkflowEngineElement Reference to a workflow engine element.
 	 */
 	public function getContext();
+
+	/**
+	 * @param string $name
+	 *
+	 * @return mixed
+	 */
 	public function setName($name);
+
+	/**
+	 * @return mixed
+	 */
 	public function getName();
 }

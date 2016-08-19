@@ -1,10 +1,19 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+* Class ilModulesCourseTasks
+*
+* @author Maximilian Becker <mbecker@databay.de>
+* @version $Id$
+*
+*/
 class ilModulesCourseTasks
 {
 	/**
-	 * @param $context
-	 * @param $params
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
 	 * @return array
 	 */
 	public static function readLearnersFromCourse($context, $params)
@@ -26,12 +35,14 @@ class ilModulesCourseTasks
 		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
 		$learners = $participants->getMembers();
 		$retval = array($output_params[0] => $learners);
+
 		return $retval;
 	}
 
 	/**
-	 * @param $context
-	 * @param $params
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
 	 * @return array
 	 */
 	public static function readTutorsFromCourse($context, $params)
@@ -54,12 +65,14 @@ class ilModulesCourseTasks
 		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
 		$tutors = $participants->getTutors();
 		$retval = array($output_params[0] => $tutors);
+
 		return $retval;
 	}
 
 	/**
-	 * @param $context
-	 * @param $params
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
 	 * @return array
 	 */
 	public static function readAdminsFromCourse($context, $params)
@@ -82,12 +95,14 @@ class ilModulesCourseTasks
 		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
 		$admins = $participants->getAdmins();
 		$retval = array($output_params[0] => $admins);
+
 		return $retval;
 	}
 
 	/**
-	 * @param $context
-	 * @param $params
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
 	 * @return array
 	 */
 	public static function createCourse($context, $params)
@@ -119,12 +134,14 @@ class ilModulesCourseTasks
 		$course_object->setPermissions($input_params['destRefId']);
 
 		$retval = array($output_params[0] => $course_object->getRefId());
+
 		return $retval;
 	}
 
 	/**
-	 * @param $context
-	 * @param $params
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
 	 * @return array
 	 */
 	public static function assignLearnersToCourse($context, $params)
@@ -149,6 +166,7 @@ class ilModulesCourseTasks
 		{
 			$participants->add($user_id, IL_CRS_MEMBER);
 		}
+
 		return;
 	}
 

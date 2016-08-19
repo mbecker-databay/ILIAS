@@ -1,5 +1,13 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Class ilServicesUserTasks
+ *
+ * @author Maximilian Becker <mbecker@databay.de>
+ * @version $Id$
+ *
+ */
 class ilServicesUserTasks
 {
 	const ANON_FIRSTNAME 		= 'Anonymous';
@@ -8,6 +16,12 @@ class ilServicesUserTasks
 	const ANON_GENDER			= 'm';
 	const PASSWORD_CHARACTERSET	= 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
+	 * @return array
+	 */
 	public static function createAnonymousUsers($context, $params)
 	{
 		$input_params = $params[0];
@@ -17,6 +31,7 @@ class ilServicesUserTasks
 		// OUT: anonaccountlist, userIdList
 
 		global $rbacadmin;
+
 		$pseudonymousUserMap = array();
 		$discloseMap = array();
 		$usrIdList = array();
@@ -54,26 +69,31 @@ class ilServicesUserTasks
 		}
 
 		return array($output_params[0] => $discloseMap);
-
-//		$discloseMap;
-//		$pseudonymousUserMap;
-//		$usrIdList;
-
 	}
 
+	/**
+	 * @return string
+	 */
 	protected static function getValidLogin()
 	{
 		do
 		{
 			$login = self::ANON_LOGIN_PREFIX.str_pad(rand(0,9999999),7,STR_PAD_LEFT);
 		} while ( ilObjUser::_loginExists($login) );
+
 		return $login;
 	}
 
+	/**
+	 * @param int $length
+	 *
+	 * @return string
+	 */
 	protected static function generatePassword($length = 8)
 	{
 		$password = array();
 		$setLength = strlen(self::PASSWORD_CHARACTERSET) - 1;
+
 		for ($i = 0; $i < $length; $i++)
 		{
 			$index = rand(0, $setLength);
@@ -83,6 +103,13 @@ class ilServicesUserTasks
 		return implode($password);
 	}
 
+	/**
+	 * @param string $login
+	 * @param string $password
+	 * @param string $email
+	 *
+	 * @return int
+	 */
 	protected static function createUser($login, $password, $email)
 	{
 		global $rbacadmin;
@@ -109,6 +136,10 @@ class ilServicesUserTasks
 		return $user->getId();
 	}
 
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 */
 	public static function repersonalizeUsers($context, $params)
 	{
 		// IN: discloseMap
@@ -127,5 +158,4 @@ class ilServicesUserTasks
 
 		// OUT: void
 	}
-
 }

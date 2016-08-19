@@ -20,7 +20,7 @@ class ilWorkflowEngineDefinitionsGUI
 	 *
 	 * @param ilObjWorkflowEngineGUI $parent_gui
 	 */
-	public function __construct($parent_gui)
+	public function __construct(ilObjWorkflowEngineGUI $parent_gui)
 	{
 		$this->parent_gui = $parent_gui;
 	}
@@ -84,6 +84,7 @@ class ilWorkflowEngineDefinitionsGUI
 		$table_gui->setFilterCommand("definitions.applyfilter");
 		$table_gui->setResetCommand("definitions.resetFilter");
 		$table_gui->setDisableFilterHiding(false);
+
 		return $table_gui->getHTML();
 	}
 
@@ -96,6 +97,7 @@ class ilWorkflowEngineDefinitionsGUI
 		$table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
 		$table_gui->writeFilterToSession();
 		$table_gui->resetOffset();
+
 		return $this->showDefinitionsTable();
 	}
 
@@ -108,6 +110,7 @@ class ilWorkflowEngineDefinitionsGUI
 		$table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
 		$table_gui->resetOffset();
 		$table_gui->resetFilter();
+
 		return $this->showDefinitionsTable();
 	}
 
@@ -121,11 +124,12 @@ class ilWorkflowEngineDefinitionsGUI
 		$form = $form_definition->getForm(
 				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui,'definitions.upload')
 		);
+
 		return $form->getHTML();
 	}
 
 	/**
-	 * @return string HTML
+	 * @return void
 	 */
 	public function handleUploadSubmit()
 	{
@@ -180,17 +184,6 @@ class ilWorkflowEngineDefinitionsGUI
 			closedir($handle);
 		}
 		$version++;
-/*		$version = 0;
-		$next_version_found = false;
-		while($next_version_found == false)
-		{
-			$version++;
-			if(!file_exists($repo_dir_name.'wfd.'.$repo_base_name.'_v'.$version.'.php'))
-			{
-				$next_version_found = true;
-			}
-		}
-*/
 
 		$repo_name = $repo_base_name.'_v'.$version.'.php';
 
@@ -208,9 +201,11 @@ class ilWorkflowEngineDefinitionsGUI
 		ilUtil::redirect(
 				html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view'))
 		);
-		return '';
 	}
 
+	/**
+	 * @return void
+	 */
 	public function initToolbar()
 	{
 		require_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
@@ -222,6 +217,9 @@ class ilWorkflowEngineDefinitionsGUI
 		$this->parent_gui->ilToolbar->addButtonInstance($upload_wizard_button);
 	}
 
+	/**
+	 * @return void
+	 */
 	protected function processUploadFormCancellation()
 	{
 		if (isset($_POST['cmd']['cancel'])) {
@@ -234,6 +232,9 @@ class ilWorkflowEngineDefinitionsGUI
 		}
 	}
 
+	/**
+	 * @return string|void
+	 */
 	public function startListening()
 	{
 		$identifier = basename($_GET['process_id']);
@@ -299,6 +300,11 @@ class ilWorkflowEngineDefinitionsGUI
 		);
 	}
 
+	/**
+	 * @return string|void
+	 *
+	 * @throws \Exception
+	 */
 	public function startProcess()
 	{
 		if(isset($_POST['cmd']['cancel']))
@@ -346,6 +352,7 @@ class ilWorkflowEngineDefinitionsGUI
 				return $form->getHTML();
 			}
 		}
+
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 		ilWorkflowDbHelper::writeWorkflow( $workflow_instance );
 
@@ -371,6 +378,9 @@ class ilWorkflowEngineDefinitionsGUI
 		);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function deleteDefinition()
 	{
 		unlink(ilObjWorkflowEngine::getRepositoryDir() . '/' . stripslashes($_GET['process_id']).'.php');
