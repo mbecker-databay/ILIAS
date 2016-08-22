@@ -109,6 +109,16 @@ class ilWorkflowEngine
 				$extracted_params->getContextType(),
 				$extracted_params->getContextId()
 			);
+
+			$this->launchArmedWorkflows($extracted_params);
 		}
+	}
+
+	/**
+	 * @param \ilExtractedParams $extractedParams
+	 */
+	public function launchArmedWorkflows(ilExtractedParams $extractedParams)
+	{
+		$a = 1;
 	}
 }

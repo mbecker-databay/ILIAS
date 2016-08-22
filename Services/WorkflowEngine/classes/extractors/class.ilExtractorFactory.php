@@ -25,7 +25,7 @@ class ilExtractorFactory
 		$final_path = './' . $component . '/classes/';
 		$final_fullpath = $final_path . 'class.' . $extractor_class_name . '.php';
 
-		$transition_fullpath = './Services/WorkflowEngine/classes/class.'.$extractor_class_name.'.php';
+		$transition_fullpath = './Services/WorkflowEngine/classes/extractors/class.'.$extractor_class_name.'.php';
 
 		if( file_exists( $final_fullpath ) )
 		{
@@ -43,7 +43,7 @@ class ilExtractorFactory
 		}
 		else
 		{
-			return stdClass();
+			return new stdClass();
 		}
 	}
 }
