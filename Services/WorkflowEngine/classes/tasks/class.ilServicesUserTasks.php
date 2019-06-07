@@ -157,4 +157,14 @@ class ilServicesUserTasks
 
 		// OUT: void
 	}
+
+	public static function getNameRepresentation($context, $params)
+	{
+		// IN: discloseMap
+		$input_params = $params[0];
+		$output_params =$params[1];
+
+		$user = new ilObjUser($input_params['usrId']);
+		return array($output_params[0] => $user->getFullname());
+	}
 }

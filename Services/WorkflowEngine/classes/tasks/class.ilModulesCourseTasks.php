@@ -14,6 +14,7 @@ class ilModulesCourseTasks
 	 * @param ilNode $context
 	 * @param array  $params
 	 *
+	 * @deprecated
 	 * @return array
 	 */
 	public static function readLearnersFromCourse($context, $params)
@@ -24,6 +25,35 @@ class ilModulesCourseTasks
       <bpmn2:extensionElements>
           <ilias:properties>
               <ilias:libraryCall location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php" api="ilModulesCourseTasks" method="readLearnersFromCourse" />
+          </ilias:properties>
+      </bpmn2:extensionElements>
+
+		 */
+		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		$input_params = $params[0];
+		$output_params = $params[1];
+
+		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+		$learners = $participants->getMembers();
+		$retval = array($output_params[0] => $learners);
+
+		return $retval;
+	}
+
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
+	 * @return array
+	 */
+	public static function readMembersFromCourse($context, $params)
+	{
+		/*
+		 * Modelling:
+
+      <bpmn2:extensionElements>
+          <ilias:properties>
+              <ilias:libraryCall location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php" api="ilModulesCourseTasks" method="readMembersFromCourse" />
           </ilias:properties>
       </bpmn2:extensionElements>
 
@@ -142,6 +172,7 @@ class ilModulesCourseTasks
 	 * @param ilNode $context
 	 * @param array  $params
 	 *
+	 * @deprecated
 	 * @return array
 	 */
 	public static function assignLearnersToCourse($context, $params)
@@ -152,6 +183,38 @@ class ilModulesCourseTasks
       <bpmn2:extensionElements>
           <ilias:properties>
               <ilias:libraryCall location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php" api="ilModulesCourseTasks" method="assignLearnersToCourse" />
+          </ilias:properties>
+      </bpmn2:extensionElements>
+
+		 */
+
+		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		$input_params = $params[0];
+		$output_params = $params[1];
+
+		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+		foreach($input_params['usrIdList'] as $user_id)
+		{
+			$participants->add($user_id, IL_CRS_MEMBER);
+		}
+
+		return;
+	}
+
+	/**
+	 * @param ilNode $context
+	 * @param array  $params
+	 *
+	 * @return array
+	 */
+	public static function assignMembersToCourse($context, $params)
+	{
+		/*
+		 * Modelling:
+
+      <bpmn2:extensionElements>
+          <ilias:properties>
+              <ilias:libraryCall location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php" api="ilModulesCourseTasks" method="assignMembersToCourse" />
           </ilias:properties>
       </bpmn2:extensionElements>
 

@@ -108,7 +108,9 @@ None.
 ---
 
 # assignLearnersToCourse
+Do not use! Use instead:
 
+# assignMembersToCourse
 This activity allows the assignment of multiple learners to a course.
 
 ## Location
@@ -315,7 +317,9 @@ readTutorsFromCourse
 ---
 
 # readLearnersFromCourse
+Do not use. Use instead:
 
+# readMembersFromCourse
 This activity reads users assigned as learners.
 
 ## Location
