@@ -2,6 +2,7 @@
 
 namespace ILIAS\Course;
 
+use ilCourseParticipants;
 use ilCreateCourseMembershipResult;
 use ILIAS\DomainLevelAPI\Command;
 use ILIAS\DomainLevelAPI\CommandHandler;
@@ -16,7 +17,7 @@ class ilCreateCourseMembershipHandler implements CommandHandler
      */
     public function handle(Command $command) : CommandResult
     {
-        $participant_object = new \ilCourseParticipants($command->getCourseObjId());
+        $participant_object = new ilCourseParticipants($command->getCourseObjId());
         $participant_object->add($command->getUserObjId(), $command->getLocalRoleId());
         return new ilCreateCourseMembershipResult();
     }
