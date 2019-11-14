@@ -31,44 +31,77 @@ It's a two step task. At first you create a request object, which is a command o
 
 ```php
 <?php
-    /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-    chdir("../../..");
-    require_once("Services/Init/classes/class.ilInitialisation.php");
-    ilInitialisation::initILIAS();
+	/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+    	chdir("../../..");
+    	require_once("Services/Init/classes/class.ilInitialisation.php");
+    	ilInitialisation::initILIAS();
 
-    global $DIC;
-
-    try {
-        $command = new ilCreateCourseMembershipCommand(
+    	global $DIC;
+    	$command = new ilCreateCourseMembershipCommand(
             7, 
             array(100, 200),
             ilCourseParticipant::MEMBERSHIP_MEMBER,
             $DIC->user()->getId()
         );
-    }
-    catch (Exception $e) 
-    {
-        echo "Oh no, an exception. Let's see what went wrong during request creation: ".$e->getMessage();
-    }
+    	try {
+    		$response = $DIC->api->dispatch($command);
+		if ($response->isOK())
+		{
+			ilUtil::sendHappy($DIC['lng']->txt('stuff_worked'), true);
+		}
+    	}
+    	catch (Exception $e) 
+    	{
+        	echo "Oh no, an exception. Let's see what went wrong: ".$e->getMessage();
+    	}
 	
-    $response = $DIC->api->dispatch($command);
-	if ($response->isOK())
-	{
-		ilUtil::sendHappy($DIC['lng']->txt('stuff_worked'), true);
+?>
+```
+
+The request object is a value-object. Security and sanity are checked during the request objects dispatch. 
+The request object then goes into the command bus and hands a response-object back. This may be as little as a "went well"-messenger for commands or a whole lot of data coming in it from queries. This process can deliver meaningful information to the consuming code why things didn't work out via exceptions.
+
+And this, dear consumers, is all you need to know. You pick your command or query, instantiate it with the parameters needed and you get a response back once you hand it to dispatch.
+
+You may, however, also do security checks and validation while the process is still in your hands. To do so, you can approach it like this:
+
+```php
+<?php
+    	/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+    	chdir("../../..");
+    	require_once("Services/Init/classes/class.ilInitialisation.php");
+    	ilInitialisation::initILIAS();
+
+    	global $DIC;
+    	$command = new ilCreateCourseMembershipCommand(
+    		7, 
+            	array(100, 200),
+            	ilCourseParticipant::MEMBERSHIP_MEMBER,
+            	$DIC->user()->getId()
+    	);
+	$validation_result = $DIC->api->validate($command);
+	if($validation_result->isExecutable()) {
+		try {
+	 		$response = $DIC->api->dispatch($command);
+		}
+    		catch (Exception $e) {
+        		echo "Oh no, an exception. Let's see what went wrong: ".$e->getMessage();
+    		}
+	
+		if ($response->isOK())
+		{
+			ilUtil::sendHappy($DIC['lng']->txt('stuff_worked'), true);
+		}
 	}
 ?>
 ```
 
-The request object is an immutable value-object. Certainly a complex type. We like to guarantee that a request to the API is a doable, working thing. Security and sanity are checked during the request objects instantiation. This process can deliver meaningful information to the consuming code why things didn't work out via exceptions.
-The request object then goes into the command bus and hands a response-object back. This may be as little as a "went well"-messenger for commands or a whole lot of data coming in it from queries.
-
-And this, dear consumers, is all you need to know. You pick your command or query, instantiate it with the parameters needed and you get a response back.
-
 Here is the brief version of your "rules of engagement" for the consumer side:
 
-1. You SHOULD catch exceptions that may appear during the creation of an instance of the request objects.
-2. You MUST hand your completed request object to the API as soon as possible. (That is right after your catch-block.)
-3. You SHOULD check if your request was worked on properly using "$response->isOK()"
+1. You MAY check your request object prior to dispatching it to gather insight if it is executable.
+2. You MUST hand your completed request object to the API as soon as possible. 
+3. You SHOULD catch exceptions that may appear during the dispatching and execution of an instance of the request objects.
+4. You SHOULD check if your request was worked on properly using "$response->isOK()"
 
 ### Documentation
 
@@ -77,14 +110,14 @@ You will find a detailed manual on each command or query directly in your ILIAS 
 
 ## Making the API
 
-Phew, so using it is really easy. But worry not, we didn't just dump all the complexity on you. Making your domain level actions and data available is not hard, either. We keep this intentionally simple so you have very little hinderance to make much of your API available. We even violate some coding best practices for you! We're heavily committed.
+Phew, so using it is really easy. But worry not, we didn't just dump all the complexity on you developers. Making your domain level actions and data available is not hard, either. We keep this intentionally simple so you have very little hinderance to make much of your API available. We even violate some coding best practices for you! We're heavily committed.
 
 You have a little more to do than your future consumers, still, but that's not a surprise. It's three classes at the minimum for each command or query.
 The first class you create is the request object, the other one is the command handler, who handles said request, which is a command or query. Finally, you want to return a response object.
 
 ## The Request Object
 
-As stated above, the request objects are value objects and immutable. This means that we must make sure they are always valid and legit, which leads to quite some things happening in the constructor. It's a bit against the grain of current programming habits to have a big constructor, but it's inherent to value objects and the more complex the type it represents, the more checking takes place.
+As stated above, the request objects are value objects. This means that we must make sure they are always valid and legit by running them through a security layer.
 
 Let's have a look at this one:
 
@@ -128,42 +161,6 @@ class ilCreateCourseMembershipCommand implements Command
     public function __construct(array $user_obj_id, int $course_obj_id, int $local_role_id, int $actor_user_obj_id)
     {
         global $DIC;
-        if(ilObject::_exists($DIC->refinery()->to()->int()->transform($course_obj_id)))
-        {
-            $this->course_obj_id        = $course_obj_id;
-        } else {
-            $DIC->logger()->root()->warning(__CLASS__ . ': Course Object Id is invalid');
-            throw new InvalidArgumentException(__CLASS__ . ': Course Object Id is invalid');
-        }
-
-		foreach($user_obj_ids as $user_obj_id)
-		{
-			if(ilObjUser::_exists($DIC->refinery()->to()->int()->transform($user_obj_id))) {
-				$this->user_obj_ids[]          = $user_obj_id;
-			} else {
-				$DIC->logger()->root()->warning(__CLASS__ . ': User Object Id is invalid');
-				throw new InvalidArgumentException(__CLASS__ . ': User Object Id is invalid');
-			}
-		}
-
-        if(in_array($DIC->refinery()->to()->int()->transform($local_role_id), array(1,2,3))) {
-            $this->local_role_id        = $local_role_id;
-        } else {
-            $DIC->logger()->root()->warning(__CLASS__ . ': Local Role is invalid');
-            throw new InvalidArgumentException(__CLASS__ . ': Local Role is invalid');
-        }
-
-        if($DIC->rbac()->system()->checkAccessOfUser(
-            $DIC->refinery()->to()->int()->transform($actor_user_obj_id),
-            'write',
-            current(ilObject::_getAllReferences($this->course_obj_id))
-            )
-        ) {
-            $this->actor_user_obj_id = $actor_user_obj_id;
-        } else {
-            $DIC->logger()->root()->warning(__CLASS__ . ': No permission for user');
-            throw new InvalidArgumentException(__CLASS__ . ': No permission for user');
-        }
         $DIC->logger()->root()->debug('Command object ' . __CLASS__ . ' instantiated');
     }
 
@@ -171,31 +168,82 @@ class ilCreateCourseMembershipCommand implements Command
 }
 ```
 
-Keeping all this in the constructor has the key advantage that code review in order for double checking security is in place knows exactly where to start.
+Now for the security / validation layer, this is an example:
 
-Also, it's an example. Much is written out so you can grasp the gist. It is believed in practical speciment, it'll more look like this:
+```php
+namespace ILIAS\Course;
+
+use http\Exception\InvalidArgumentException;
+use ILIAS\DomainLevelAPI\Validation;
+use ilObject;
+use ilObjUser;
+
+/**
+ * Class ilCreateCourseMembershipValidation
+ * @package ILIAS\Course
+ */
+class ilCreateCourseMembershipValidation implements Validation
+{
+	public function validate(ilCreateCourseMembersipCommand $command)
+	{
+		global $DIC;
+		$validation_succedding = true;
+        	if(!ilObject::_exists($DIC->refinery()->to()->int()->transform($command->getCourseObjId())))
+        	{
+			
+	            	$DIC->logger()->root()->warning(__CLASS__ . ': Course Object Id is invalid');
+        	    	$this->addToValidationFailures('Course Object Id is invalid');
+			$validation_succedding = false;
+        	}
+
+		foreach($command->getUserObjIDs() as $user_obj_id)
+		{
+			if(!ilObjUser::_exists($DIC->refinery()->to()->int()->transform($user_obj_id))) {
+				$DIC->logger()->root()->warning(__CLASS__ . ': User Object Id is invalid');
+				$this->addToValidationFailures('User Object Id is invalid');
+				$validation_succedding = false;
+			}
+		}
+
+	        if(!in_array($DIC->refinery()->to()->int()->transform($command->getLocalRoleId()), array(1,2,3))) {
+        	    	$DIC->logger()->root()->warning(__CLASS__ . ': Local Role is invalid');
+        		$this->addToValidationFailures('Local Role is invalid');
+			$validation_succedding = false;
+        	}
+
+        	if(!$DIC->rbac()->system()->checkAccessOfUser(
+            		$DIC->refinery()->to()->int()->transform($command->getActorUserObjID()),
+	            	'write',
+            		current(ilObject::_getAllReferences($command->getCourseObjID()))
+            		)
+        	) {
+	            	$DIC->logger()->root()->warning(__CLASS__ . ': No permission for user');
+            		$this->addToValidationFailures('No permission for user');
+			$validation_succedding = false;
+        }
+	
+```
+
+The validation MAY cache parts of the results, if it is safe to do so. The validation of the consumer, as described above, will not replace the validation during the dispatch, but things that are most likely to be static during the course of the request can be reused.
+
+Also, it's an example. Much is written out so you can grasp the gist. It is believed in an actual wildlife specimen, it'll more look like this, with functions brought to logically grouped bundles:
 
 
 ```php 
-    /**
-     * ilCreateCourseMembershipCommand constructor.
-     *
-     * @param int[]   $user_obj_ids      List of User IDs of the users to be assigned
-     * @param integer $course_obj_id     Course Object ID of the course the user is to be assigned to
-     * @param integer $local_role_id     Role ID of the new user-course-relation
-     * @param integer $actor_user_obj_id User ID of the acting user
-     *
-     */
-    public function __construct(array $user_obj_id, int $course_obj_id, int $local_role_id, int $actor_user_obj_id)
-    {
+	public function validate(ilCreateCourseMembersipCommand $command)
+	{
 		$course_api_checks = ilCourseAPIChecks::getInstance();
+		$course_api_checks->checkCourseExistenceByID($command->getCourseObjID(), $this);
+		$course_api_checks->checkUserExistenceByList($command->getUserObjIDs(), $this);
+		$course_api_checks->checkRoleIDisValid($command->getLocalRoleID(), $this);
+		$course_api_checks->checkActorPermission($command->getActorUserObjID(), $command->getCourseObjID(), 'write', $this);
 
-		$course_api_checks->checkCourseExistenceByID($course_obj_id);
-		$course_api_checks->checkUserExistenceByList($user_obj_ids);
-		$course_api_checks->checkRoleIDisValid($local_role_id);
-		$course_api_checks->checkActorPermission($actor_user_obj_id, $course_obj_id, 'write');
+		global $DIC;
+	        $DIC->logger()->root()->debug('Command object ' . __CLASS__ . ' validated');
+		
+		if(count($this->validationFailures) == 0) return true;
 
-        $DIC->logger()->root()->debug('Command object ' . __CLASS__ . ' instantiated');
+		return false;
     }
 ```
 
@@ -241,8 +289,7 @@ class ilCreateCourseMembershipHandler implements CommandHandler
 }
 ```
 
-This is easy stuff, there is a single public method "handle", it takes your request object and executes.
-At this point we do not add additional checkings. This is due to the incoming request object being your code and immutable, vetted value-object already, it's not coming from userland.
+This is easy stuff, there is a single public method "handle", it takes your request object and executes. The security/validation will be called before.
 You should see to catching all sorts of exceptions here, so your response object always comes back, even if it's transmitting word of an exception that happened.
 
 ## The Response Object
@@ -289,23 +336,24 @@ These will lead to a page in "Course" in the documentation, where all parameters
 ### In a nutshell
 
 1. You MUST provide a request-class following a naming scheme: il<title>Command or il<title>Query
-2. The request class MUST be immutable
-3. The request class MUST ensure security and validity during object instantiation
-4. You MUST provide a handler-class following a naming scheme: il<title>Handler
-5. You MUST implement the Command interface on your handler, providing a method "handle" that takes a request object
-6. You MUST catch exceptions during the execution of the command or query
-7. You MUST deliver meaningful error information through the responst ojbect if they occur
-8. You MUST deliver a response-class following a naming scheme: il<title>Result
-9. Your response class MUST implement the CommandResult interface.
-10. Your response class MUST be immutable
-11. All API classes MUST reside in a common (TBD) subdirectory of classes/.
-12. You MUST document your classes with docblocks. Documentation MUST always reflect the actual code works.
+2. You MUST provice a security-/validation-class following a naming scheme il<title>Validation
+3. The validation-class MAY cache parts of the validation for reuse by the dispatcher
+4. The request class MAY ensure security and validity during object instantiation
+5. You MUST provide a handler-class following a naming scheme: il<title>Handler
+6. You MUST implement the Command interface on your handler, providing a method "handle" that takes a request object
+7. You MUST catch exceptions during the execution of the command or query
+8. You MUST deliver meaningful error information through the responst ojbect if they occur
+9. You MUST deliver a response-class following a naming scheme: il<title>Result
+10. Your response class MUST implement the CommandResult interface.
+11. Your response class MUST be immutable
+12. All API classes MUST reside in a common (TBD) subdirectory of classes/.
+13. You MUST document your classes with docblocks. Documentation MUST always reflect the actual code works.
 
 ## Behind the Scenes
 
 If you are interested in what happens between handing in your request object and it arriving at your command handler, this section is for you.
 
-Request objects are fed into a command bus. In a nutshell, the command bus looks up the handler for a specific request and invokes it. The map it uses for that is generated during control structure reloads and persisted in the database. The fixed and concrete mapping serves an important purpose: It makes sure that the handler gets the one request it was made for. By ensuring that, we keep developers from making "special requests" that better fit their needs but maybe slack on security. To balance that out, the API itself does not enforce a higher level creation pattern for the request-instances, giving back flexibility to consumers.
+Request objects are fed into a command bus. In a nutshell, the command bus looks up the validator for a specific request and executes it. If the checks are passed, the command bus looks up the handler for that specific request and invokes it. The maps it uses for these purposes are generated during control structure reloads and persisted in the database or artifacts. The fixed and concrete mapping serves an important purpose: It makes sure that the handler gets the one request it was made for. By ensuring that, we keep developers from making "special requests" that better fit their needs but maybe slack on security. Also, vetting the request objects prior to execution helps to ensure safe opertion, too. To balance that out, the API itself does not enforce a higher level creation pattern for the request-instances, giving back flexibility to consumers.
 
 ### Integrating Sub-APIs
 
