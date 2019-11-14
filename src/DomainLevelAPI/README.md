@@ -52,7 +52,7 @@ It's a two step task. At first you create a request object, which is a command o
     	}
     	catch (Exception $e) 
     	{
-        	echo "Oh no, an exception. Let's see what went wrong during request creation: ".$e->getMessage();
+        	echo "Oh no, an exception. Let's see what went wrong: ".$e->getMessage();
     	}
 	
 ?>
@@ -85,7 +85,7 @@ You may, however, also do security checks and validation while the process is st
 	 		$response = $DIC->api->dispatch($command);
 		}
     		catch (Exception $e) {
-        		echo "Oh no, an exception. Let's see what went wrong during request creation: ".$e->getMessage();
+        		echo "Oh no, an exception. Let's see what went wrong: ".$e->getMessage();
     		}
 	
 		if ($response->isOK())
@@ -186,6 +186,7 @@ class ilCreateCourseMembershipValidation implements Validation
 {
 	public function validate(ilCreateCourseMembersipCommand $command)
 	{
+		global $DIC;
 		$validation_succedding = true;
         	if(!ilObject::_exists($DIC->refinery()->to()->int()->transform($command->getCourseObjId())))
         	{
@@ -225,20 +226,24 @@ class ilCreateCourseMembershipValidation implements Validation
 
 The validation MAY cache parts of the results, if it is safe to do so. The validation of the consumer, as described above, will not replace the validation during the dispatch, but things that are most likely to be static during the course of the request can be reused.
 
-Also, it's an example. Much is written out so you can grasp the gist. It is believed in practical speciment, it'll more look like this:
+Also, it's an example. Much is written out so you can grasp the gist. It is believed in an actual wildlife specimen, it'll more look like this, with functions brought to logically grouped bundles:
 
 
 ```php 
 	public function validate(ilCreateCourseMembersipCommand $command)
 	{
 		$course_api_checks = ilCourseAPIChecks::getInstance();
-
 		$course_api_checks->checkCourseExistenceByID($command->getCourseObjID(), $this);
-		$course_api_checks->checkUserExistenceByList($command->user_obj_ids);
-		$course_api_checks->checkRoleIDisValid($local_role_id);
-		$course_api_checks->checkActorPermission($actor_user_obj_id, $course_obj_id, 'write');
+		$course_api_checks->checkUserExistenceByList($command->getUserObjIDs(), $this);
+		$course_api_checks->checkRoleIDisValid($command->getLocalRoleID(), $this);
+		$course_api_checks->checkActorPermission($command->getActorUserObjID(), $command->getCourseObjID(), 'write', $this);
 
-        $DIC->logger()->root()->debug('Command object ' . __CLASS__ . ' instantiated');
+		global $DIC;
+	        $DIC->logger()->root()->debug('Command object ' . __CLASS__ . ' validated');
+		
+		if(count($this->validationFailures) == 0) return true;
+
+		return false;
     }
 ```
 
@@ -284,8 +289,7 @@ class ilCreateCourseMembershipHandler implements CommandHandler
 }
 ```
 
-This is easy stuff, there is a single public method "handle", it takes your request object and executes.
-At this point we do not add additional checkings. This is due to the incoming request object being your code and immutable, vetted value-object already, it's not coming from userland.
+This is easy stuff, there is a single public method "handle", it takes your request object and executes. The security/validation will be called before.
 You should see to catching all sorts of exceptions here, so your response object always comes back, even if it's transmitting word of an exception that happened.
 
 ## The Response Object
@@ -332,23 +336,24 @@ These will lead to a page in "Course" in the documentation, where all parameters
 ### In a nutshell
 
 1. You MUST provide a request-class following a naming scheme: il<title>Command or il<title>Query
-2. The request class MUST be immutable
-3. The request class MUST ensure security and validity during object instantiation
-4. You MUST provide a handler-class following a naming scheme: il<title>Handler
-5. You MUST implement the Command interface on your handler, providing a method "handle" that takes a request object
-6. You MUST catch exceptions during the execution of the command or query
-7. You MUST deliver meaningful error information through the responst ojbect if they occur
-8. You MUST deliver a response-class following a naming scheme: il<title>Result
-9. Your response class MUST implement the CommandResult interface.
-10. Your response class MUST be immutable
-11. All API classes MUST reside in a common (TBD) subdirectory of classes/.
-12. You MUST document your classes with docblocks. Documentation MUST always reflect the actual code works.
+2. You MUST provice a security-/validation-class following a naming scheme il<title>Validation
+3. The validation-class MAY cache parts of the validation for reuse by the dispatcher
+4. The request class MAY ensure security and validity during object instantiation
+5. You MUST provide a handler-class following a naming scheme: il<title>Handler
+6. You MUST implement the Command interface on your handler, providing a method "handle" that takes a request object
+7. You MUST catch exceptions during the execution of the command or query
+8. You MUST deliver meaningful error information through the responst ojbect if they occur
+9. You MUST deliver a response-class following a naming scheme: il<title>Result
+10. Your response class MUST implement the CommandResult interface.
+11. Your response class MUST be immutable
+12. All API classes MUST reside in a common (TBD) subdirectory of classes/.
+13. You MUST document your classes with docblocks. Documentation MUST always reflect the actual code works.
 
 ## Behind the Scenes
 
 If you are interested in what happens between handing in your request object and it arriving at your command handler, this section is for you.
 
-Request objects are fed into a command bus. In a nutshell, the command bus looks up the handler for a specific request and invokes it. The map it uses for that is generated during control structure reloads and persisted in the database. The fixed and concrete mapping serves an important purpose: It makes sure that the handler gets the one request it was made for. By ensuring that, we keep developers from making "special requests" that better fit their needs but maybe slack on security. To balance that out, the API itself does not enforce a higher level creation pattern for the request-instances, giving back flexibility to consumers.
+Request objects are fed into a command bus. In a nutshell, the command bus looks up the validator for a specific request and executes it. If the checks are passed, the command bus looks up the handler for that specific request and invokes it. The maps it uses for these purposes are generated during control structure reloads and persisted in the database or artifacts. The fixed and concrete mapping serves an important purpose: It makes sure that the handler gets the one request it was made for. By ensuring that, we keep developers from making "special requests" that better fit their needs but maybe slack on security. Also, vetting the request objects prior to execution helps to ensure safe opertion, too. To balance that out, the API itself does not enforce a higher level creation pattern for the request-instances, giving back flexibility to consumers.
 
 ### Integrating Sub-APIs
 
