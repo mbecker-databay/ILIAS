@@ -51,6 +51,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         $this->addCommandButton(self::PARENT_SAVE_SCORING_CMD, $this->lng->txt('save'));
 
+        $this->initOrdering();
         $this->initColumns();
         $this->initFilter();
     }
@@ -58,8 +59,16 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     private function initColumns()
     {
         $this->addColumn($this->lng->txt('name'), 'lastname', '40%');
-        $this->addColumn($this->lng->txt('tst_reached_points'), 'lastname', '40%');
+        $this->addColumn($this->lng->txt('tst_reached_points'), 'reached_points', '40%');
         $this->addColumn('', '', '20%');
+    }
+
+    private function initOrdering()
+    {
+        $this->enable('sort');
+
+        $this->setDefaultOrderField("lastname");
+        $this->setDefaultOrderDirection("asc");
     }
 
     public function initFilter()
