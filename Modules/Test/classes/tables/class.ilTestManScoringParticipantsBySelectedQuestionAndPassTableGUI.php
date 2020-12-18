@@ -137,11 +137,9 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             $this->tpl->touchBlock('row_js');
         }
 
-        /** @var $row['participant'] ilTestEvaluationUserData */
-        $user = ilObjUser::_getUserData(array($row['participant']->user_id));
-        $this->tpl->setVariable('PARTICIPANT_LASTNAME', $user[0]['lastname']);
-        $this->tpl->setVariable('PARTICIPANT_FIRSTNAME', $user[0]['firstname']);
-        $this->tpl->setVariable('PARTICIPANT_LOGIN', $row['participant']->getLogin());
+        $this->tpl->setVariable('PARTICIPANT_LASTNAME', $row['lastname']);
+        $this->tpl->setVariable('PARTICIPANT_FIRSTNAME', $row['firstname']);
+        $this->tpl->setVariable('PARTICIPANT_LOGIN', $row['login']);
 
         $reached_points = new ilNumberInputGUI('', 'scoring[' . $row['pass_id'] . '][' . $row['active_id'] . '][' . $row['qst_id'] . ']');
         $reached_points->allowDecimals(true);
