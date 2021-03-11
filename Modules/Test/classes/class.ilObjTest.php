@@ -3391,7 +3391,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function removeQuestion($question_id)
     {
-        $question = &ilObjTest::_instanciateQuestion($question_id);
+        $question = ilObjTest::_instanciateQuestion($question_id);
         include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
@@ -3620,7 +3620,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        $question = &ilObjTest::_instanciateQuestion($question_id);
+        $question = ilObjTest::_instanciateQuestion($question_id);
         $duplicate_id = $question->duplicate(true, null, null, null, $this->getId());
 
         return $duplicate_id;
@@ -5087,7 +5087,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $tstUserData->setECTSMark($ects_mark);
             }
             
-            $visitingTime = &$this->getVisitTimeOfParticipant($active_id);
+            $visitingTime = $this->getVisitTimeOfParticipant($active_id);
             
             $tstUserData->setFirstVisit($visitingTime["firstvisit"]);
             $tstUserData->setLastVisit($visitingTime["lastvisit"]);
@@ -5429,7 +5429,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         $time_in_seconds = 0;
         foreach ($this->questions as $question_id) {
-            $question = &ilObjTest::_instanciateQuestion($question_id);
+            $question = ilObjTest::_instanciateQuestion($question_id);
             $est_time = $question->getEstimatedWorkingTime();
             $time_in_seconds += $est_time["h"] * 3600 + $est_time["m"] * 60 + $est_time["s"];
         }
@@ -6072,7 +6072,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             foreach ($_SESSION["import_mob_xhtml"] as $mob) {
                 $importfile = ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"] . '/' . $mob["uri"];
                 if (file_exists($importfile)) {
-                    $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                    $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                     ilObjMediaObject::_saveUsage($media_object->getId(), "tst:html", $this->getId());
                     $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
                     $this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getFinalStatement()), 1));
@@ -8012,7 +8012,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $reached_points = 0;
                 $max_points = 0;
                 foreach ($this->questions as $value) {
-                    $question = &ilObjTest::_instanciateQuestion($value);
+                    $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
                         $max_points += $question->getMaximumPoints();
                         $reached_points += $question->getReachedPoints($active_id);
@@ -10307,7 +10307,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $reached_points = 0;
                 $max_points = 0;
                 foreach ($this->questions as $value) {
-                    $question = &ilObjTest::_instanciateQuestion($value);
+                    $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
                         $max_points += $question->getMaximumPoints();
                         $reached_points += $question->getReachedPoints($active_id);
@@ -10488,7 +10488,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getAggregatedResultsData()
     {
         $data = &$this->getCompleteEvaluationData();
-        $foundParticipants = &$data->getParticipants();
+        $foundParticipants = $data->getParticipants();
         $results = array("overview" => array(), "questions" => array());
         if (count($foundParticipants)) {
             $results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
@@ -10534,7 +10534,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             foreach ($foundParticipants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
-                        $question = &$userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                             $reached += $question["reached"];

@@ -108,8 +108,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                     ilUtil::sendFailure($lng->txt("permission_denied"), true);
                     $ilCtrl->redirect($this, "preview");
                 }
-                
-                $page_editor = new ilPageEditorGUI($this->getPageObject(), $this);
+
+                $a_page_object = $this->getPageObject();
+                $page_editor = new ilPageEditorGUI($a_page_object, $this);
                 $page_editor->setLocator($this->locator);
                 $page_editor->setHeader($this->getHeader());
                 $page_editor->setPageBackTitle($this->page_back_title);
@@ -227,7 +228,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         $this->ctrl->setReturn($this, "questions");
         
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI($type);
+        $q_gui = assQuestionGUI::_getQuestionGUI($type);
         
         $obj = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
         
@@ -257,7 +258,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
         }
         
-        $q_gui = &assQuestionGUI::_getQuestionGUI($questionType);
+        $q_gui = assQuestionGUI::_getQuestionGUI($questionType);
 
         $q_gui->object->setObjId(ilObject::_lookupObjectId($_GET['ref_id']));
         $q_gui->object->setAdditionalContentEditingMode($addContEditMode);

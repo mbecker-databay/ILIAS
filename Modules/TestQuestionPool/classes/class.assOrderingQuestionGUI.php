@@ -211,7 +211,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         foreach ($submittedElementList as $submittedElement) {
             if ($this->object->hasOrderingTypeUploadSupport()) {
                 if ($submittedElement->isImageUploadAvailable()) {
-                    $suffix = strtolower(array_pop(explode(".", $submittedElement->getUploadImageName())));
+                    $name_parts = explode(".", $submittedElement->getUploadImageName());
+                    $suffix = strtolower(array_pop($name_parts));
                     if (in_array($suffix, array("jpg", "jpeg", "png", "gif"))) {
                         $submittedElement->setUploadImageName($this->object->buildHashedImageFilename(
                             $submittedElement->getUploadImageName(),

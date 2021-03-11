@@ -475,7 +475,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $i = 0;
         $selections = array();
-        $solutions = &$this->getSolutionValues($active_id, $pass);
+        $solutions = $this->getSolutionValues($active_id, $pass);
         if (is_array($solutions)) {
             foreach ($solutions as $solution) {
                 array_push($selections, $solution['value1']);

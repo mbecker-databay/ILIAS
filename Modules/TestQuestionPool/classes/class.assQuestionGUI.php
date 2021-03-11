@@ -568,7 +568,7 @@ abstract class assQuestionGUI
     public function &createQuestionGUI($question_type, $question_id = -1)
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $this->question = &assQuestionGUI::_getQuestionGUI($question_type, $question_id);
+        $this->question = assQuestionGUI::_getQuestionGUI($question_type, $question_id);
     }
     
     public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl)

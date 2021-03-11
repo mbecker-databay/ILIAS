@@ -894,7 +894,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
             // get the solutions of a user
-            $user_solution = &$this->object->getSolutionValues($active_id, $pass);
+            $user_solution = $this->object->getSolutionValues($active_id, $pass);
             if (!is_array($user_solution)) {
                 $user_solution = array();
             }

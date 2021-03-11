@@ -1658,7 +1658,7 @@ class ilObjTestGUI extends ilObjectGUI
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
         //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
-        $questionpools = &$this->object->getAvailableQuestionpools(false, false, false, true, false, "write");
+        $questionpools = $this->object->getAvailableQuestionpools(false, false, false, true, false, "write");
         
         if ($this->object->getPoolUsage()) {
             global $DIC;
@@ -2308,7 +2308,7 @@ class ilObjTestGUI extends ilObjectGUI
         $table_gui = new ilTestHistoryTableGUI($this, 'history');
         $table_gui->setTestObject($this->object);
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-        $log = &ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
+        $log = ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
         $table_gui->setData($log);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }

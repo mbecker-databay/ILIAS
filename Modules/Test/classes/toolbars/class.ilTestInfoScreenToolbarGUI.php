@@ -647,7 +647,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     
     public function sendMessages()
     {
-        ilUtil::sendInfo(array_pop($this->getInfoMessages()));
-        ilUtil::sendFailure(array_pop($this->getFailureMessages()));
+        $infoMessages = $this->getInfoMessages();
+        ilUtil::sendInfo(array_pop($infoMessages));
+        $failureMessages = $this->getFailureMessages();
+        ilUtil::sendFailure(array_pop($failureMessages));
     }
 }

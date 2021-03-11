@@ -446,7 +446,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
         $solutionvalue = "";
-        $solutions = &$this->getSolutionValues($active_id, $pass);
+        $solutions = $this->getSolutionValues($active_id, $pass);
         $solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
         $i = 1;
         $worksheet->setCell($startrow + $i, 0, $solutionvalue);

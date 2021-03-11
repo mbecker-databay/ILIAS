@@ -856,7 +856,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $solutions = &$this->getSolutionValues($active_id, $pass, $authorizedSolution);
+        $solutions = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
         $user_solution = array();
         foreach ($solutions as $idx => $solution_value) {
             if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {

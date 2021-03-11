@@ -215,7 +215,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 array_push($user_solution, $solution_value["value1"]);
             }
@@ -782,7 +782,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 if (strlen($file_temp_name)) {
                     // check suffix
-                    $suffix = strtolower(array_pop(explode(".", $file_org_name)));
+                    $name_parts = explode(".", $file_org_name);
+                    $suffix = strtolower(array_pop($name_parts));
                     if (in_array($suffix, array( "jpg", "jpeg", "png", "gif" ))) {
                         // upload image
                         $filename = $this->object->buildHashedImageFilename($file_org_name);

@@ -818,7 +818,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         }
 
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+        $q_gui = assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
         $this->object->addQuestionChangeListeners($q_gui->object);
         $q_gui->object->setObjId($this->object->getId());
         $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
@@ -842,7 +842,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             }
             
             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-            $q_gui = &assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
+            $q_gui = assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
             $q_gui->object->setObjId($this->object->getId());
             $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
             $q_gui->object->createNewQuestion();
@@ -1321,7 +1321,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     public function &editQuestionForTestObject()
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+        $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
         $this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
     }
 

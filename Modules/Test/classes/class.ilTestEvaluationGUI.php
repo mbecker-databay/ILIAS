@@ -604,7 +604,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         
         $eval = &$this->object->getCompleteEvaluationData();
         $data = array();
-        $foundParticipants = &$eval->getParticipants();
+        $foundParticipants = $eval->getParticipants();
         if (count($foundParticipants)) {
             $ilToolbar->setFormName('form_output_eval');
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportAggregatedResults'));
@@ -691,7 +691,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             foreach ($foundParticipants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
-                        $question = &$userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                             $reached += $question["reached"];
@@ -1573,7 +1573,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
             
             $signature = $this->getResultsSignature();
-            $user_id = &$this->object->_getUserIdFromActiveId($active_id);
+            $user_id = $this->object->_getUserIdFromActiveId($active_id);
             $showAllAnswers = true;
             if ($this->object->isExecutable($testSession, $user_id)) {
                 $showAllAnswers = false;
@@ -1649,7 +1649,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $color_class = array("tblrow1", "tblrow2");
         $counter = 0;
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "Modules/Test");
-        $foundParticipants = &$data->getParticipants();
+        $foundParticipants = $data->getParticipants();
         if (count($foundParticipants) == 0) {
             ilUtil::sendInfo($this->lng->txt("tst_no_evaluation_data"));
             return;
@@ -1662,7 +1662,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 foreach ($foundParticipants as $userdata) {
                     $pass = $userdata->getScoredPass();
                     if (is_object($userdata->getPass($pass))) {
-                        $question = &$userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                         }

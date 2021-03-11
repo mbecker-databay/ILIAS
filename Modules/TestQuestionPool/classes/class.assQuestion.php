@@ -1028,7 +1028,7 @@ abstract class assQuestion
     */
     public static function _getSuggestedSolutionOutput($question_id)
     {
-        $question = &assQuestion::_instanciateQuestion($question_id);
+        $question = assQuestion::_instanciateQuestion($question_id);
         if (!is_object($question)) {
             return "";
         }
@@ -1076,7 +1076,7 @@ abstract class assQuestion
     * @return array A suggested solution array containing the internal link
     * @access public
     */
-    public function &_getSuggestedSolution($question_id, $subquestion_index = 0)
+    public function _getSuggestedSolution($question_id, $subquestion_index = 0)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -4055,20 +4055,6 @@ abstract class assQuestion
             }
         }
         return "";
-    }
-
-    /**
-     * Creates an instance of a question gui with a given question id
-     *
-     * @param integer $question_id The question id
-     * @return \assQuestionGUI The question gui instance
-     * @static
-     * @deprecated Use instantiateQuestionGUI (without legacy underscore & typos) instead.
-     * @access public
-     */
-    public static function &_instanciateQuestionGUI($question_id)
-    {
-        return self::instantiateQuestionGUI($question_id);
     }
 
     /**
