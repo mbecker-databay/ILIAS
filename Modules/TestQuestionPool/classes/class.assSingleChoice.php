@@ -433,7 +433,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 array_push($newchoices, $this->answers[$i]);
             }
             array_push($newchoices, $answer);
-            for ($i = $order; $i < count($this->answers); $i++) {
+            for ($i = $order, $iMax = count($this->answers); $i < $iMax; $i++) {
                 $changed = $this->answers[$i];
                 $changed->setOrder($i + 1);
                 array_push($newchoices, $changed);
@@ -507,7 +507,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         unset($this->answers[$index]);
         $this->answers = array_values($this->answers);
-        for ($i = 0; $i < count($this->answers); $i++) {
+        for ($i = 0, $iMax = count($this->answers); $i < $iMax; $i++) {
             if ($this->answers[$i]->getOrder() > $index) {
                 $this->answers[$i]->setOrder($i);
             }

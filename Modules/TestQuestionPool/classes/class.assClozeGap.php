@@ -149,7 +149,7 @@ class assClozeGap
                 array_push($newitems, $this->items[$i]);
             }
             array_push($newitems, $a_item);
-            for ($i = $order; $i < count($this->items); $i++) {
+            for ($i = $order, $iMax = count($this->items); $i < $iMax; $i++) {
                 array_push($newitems, $this->items[$i]);
             }
             $i = 0;

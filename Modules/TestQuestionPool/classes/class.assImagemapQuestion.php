@@ -471,7 +471,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function get_imagemap_contents($href = "#")
     {
         $imagemap_contents = "<map name=\"" . $this->title . "\"> ";
-        for ($i = 0; $i < count($this->answers); $i++) {
+        for ($i = 0, $iMax = count($this->answers); $i < $iMax; $i++) {
             $imagemap_contents .= "<area alt=\"" . $this->answers[$i]->getAnswertext() . "\" ";
             $imagemap_contents .= "shape=\"" . $this->answers[$i]->getArea() . "\" ";
             $imagemap_contents .= "coords=\"" . $this->answers[$i]->getCoords() . "\" ";
@@ -595,7 +595,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
         unset($this->answers[$index]);
         $this->answers = array_values($this->answers);
-        for ($i = 0; $i < count($this->answers); $i++) {
+        for ($i = 0, $iMax = count($this->answers); $i < $iMax; $i++) {
             if ($this->answers[$i]->getOrder() > $index) {
                 $this->answers[$i]->setOrder($i);
             }

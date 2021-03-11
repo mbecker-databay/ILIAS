@@ -10676,7 +10676,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                             $testSequence->createNewSequence($this->getQuestionCount(), $shuffle);
                             $testSequence->saveToDb();
                         }
-                        for ($seq = 1; $seq <= count($this->questions); $seq++) {
+                        for ($seq = 1, $seqMax = count($this->questions); $seq <= $seqMax; $seq++) {
                             $question_id = $testSequence->getQuestionForSequence($seq);
                             $objQuestion = ilObjTest::_instanciateQuestion($question_id);
                             $assSettings = new ilSetting('assessment');

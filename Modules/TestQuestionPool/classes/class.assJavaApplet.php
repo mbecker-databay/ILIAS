@@ -742,7 +742,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
                 array_push($newparams, $this->parameters[$i]);
             }
             array_push($newparams, array($name, $value));
-            for ($i = $index; $i < count($this->parameters); $i++) {
+            for ($i = $index, $iMax = count($this->parameters); $i < $iMax; $i++) {
                 array_push($newparams, $this->parameters[$i]);
             }
             $this->parameters = $newparams;

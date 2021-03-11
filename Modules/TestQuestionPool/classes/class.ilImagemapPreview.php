@@ -179,13 +179,13 @@ class ilImagemapPreview
                     $obj = "line";
                 }
                 $convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"$obj ";
-                for ($i = 0; $i < count($matches[0]); $i++) {
+                for ($i = 0, $iMax = count($matches[0]); $i < $iMax; $i++) {
                     $convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] . " ";
                 }
                 $convert_cmd .= "\" ";
                 $convert_cmd .= "-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"$obj ";
                 preg_match_all("/(\d+)\s*,\s*(\d+)/", $area["coords"], $matches, PREG_PATTERN_ORDER);
-                for ($i = 0; $i < count($matches[0]); $i++) {
+                for ($i = 0, $iMax = count($matches[0]); $i < $iMax; $i++) {
                     $convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] . " ";
                 }
                 $convert_cmd .= "\" ";

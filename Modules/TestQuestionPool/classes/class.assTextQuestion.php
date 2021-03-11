@@ -922,7 +922,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         unset($this->answers[$index]);
         $this->answers = array_values($this->answers);
-        for ($i = 0; $i < count($this->answers); $i++) {
+        for ($i = 0, $iMax = count($this->answers); $i < $iMax; $i++) {
             if ($this->answers[$i]->getOrder() > $index) {
                 $this->answers[$i]->setOrder($i);
             }

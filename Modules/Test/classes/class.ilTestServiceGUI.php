@@ -936,7 +936,7 @@ class ilTestServiceGUI
         $output = '';
         foreach ($foundusers as $active_id => $passes) {
             $resultpass = $this->object->_getResultPass($active_id);
-            for ($i = 0; $i < count($passes); $i++) {
+            for ($i = 0, $iMax = count($passes); $i < $iMax; $i++) {
                 if (($resultpass !== null) && ($resultpass == $passes[$i]["pass"])) {
                     if ($output) {
                         $output .= "<br /><br /><br />";

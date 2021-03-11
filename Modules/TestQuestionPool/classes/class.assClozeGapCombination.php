@@ -65,18 +65,18 @@ class assClozeGapCombination
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $best_solutions = array();
-        for ($i = 0; $i < count($gap_combinations['points']); $i++) {
+        for ($i = 0, $iMax = count($gap_combinations['points']); $i < $iMax; $i++) {
             $highest_points = 0;
-            for ($j = 0; $j < count($gap_combinations['points'][$i]); $j++) {
+            for ($j = 0, $jMax = count($gap_combinations['points'][$i]); $j < $jMax; $j++) {
                 if ($highest_points < $gap_combinations['points'][$i][$j]) {
                     $highest_points = $gap_combinations['points'][$i][$j];
                     $best_solutions[$i] = $j;
                 }
             }
         }
-        for ($i = 0; $i < count($gap_values); $i++) {
-            for ($j = 0; $j < count($gap_values[$i]); $j++) {
-                for ($k = 0; $k < count($gap_values[$i][$j]); $k++) {
+        for ($i = 0, $iMax = count($gap_values); $i < $iMax; $i++) {
+            for ($j = 0, $jMax = count($gap_values[$i]); $j < $jMax; $j++) {
+                for ($k = 0, $kMax = count($gap_values[$i][$j]); $k < $kMax; $k++) {
                     if ($best_solutions[$i] == $j) {
                         $best_solution = 1;
                     } else {

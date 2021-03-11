@@ -401,7 +401,7 @@ class ASS_MarkSchema
     {
         $minimum_percentage = 100;
         $passed = 0;
-        for ($i = 0; $i < count($this->mark_steps); $i++) {
+        for ($i = 0, $iMax = count($this->mark_steps); $i < $iMax; $i++) {
             if ($this->mark_steps[$i]->getMinimumLevel() < $minimum_percentage) {
                 $minimum_percentage = $this->mark_steps[$i]->getMinimumLevel();
             }

@@ -51,7 +51,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
             return false;
         }
 
-        for ($i = 0; $i < count($matches[1]); $i++) {
+        for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {
             preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
             preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
             preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);

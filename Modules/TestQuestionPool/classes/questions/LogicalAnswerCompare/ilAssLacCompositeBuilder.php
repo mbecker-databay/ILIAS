@@ -42,7 +42,7 @@ class ilAssLacCompositeBuilder
             foreach ($this->operators as $next_operator) {
                 do {
                     $index = -1;
-                    for ($i = 0; $i < count($nodes['nodes']); $i++) {
+                    for ($i = 0, $iMax = count($nodes['nodes']); $i < $iMax; $i++) {
                         if (!is_object($nodes['nodes'][$i]) && $nodes['nodes'][$i]['type'] == 'operator' && $nodes['nodes'][$i]['value'] == $next_operator) {
                             $index = $i;
                             break;

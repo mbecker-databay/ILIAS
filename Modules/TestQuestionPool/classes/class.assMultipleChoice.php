@@ -455,7 +455,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 array_push($newchoices, $this->answers[$i]);
             }
             array_push($newchoices, $answer);
-            for ($i = $order; $i < count($this->answers); $i++) {
+            for ($i = $order, $iMax = count($this->answers); $i < $iMax; $i++) {
                 $changed = $this->answers[$i];
                 $changed->setOrder($i + 1);
                 array_push($newchoices, $changed);
@@ -526,7 +526,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
         unset($this->answers[$index]);
         $this->answers = array_values($this->answers);
-        for ($i = 0; $i < count($this->answers); $i++) {
+        for ($i = 0, $iMax = count($this->answers); $i < $iMax; $i++) {
             if ($this->answers[$i]->getOrder() > $index) {
                 $this->answers[$i]->setOrder($i);
             }
