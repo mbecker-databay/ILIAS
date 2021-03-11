@@ -73,7 +73,7 @@ class ilTestPDFGenerator
         $img_src_map = array();
         foreach ($dom->getElementsByTagName('img') as $elm) {
             /** @var $elm DOMElement $uid */
-            $uid = 'img_src_' . uniqid();
+            $uid = 'img_src_' . uniqid('', true);
             $src = $elm->getAttribute('src');
 
             $elm->setAttribute('src', $uid);

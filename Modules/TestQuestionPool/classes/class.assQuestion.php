@@ -3652,7 +3652,7 @@ abstract class assQuestion
         }
         
         if ($unique) {
-            $plain_image_filename = uniqid($plain_image_filename . microtime(true));
+            $plain_image_filename = uniqid($plain_image_filename . microtime(true), true);
         }
         
         $hashed_filename = md5($plain_image_filename) . $extension;
