@@ -5,33 +5,26 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for error text answers
- *
- * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @author	Maximilian Becker <mbecker@databay.de>
- *
- * @version	$Id$
- *
- * @ingroup ModulesTestQuestionPool
- *
- * @TODO Rework class to use members instead of $arrData + magic methods. (This needs some changes in neighbours.)
+ * @author     Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author     Maximilian Becker <mbecker@databay.de>
+ * @version    $Id$
+ * @ingroup    ModulesTestQuestionPool
+ * @TODO       Rework class to use members instead of $arrData + magic methods. (This needs some changes in neighbours.)
  */
 class assAnswerErrorText
 {
     /**
      * Array consisting of one errortext-answer
      * E.g. array('text_wrong' => 'Guenther', 'text_correct' => 'Günther', 'points' => 20)
-     *
      * @var array Array consisting of one errortext-answer
      */
     protected $arrData;
 
     /**
      * assAnswerErrorText constructor
-     *
-     * @param string $text_wrong Wrong text
+     * @param string $text_wrong   Wrong text
      * @param string $text_correct Correct text
-     * @param double $points Points
-     *
+     * @param double $points       Points
      * @return assAnswerErrorText
      */
     public function __construct($text_wrong = "", $text_correct = "", $points = 0.0)
