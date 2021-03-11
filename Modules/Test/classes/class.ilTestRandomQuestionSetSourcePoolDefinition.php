@@ -160,7 +160,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     private function setOriginalTaxonomyFilterFromDbValue($value)
     {
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
-        $this->originalTaxonomyFilter = empty($value) ? array() : unserialize($value);
+        $this->originalTaxonomyFilter = empty($value) ? array() : unserialize($value,['allowed_classes' => false]);
     }
     
     /**
@@ -196,7 +196,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      */
     private function setMappedTaxonomyFilterFromDbValue($value)
     {
-        $this->mappedTaxonomyFilter = empty($value) ? array() : unserialize($value);
+        $this->mappedTaxonomyFilter = empty($value) ? array() : unserialize($value,['allowed_classes' => false]);
     }
     
     
@@ -241,7 +241,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      */
     private function setTypeFilterFromDbValue($value)
     {
-        $this->typeFilter = empty($value) ? array() : unserialize($value);
+        $this->typeFilter = empty($value) ? array() : unserialize($value,['allowed_classes' => false]);
     }
     
     /**
@@ -273,7 +273,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      */
     public function setLifecycleFilterFromDbValue($dbValue)
     {
-        $this->lifecycleFilter = empty($dbValue) ? array() : unserialize($dbValue);
+        $this->lifecycleFilter = empty($dbValue) ? array() : unserialize($dbValue,['allowed_classes' => false]);
     }
     
     /*

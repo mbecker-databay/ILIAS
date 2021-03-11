@@ -2633,7 +2633,7 @@ class ilObjTestGUI extends ilObjectGUI
         }
 
         $defaults = &$this->object->getTestDefaults($_POST["chb_defaults"][0]);
-        $defaultSettings = unserialize($defaults["defaults"]);
+        $defaultSettings = unserialize($defaults["defaults"],['allowed_classes' => false]);
 
         if (isset($defaultSettings['isRandomTest'])) {
             if ($defaultSettings['isRandomTest']) {

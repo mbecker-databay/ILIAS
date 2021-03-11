@@ -188,9 +188,9 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
             $this->sequencedata = array(
-                "sequence" => unserialize($row["sequence"]),
-                "postponed" => unserialize($row["postponed"]),
-                "hidden" => unserialize($row["hidden"])
+                "sequence" => unserialize($row["sequence"],['allowed_classes' => false]),
+                "postponed" => unserialize($row["postponed"],['allowed_classes' => false]),
+                "hidden" => unserialize($row["hidden"],['allowed_classes' => false])
             );
             if (!is_array($this->sequencedata["sequence"])) {
                 $this->sequencedata["sequence"] = array();
