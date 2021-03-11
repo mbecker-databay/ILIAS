@@ -408,17 +408,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     {
         return "qpl_qst_horder";
     }
-    
-    /**
-    * Returns the name of the answer table in the database
-    *
-    * @return string The answer table name
-    */
-    public function getAnswerTableName()
-    {
-        return "";
-    }
-    
+
     /**
     * Deletes datasets from answers tables
     *

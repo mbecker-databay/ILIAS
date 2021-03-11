@@ -74,22 +74,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
-     * @param mixed $lastChange
-     */
-    public function setLastChange($lastChange)
-    {
-        $this->lastChange = $lastChange;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastChange()
-    {
-        return $this->lastChange;
-    }
-
-    /**
      * assMultipleChoice constructor
      *
      * The constructor takes possible arguments an creates an instance of the assMultipleChoice object.

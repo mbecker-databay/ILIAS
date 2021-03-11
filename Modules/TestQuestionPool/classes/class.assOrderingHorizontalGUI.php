@@ -40,11 +40,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         }
     }
 
-    public function getCommand($cmd)
-    {
-        return $cmd;
-    }
-
     /**
      * {@inheritdoc}
      */

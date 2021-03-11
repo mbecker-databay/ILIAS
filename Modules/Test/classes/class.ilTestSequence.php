@@ -280,13 +280,13 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
             $hidden = serialize($this->sequencedata["hidden"]);
         }
 
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_sequence WHERE active_fi = %s AND pass = %s",
             array('integer','integer'),
             array($this->active_id, $this->pass)
         );
 
-        $affectedRows = $ilDB->insert("tst_sequence", array(
+        $ilDB->insert("tst_sequence", array(
             "active_fi" => array("integer", $this->active_id),
             "pass" => array("integer", $this->pass),
             "sequence" => array("clob", serialize($this->sequencedata["sequence"])),

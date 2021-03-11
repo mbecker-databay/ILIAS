@@ -1898,7 +1898,6 @@ class ilObjTestGUI extends ilObjectGUI
     */
     public function moveQuestionsObject()
     {
-        $selected_questions = null;
         $selected_questions = $_POST['q_id'];
         if (is_array($selected_questions)) {
             $_SESSION['tst_qst_move_' . $this->object->getTestId()] = $_POST['q_id'];

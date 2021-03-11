@@ -367,17 +367,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     }
 
     /**
-    * Returns the maximum points, a learner can reach answering the question
-    *
-    * @access public
-    * @see $points
-    */
-    public function getMaximumPoints()
-    {
-        return $this->points;
-    }
-
-    /**
      * Returns the points, a learner has reached answering the question.
      * The points are calculated from the given answers.
      *
@@ -527,20 +516,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     {
         return "qpl_qst_flash";
     }
-    
-    /**
-    * Returns the name of the answer table in the database
-    *
-    * Returns the name of the answer table in the database
-    *
-    * @return string The answer table name
-    * @access public
-    */
-    public function getAnswerTableName()
-    {
-        return "";
-    }
-    
+
     /**
     * Deletes datasets from answers tables
     *

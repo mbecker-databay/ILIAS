@@ -826,13 +826,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $participantData->load($this->getTestId());
         $this->removeTestResults($participantData);
         
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_mark WHERE test_fi = %s",
             array('integer'),
             array($this->getTestId())
         );
 
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_tests WHERE test_id = %s",
             array('integer'),
             array($this->getTestId())
@@ -3543,13 +3543,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             );
             $data_previous = $ilDB->fetchObject($result);
             // change previous dataset
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence, $data_previous->test_question_id)
             );
             // move actual dataset up
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence - 1, $data->test_question_id)
@@ -3590,13 +3590,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             // OK, it's not the last question, so move it down
             $data_next = $ilDB->fetchObject($result);
             // change next dataset
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence, $data_next->test_question_id)
             );
             // move actual dataset down
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence + 1, $data->test_question_id)
@@ -7843,12 +7843,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
             array('integer', 'integer'),
             array($this->getTestId(), $user_id)
         );
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "INSERT INTO tst_invited_user (test_fi, user_fi, clientip, tstamp) VALUES (%s, %s, %s, %s)",
             array('integer', 'integer', 'text', 'integer'),
             array($this->getTestId(), $user_id, ($client_ip != '') ? $client_ip : null, time())
@@ -7907,12 +7907,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         $active_id = $this->getActiveIdOfUser($user_id);
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_qst_solved WHERE active_fi = %s AND question_fi = %s",
             array('integer', 'integer'),
             array($active_id, $question_id)
         );
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "INSERT INTO tst_qst_solved (solved, question_fi, active_fi) VALUES (%s, %s, %s)",
             array('integer', 'integer', 'integer'),
             array($value, $question_id, $active_id)

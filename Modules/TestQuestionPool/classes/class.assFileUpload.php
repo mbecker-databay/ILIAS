@@ -511,34 +511,33 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     }
 
     /**
-    * Delete uploaded files
-    *
-  * @param array Array with ID's of the file datasets
-    */
-    protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized)
+     * Delete uploaded files
+     * @param int[]  $files
+     * @param string $test_id
+     * @param string $active_id
+     * @param bool   $authorized
+     */
+    protected function deleteUploadedFiles(array $files, string $test_id, string $active_id, bool $authorized) : void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
-        $pass = null;
-        $active_id = null;
+        $ilDB = $GLOBALS['DIC']->database();
+
         foreach ($files as $solution_id) {
             $result = $ilDB->queryF(
-                "SELECT * FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-                array("integer", 'integer'),
+                'SELECT active_fi, value1 FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
+                array('integer', 'integer'),
                 array($solution_id, (int) $authorized)
             );
-            if ($result->numRows() == 1) {
+
+            if ($result->numRows() === 1) {
                 $data = $ilDB->fetchAssoc($result);
-                $pass = $data['pass'];
-                $active_id = $data['active_fi'];
-                @unlink($this->getFileUploadPath($test_id, $active_id) . $data['value1']);
+                @unlink($this->getFileUploadPath($test_id, $data['active_fi']) . $data['value1']);
             }
         }
+
         foreach ($files as $solution_id) {
-            $affectedRows = $ilDB->manipulateF(
-                "DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-                array("integer", 'integer'),
+            $ilDB->manipulateF(
+                'DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
+                array('integer', 'integer'),
                 array($solution_id, $authorized)
             );
         }
@@ -916,17 +915,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         return "qpl_qst_fileupload";
     }
-    
-    /**
-    * Returns the name of the answer table in the database
-    *
-    * @return string The answer table name
-    */
-    public function getAnswerTableName()
-    {
-        return "";
-    }
-    
+
     /**
     * Deletes datasets from answers tables
     *

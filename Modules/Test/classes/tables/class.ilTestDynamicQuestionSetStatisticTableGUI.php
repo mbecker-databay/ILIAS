@@ -34,7 +34,11 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 
     /**
      * Constructor
-     *
+     * @param ilCtrl     $ctrl
+     * @param ilLanguage $lng
+     * @param            $a_parent_obj
+     * @param            $a_parent_cmd
+     * @param            $tableId
      * @global ilObjUser $ilUser
      */
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $a_parent_obj, $a_parent_cmd, $tableId)
@@ -44,11 +48,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $ctrl;
         $this->lng = $lng;
         
         $this->setFormName('filteredquestions');

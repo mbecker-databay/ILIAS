@@ -61,11 +61,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $user_solution;
     }
 
-    public function getCommand($cmd)
-    {
-        return $cmd;
-    }
-
     /**
      * {@inheritdoc}
      */

@@ -53,14 +53,6 @@ class ilTestExportTableGUI extends ilExportTableGUI
         return $list->getHTML();
     }
 
-    /***
-     *
-     */
-    protected function initMultiCommands()
-    {
-        $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
-    }
-
     /**
      * Overwrite method because data is passed from outside
      */

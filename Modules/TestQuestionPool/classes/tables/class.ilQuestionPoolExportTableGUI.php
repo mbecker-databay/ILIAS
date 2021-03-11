@@ -59,11 +59,4 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
         return false;
     }
 
-    /***
-     *
-     */
-    protected function initMultiCommands()
-    {
-        $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
-    }
 }

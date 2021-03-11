@@ -1119,24 +1119,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     }
 
     /**
-     * Returns the name of the additional question data table in the database
-     * @return string The additional table name
-     */
-    public function getAdditionalTableName()
-    {
-        return "";
-    }
-
-    /**
-     * Returns the name of the answer table in the database
-     * @return string The answer table name
-     */
-    public function getAnswerTableName()
-    {
-        return "";
-    }
-
-    /**
      * Deletes datasets from answers tables
      * @param integer $question_id The question id which should be deleted in the answers table
      * @access public
