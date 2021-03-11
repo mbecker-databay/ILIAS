@@ -259,12 +259,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     private function isDefImgUploadCommand()
     {
-        return $this->ctrl->getCmd() == 'uploaddefinitions';
+        return $this->ctrl->getCmd() === 'uploaddefinitions';
     }
 
     private function isTermImgUploadCommand()
     {
-        return $this->ctrl->getCmd() == 'uploadterms';
+        return $this->ctrl->getCmd() === 'uploadterms';
     }
 
     /**

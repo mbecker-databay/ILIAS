@@ -54,7 +54,7 @@ class ilTestExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
     {
-        if ($a_entity == 'tst') {
+        if ($a_entity === 'tst') {
             $deps = array();
 
             $taxIds = $this->getDependingTaxonomyIds($a_ids);

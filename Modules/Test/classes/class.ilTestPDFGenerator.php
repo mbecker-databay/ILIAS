@@ -98,7 +98,7 @@ class ilTestPDFGenerator
     {
         $pdf_output = self::preprocessHTML($pdf_output);
 
-        if (substr($filename, strlen($filename) - 4, 4) != '.pdf') {
+        if (substr($filename, strlen($filename) - 4, 4) !== '.pdf') {
             $filename .= '.pdf';
         }
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
@@ -116,7 +116,7 @@ class ilTestPDFGenerator
     {
         // use ilStyleDefinition instead of account to get the current skin
         include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
-        if (ilStyleDefinition::getCurrentSkin() != "default") {
+        if (ilStyleDefinition::getCurrentSkin() !== "default") {
             $fname = "./Customizing/global/skin/" .
                     ilStyleDefinition::getCurrentSkin() . "/" . $module_path . basename($a_filename);
         }

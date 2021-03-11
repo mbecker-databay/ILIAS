@@ -2458,13 +2458,13 @@ abstract class assQuestion
                 }
                 
                 $levels = explode(DIRECTORY_SEPARATOR, $src);
-                if (count($levels) < 5 || $levels[0] != 'Customizing' || $levels[2] != 'skin') {
+                if (count($levels) < 5 || $levels[0] !== 'Customizing' || $levels[2] !== 'skin') {
                     continue;
                 }
                 
                 $component = '';
                 
-                if ($levels[4] == 'Modules' || $levels[4] == 'Services') {
+                if ($levels[4] === 'Modules' || $levels[4] === 'Services') {
                     $component = $levels[4] . DIRECTORY_SEPARATOR . $levels[5];
                 }
                 

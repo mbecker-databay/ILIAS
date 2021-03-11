@@ -1820,7 +1820,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                     break;
                                 case CLOZE_NUMERIC:
                                     $answer = $this->gaps[$gap_key]->getItem(0);
-                                    if ($combination_gap_answer['answer'] != 'out_of_bound') {
+                                    if ($combination_gap_answer['answer'] !== 'out_of_bound') {
                                         $is_numeric_gap_correct = $this->getNumericgapPoints($answer->getAnswertext(), $gap_answers[$gap_key], 1, $answer->getLowerBound(), $answer->getUpperBound());
                                         if ($is_numeric_gap_correct != 1) {
                                             $combination_fulfilled = false;

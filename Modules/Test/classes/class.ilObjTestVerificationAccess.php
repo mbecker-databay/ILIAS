@@ -41,7 +41,7 @@ class ilObjTestVerificationAccess extends ilObjectAccess
         
         // #11021
         // personal workspace context: do not force normal login
-        if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
+        if (isset($t_arr[2]) && $t_arr[2] === "wsp") {
             include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }

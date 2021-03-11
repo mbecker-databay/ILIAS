@@ -149,7 +149,7 @@ class ilTestImporter extends ilXmlImporter
         $maps = $a_mapping->getMappingsOfEntity("Modules/Test", "tst");
         
         foreach ($maps as $old => $new) {
-            if ($old == "new_id" || (int) $old <= 0) {
+            if ($old === "new_id" || (int) $old <= 0) {
                 continue;
             }
             

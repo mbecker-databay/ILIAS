@@ -85,10 +85,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 if (strcmp($c, 'author') == 0) {
                     $this->addColumn($this->lng->txt("author"), 'author', '');
                 }
-                if ($c == 'lifecycle') {
+                if ($c === 'lifecycle') {
                     $this->addColumn($this->lng->txt('qst_lifecycle'), 'lifecycle', '');
                 }
-                if ($this->isQuestionCommentingEnabled() && $c == 'comments') {
+                if ($this->isQuestionCommentingEnabled() && $c === 'comments') {
                     $this->addColumn($this->lng->txt("ass_comments"), 'comments', '');
                 }
                 if (strcmp($c, 'created') == 0) {
@@ -422,14 +422,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
                     $this->tpl->parseCurrentBlock();
                 }
-                if ($c == 'lifecycle') {
+                if ($c === 'lifecycle') {
                     $lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle']);
                     
                     $this->tpl->setCurrentBlock('lifecycle');
                     $this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle->getTranslation($this->lng));
                     $this->tpl->parseCurrentBlock();
                 }
-                if ($c == 'comments' && $this->isQuestionCommentingEnabled()) {
+                if ($c === 'comments' && $this->isQuestionCommentingEnabled()) {
                     $this->tpl->setCurrentBlock('comments');
                     $this->tpl->setVariable("COMMENTS", $this->getCommentsHtml($data));
                     $this->tpl->parseCurrentBlock();

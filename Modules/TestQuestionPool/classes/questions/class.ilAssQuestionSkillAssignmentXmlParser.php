@@ -162,7 +162,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
     
     public function handlerBeginTag($xmlParser, $tagName, $tagAttributes)
     {
-        if ($tagName != 'QuestionSkillAssignments' && !$this->isParsingActive()) {
+        if ($tagName !== 'QuestionSkillAssignments' && !$this->isParsingActive()) {
             return;
         }
         
@@ -257,7 +257,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
             return;
         }
         
-        if ($charData != "\n") {
+        if ($charData !== "\n") {
             // Replace multiple tabs with one space
             $charData = preg_replace("/\t+/", " ", $charData);
             

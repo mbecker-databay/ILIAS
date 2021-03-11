@@ -149,7 +149,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
         $maps = $a_mapping->getMappingsOfEntity("Modules/TestQuestionPool", "qpl");
         foreach ($maps as $old => $new) {
-            if ($old != "new_id" && (int) $old > 0) {
+            if ($old !== "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
                 $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
                 if ($new_tax_ids !== false) {

@@ -744,6 +744,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
     protected function doesObjectTypeMatch($objectId)
     {
-        return ilObject::_lookupType($objectId) == 'qpl';
+        return ilObject::_lookupType($objectId) === 'qpl';
     }
 }

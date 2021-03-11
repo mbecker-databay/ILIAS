@@ -378,15 +378,15 @@ class ilTestTabsManager
             return false;
         }
         
-        if ($DIC->ctrl()->getNextClass($this) == 'ilassquestionpagegui') {
+        if ($DIC->ctrl()->getNextClass($this) === 'ilassquestionpagegui') {
             return false;
         }
         
-        if ($DIC->ctrl()->getCmdClass() == 'iltestoutputgui') {
+        if ($DIC->ctrl()->getCmdClass() === 'iltestoutputgui') {
             return false;
         }
         
-        if ($DIC->ctrl()->getCmdClass() == 'iltestevaluationgui') {
+        if ($DIC->ctrl()->getCmdClass() === 'iltestevaluationgui') {
             return in_array($DIC->ctrl()->getCmd(), array(
                 '', 'outUserResultsPassOverview', 'outUserListOfAnswerPasses', 'outEvaluation', 'eval_a', 'singleResults', 'detailedEvaluation'
             ));
@@ -565,7 +565,7 @@ class ilTestTabsManager
                 require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
                 $reflection = new ReflectionClass('ilObjTestSettingsGeneralGUI');
                 foreach ($reflection->getConstants() as $name => $value) {
-                    if (substr($name, 0, 4) == 'CMD_') {
+                    if (substr($name, 0, 4) === 'CMD_') {
                         $settingsCommands[] = $value;
                     }
                 }
@@ -573,7 +573,7 @@ class ilTestTabsManager
                 require_once 'Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php';
                 $reflection = new ReflectionClass('ilObjTestSettingsScoringResultsGUI');
                 foreach ($reflection->getConstants() as $name => $value) {
-                    if (substr($name, 0, 4) == 'CMD_') {
+                    if (substr($name, 0, 4) === 'CMD_') {
                         $settingsCommands[] = $value;
                     }
                 }
@@ -792,7 +792,7 @@ class ilTestTabsManager
                 "print",
                 "",
                 "",
-                $DIC->ctrl()->getCmd() == 'print'
+                $DIC->ctrl()->getCmd() === 'print'
             );
             $this->tabs->addSubTabTarget(
                 'review_view',
@@ -800,7 +800,7 @@ class ilTestTabsManager
                 'review',
                 '',
                 '',
-                $DIC->ctrl()->getCmd() == 'review'
+                $DIC->ctrl()->getCmd() === 'review'
             );
         }
     }

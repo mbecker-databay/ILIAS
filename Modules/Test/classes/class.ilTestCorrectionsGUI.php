@@ -159,7 +159,7 @@ class ilTestCorrectionsGUI
     protected function addHiddenItemsFromArray(ilConfirmationGUI $gui, $array, $curPath = array())
     {
         foreach ($array as $name => $value) {
-            if ($name == 'cmd' && !count($curPath)) {
+            if ($name === 'cmd' && !count($curPath)) {
                 continue;
             }
             

@@ -310,7 +310,7 @@ class ilTestParticipantsGUI
         $sess_filter = explode(':', $sess_filter);
         $filter = substr($sess_filter[2], 0, strlen($sess_filter[2]) - 1);
         
-        if ($filter == 'all' || $filter == false) {
+        if ($filter === 'all' || $filter == false) {
             return $in_rows; #unchanged - no filter.
         }
         
@@ -332,7 +332,7 @@ class ilTestParticipantsGUI
             }
         }
         
-        if ($filter == 'withSolutions') {
+        if ($filter === 'withSolutions') {
             return $with_result;
         }
         return $without_result;

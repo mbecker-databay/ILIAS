@@ -82,6 +82,6 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
      */
     public function numericOrdering($a_field)
     {
-        return 'nr' == $a_field;
+        return 'nr' === $a_field;
     }
 }

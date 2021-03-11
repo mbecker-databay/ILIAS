@@ -283,8 +283,8 @@ class assFormulaQuestionResult
         if (!$has_valid_chars) {
             $check_valid_chars = false;
         } elseif (
-            (isset($matches[2]) && $matches[2] == '/') &&
-            (isset($matches[4]) && strtolower($matches[4]) == "e") &&
+            (isset($matches[2]) && $matches[2] === '/') &&
+            (isset($matches[4]) && strtolower($matches[4]) === "e") &&
             (!isset($matches[1]) || !strlen($matches[1]) || !isset($matches[3]) || !strlen($matches[3]) || $matches[3] == 0)) {
             $check_valid_chars = false;
         }

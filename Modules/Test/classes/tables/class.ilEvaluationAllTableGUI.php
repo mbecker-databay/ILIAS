@@ -67,11 +67,11 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                     $this->addColumn($this->lng->txt("zipcode"), 'zipcode', '');
                 }
                 
-                if ($this->isFieldEnabledEnoughByAdministration('country') && $c == 'country') {
+                if ($this->isFieldEnabledEnoughByAdministration('country') && $c === 'country') {
                     $this->addColumn($this->lng->txt("country"), 'country', '');
                 }
                 
-                if ($this->isFieldEnabledEnoughByAdministration('sel_country') && $c == 'sel_country') {
+                if ($this->isFieldEnabledEnoughByAdministration('sel_country') && $c === 'sel_country') {
                     $this->addColumn($this->lng->txt("country"), 'sel_country', '');
                 }
                 
@@ -298,12 +298,12 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("ZIPCODE", strlen($data['zipcode']) ? $data['zipcode'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
-                if ($this->isFieldEnabledEnoughByAdministration('country') && $c == 'country') {
+                if ($this->isFieldEnabledEnoughByAdministration('country') && $c === 'country') {
                     $this->tpl->setCurrentBlock('country');
                     $this->tpl->setVariable("COUNTRY", strlen($data['country']) ? $data['country'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
-                if ($this->isFieldEnabledEnoughByAdministration('sel_country') && $c == 'sel_country') {
+                if ($this->isFieldEnabledEnoughByAdministration('sel_country') && $c === 'sel_country') {
                     $this->tpl->setCurrentBlock('country');
                     $this->tpl->setVariable("COUNTRY", strlen($data['sel_country']) ? $this->getCountryTranslation($data['sel_country']) : '&nbsp;');
                     $this->tpl->parseCurrentBlock();

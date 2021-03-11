@@ -124,7 +124,7 @@ class ilAssLacConditionParser
         $this->condition = preg_replace("/on/", "o n", $this->condition);
 
         for ($i = 0; $i < strlen($this->condition); $i++) {
-            if ($this->condition[$i] == "!" && !$this->isNegationSurroundedByBrackets($i)) {
+            if ($this->condition[$i] === "!" && !$this->isNegationSurroundedByBrackets($i)) {
                 $this->surroundNegationExpression($i);
             }
         }
@@ -174,21 +174,21 @@ class ilAssLacConditionParser
         while ($this->index < strlen($this->condition)) {
             $a = $this->condition[$this->index];
             if (trim($this->condition[$this->index]) != "" && in_array($this->condition[$this->index], $expected)) {
-                if ($this->condition[$this->index] == ')') {
+                if ($this->condition[$this->index] === ')') {
                     return $group;
-                } elseif ($this->condition[$this->index] == 'n') {
+                } elseif ($this->condition[$this->index] === 'n') {
                     $group[] = array('type' => 'expression', 'value' => array_shift($this->expressions));
                     $expected = array("o", ")");
-                } elseif ($this->condition[$this->index] == 'o') {
+                } elseif ($this->condition[$this->index] === 'o') {
                     $group[] = array('type' => 'operator', 'value' => array_shift($this->operators));
                     $expected = array("n", "(", "!");
-                } elseif ($this->condition[$this->index] == '(') {
+                } elseif ($this->condition[$this->index] === '(') {
                     $this->index++;
                     $elements = $this->createNodeArray();
                     $group[] = array('type' => "group", "negated" => $negation, 'nodes' => $elements);
                     $negation = false;
                     $expected = array("o",")");
-                } elseif ($this->condition[$this->index] == "!") {
+                } elseif ($this->condition[$this->index] === "!") {
                     $negation = true;
                 }
             } elseif (trim($this->condition[$this->index]) != "") {

@@ -156,7 +156,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
     
     public function handlerBeginTag($xmlParser, $tagName, $tagAttributes)
     {
-        if ($tagName != 'SkillsLevelThresholds' && !$this->isParsingActive()) {
+        if ($tagName !== 'SkillsLevelThresholds' && !$this->isParsingActive()) {
             return;
         }
         
@@ -257,7 +257,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
             return;
         }
         
-        if ($charData != "\n") {
+        if ($charData !== "\n") {
             // Replace multiple tabs with one space
             $charData = preg_replace("/\t+/", " ", $charData);
             

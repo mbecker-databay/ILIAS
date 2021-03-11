@@ -521,7 +521,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             // hey.
             foreach ($solutions as $idx => $solution_value) {
                 // fau: testNav - don't add the dummy entry for 'none of the above' to the user options
-                if ($solution_value["value1"] == 'mc_none_above') {
+                if ($solution_value["value1"] === 'mc_none_above') {
                     $this->setUseEmptySolutionInputChecked(true);
                     continue;
                 }

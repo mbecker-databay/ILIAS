@@ -720,7 +720,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         
         $t_arr = explode("_", $a_target);
 
-        if ($t_arr[0] != "tst" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "tst" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 

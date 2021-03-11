@@ -205,7 +205,7 @@ class ilTestExportGUI extends ilExportGUI
 
         if (count($archive_files) > 0) {
             foreach ($archive_files as $exp_file) {
-                if ($exp_file == '.' || $exp_file == '..') {
+                if ($exp_file === '.' || $exp_file === '..') {
                     continue;
                 }
                 $file_arr = explode("_", $exp_file);

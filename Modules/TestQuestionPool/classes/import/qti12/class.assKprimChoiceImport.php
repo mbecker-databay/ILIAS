@@ -92,7 +92,7 @@ class assKprimChoiceImport extends assQuestionImport
         
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->outcomes->decvar as $decvar) {
-                if ($decvar->getVarname() == 'SCORE') {
+                if ($decvar->getVarname() === 'SCORE') {
                     $this->object->setPoints($decvar->getMaxvalue());
 
                     if ($decvar->getMinvalue() > 0) {
@@ -139,7 +139,7 @@ class assKprimChoiceImport extends assQuestionImport
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
                         if (strlen($feedbackpointer->getLinkrefid())) {
                             foreach ($item->itemfeedback as $ifb) {
-                                if ($ifb->getIdent() == "response_allcorrect") {
+                                if ($ifb->getIdent() === "response_allcorrect") {
                                     // found a feedback for the identifier
                                     if (count($ifb->material)) {
                                         foreach ($ifb->material as $material) {
@@ -155,7 +155,7 @@ class assKprimChoiceImport extends assQuestionImport
                                             }
                                         }
                                     }
-                                } elseif ($ifb->getIdent() == "response_onenotcorrect") {
+                                } elseif ($ifb->getIdent() === "response_onenotcorrect") {
                                     // found a feedback for the identifier
                                     if (count($ifb->material)) {
                                         foreach ($ifb->material as $material) {

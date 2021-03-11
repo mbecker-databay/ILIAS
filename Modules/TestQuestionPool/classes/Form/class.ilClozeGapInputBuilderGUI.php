@@ -77,14 +77,14 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         
             for ($i = 0, $iMax = count($_POST['gap_combination']['select']); $i < $iMax; $i++) {
                 foreach ($_POST['gap_combination']['select'][$i] as $key => $item) {
-                    if ($item == 'none_selected_minus_one') {
+                    if ($item === 'none_selected_minus_one') {
                         return false;
                     }
                     $gaps_used_in_combination[$item] = $item;
                     $check_points_for_best_scoring = false;
                     foreach ($_POST['gap_combination_values'][$i] as $index => $answeritems) {
                         foreach ($answeritems as $answeritem) {
-                            if ($answeritem == 'none_selected_minus_one') {
+                            if ($answeritem === 'none_selected_minus_one') {
                                 return false;
                             }
                         }
@@ -131,7 +131,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                             $points_sum += $gap_with_points[$key];
                         }
                         if ($points_sum <= 0) {
-                            if (!array_key_exists($key, $gaps_used_in_combination) && (!$getType == 'select' || $select_at_least_on_positive == false)) {
+                            if (!array_key_exists($key, $gaps_used_in_combination) && (!$getType === 'select' || $select_at_least_on_positive == false)) {
                                 $error = true;
                             }
                         }
@@ -163,7 +163,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                             $error = true;
                         }
 
-                        if ($part == 'points') {
+                        if ($part === 'points') {
                             $points = $val;
                         }
                     }

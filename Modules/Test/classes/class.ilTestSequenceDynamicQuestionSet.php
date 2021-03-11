@@ -372,7 +372,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         $NOT_IN_checkedQuestions = $this->db->in('question_fi', $this->alreadyCheckedQuestions, true, 'integer');
 
         // BEGIN: FIX IN QUERY
-        if ($NOT_IN_checkedQuestions == ' 1=2 ') {
+        if ($NOT_IN_checkedQuestions === ' 1=2 ') {
             $NOT_IN_checkedQuestions = ' 1=1 ';
         }
         // END: FIX IN QUERY

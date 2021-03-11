@@ -107,7 +107,7 @@ class ilTestSkillLevelThresholdsGUI
     {
         require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
 
-        if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
+        if (strtolower($_SERVER['REQUEST_METHOD']) === 'post') {
             $assignmentList = $this->buildSkillQuestionAssignmentList();
             $assignmentList->loadFromDb();
 

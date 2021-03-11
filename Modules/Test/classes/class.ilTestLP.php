@@ -91,7 +91,7 @@ class ilTestLP extends ilObjectLP
                 // refresh LP - see ilLPStatusWrapper::_updateStatus()
                 require_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
                 $lp_status = ilLPStatusFactory::_getInstance($course_obj_id);
-                if (strtolower(get_class($lp_status)) != "illpstatus") {
+                if (strtolower(get_class($lp_status)) !== "illpstatus") {
                     foreach ($a_user_ids as $user_id) {
                         $lp_status->_updateStatus($course_obj_id, $user_id);
                     }

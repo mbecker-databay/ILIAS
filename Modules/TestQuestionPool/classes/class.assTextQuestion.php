@@ -500,7 +500,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     protected function calculateReachedPointsForSolution($solution)
     {
         // Return min points when keyword relation is NON KEYWORDS
-        if ($this->getKeywordRelation() == 'non') {
+        if ($this->getKeywordRelation() === 'non') {
             return $this->getMinimumPoints();
         }
 

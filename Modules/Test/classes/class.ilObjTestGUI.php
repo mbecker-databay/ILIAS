@@ -900,7 +900,7 @@ class ilObjTestGUI extends ilObjectGUI
     {
         $qid = $_REQUEST['q_id'];
 
-        if (!$qid || $qid == 'Array') {
+        if (!$qid || $qid === 'Array') {
             $questions = $this->object->getQuestionTitlesAndIndexes();
 
             $keys = array_keys($questions);
@@ -3371,7 +3371,7 @@ class ilObjTestGUI extends ilObjectGUI
         
         // #13761; All methods use for this request should be revised, thx japo ;-)
         if (
-            'copyAndLinkToQuestionpool' == $this->ctrl->getCmd() &&
+            'copyAndLinkToQuestionpool' === $this->ctrl->getCmd() &&
             (!isset($_REQUEST['q_id']) || !is_array($_REQUEST['q_id']))
         ) {
             ilUtil::sendFailure($this->lng->txt('tst_no_question_selected_for_moving_to_qpl'), true);

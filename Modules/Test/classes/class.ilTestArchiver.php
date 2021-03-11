@@ -698,7 +698,7 @@ class ilTestArchiver
         $output_contents = '';
         
         foreach ($this->archive_data_index as $line_data) {
-            if ($line_data['identifier'] == "|") {
+            if ($line_data['identifier'] === "|") {
                 continue;
             }
             $output_contents .= implode('|', $line_data) . "\n";

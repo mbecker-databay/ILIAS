@@ -53,13 +53,13 @@ class assOrderingQuestionImport extends assQuestionImport
                 case "response":
                     $response = $presentation->response[$entry["index"]];
                     $type = $response->getIdent();
-                    if ($response->getIdent() == 'OQP') {
+                    if ($response->getIdent() === 'OQP') {
                         $type = OQ_PICTURES;
-                    } elseif ($response->getIdent() == 'OQNP') {
+                    } elseif ($response->getIdent() === 'OQNP') {
                         $type = OQ_NESTED_PICTURES;
-                    } elseif ($response->getIdent() == 'OQNT') {
+                    } elseif ($response->getIdent() === 'OQNT') {
                         $type = OQ_NESTED_TERMS;
-                    } elseif ($response->getIdent() == 'OQT') {
+                    } elseif ($response->getIdent() === 'OQT') {
                         $type = OQ_TERMS;
                     }
 

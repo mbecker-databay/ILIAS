@@ -88,7 +88,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
      */
     public function numericOrdering($a_field)
     {
-        if ('value' == $a_field) {
+        if ('value' === $a_field) {
             return true;
         }
 

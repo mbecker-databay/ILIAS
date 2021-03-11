@@ -29,7 +29,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      */
     public static function lookupExportDirectory($a_obj_type, $a_obj_id, $a_export_type = 'xml', $a_entity = "")
     {
-        if ($a_export_type == 'xml') {
+        if ($a_export_type === 'xml') {
             return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
         }
         return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_" . $a_export_type;
@@ -68,7 +68,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
     {
-        if ($a_entity == 'qpl') {
+        if ($a_entity === 'qpl') {
             $deps = array();
 
             $taxIds = $this->getDependingTaxonomyIds($a_ids);

@@ -89,7 +89,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
     {
-        if ($this->ctrl->getCmd() != 'deleteImage') {
+        if ($this->ctrl->getCmd() !== 'deleteImage') {
             $this->object->flushAnswers();
             if (is_array($_POST['image']['coords']['name'])) {
                 foreach ($_POST['image']['coords']['name'] as $idx => $name) {
@@ -122,7 +122,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
     {
-        if ($this->ctrl->getCmd() != 'deleteImage') {
+        if ($this->ctrl->getCmd() !== 'deleteImage') {
             if (strlen($_FILES['image']['tmp_name']) == 0) {
                 $this->object->setImageFilename($_POST["image_name"]);
             }

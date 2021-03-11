@@ -565,7 +565,7 @@ class ilObjQuestionPool extends ilObject
 
     public function modifyExportIdentifier($a_tag, $a_param, $a_value)
     {
-        if ($a_tag == "Identifier" && $a_param == "Entry") {
+        if ($a_tag === "Identifier" && $a_param === "Entry") {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
             $a_value = ilUtil::insertInstIntoID($a_value);
         }

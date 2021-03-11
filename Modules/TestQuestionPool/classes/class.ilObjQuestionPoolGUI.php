@@ -104,7 +104,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         // add entry to navigation history
         if (!$this->getCreationMode() &&
             $ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
-            if ('qpl' == $this->object->getType()) {
+            if ('qpl' === $this->object->getType()) {
                 $ilNavigationHistory->addItem(
                     $_GET["ref_id"],
                     "ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=" . $_GET["ref_id"],
@@ -116,7 +116,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd("questions");
         $next_class = $this->ctrl->getNextClass($this);
         
-        if (in_array($next_class, array('', 'ilobjquestionpoolgui')) && $cmd == 'questions') {
+        if (in_array($next_class, array('', 'ilobjquestionpoolgui')) && $cmd === 'questions') {
             $_GET['q_id'] = '';
         }
         
@@ -132,8 +132,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 ? $_POST["sel_question_types"]
                 : $_GET["sel_question_types"];
         }
-        if ($cmd != "createQuestion" && $cmd != "createQuestionForTest"
-            && $next_class != "ilassquestionpagegui") {
+        if ($cmd !== "createQuestion" && $cmd !== "createQuestionForTest"
+            && $next_class !== "ilassquestionpagegui") {
             if (($_GET["test_ref_id"] != "") or ($_GET["calling_test"])) {
                 $ref_id = $_GET["test_ref_id"];
                 if (!$ref_id) {
@@ -198,7 +198,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $q_gui->setTargetGuiClass(null);
                 $q_gui->setQuestionActionCmd(null);
                 
-                if ($this->object->getType() == 'qpl') {
+                if ($this->object->getType() === 'qpl') {
                     $q_gui->addHeaderAction();
                 }
                 
@@ -269,7 +269,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
                 
-                if ($this->object->getType() == 'qpl' && $writeAccess) {
+                if ($this->object->getType() === 'qpl' && $writeAccess) {
                     $questionGUI->addHeaderAction();
                 }
 
@@ -319,7 +319,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
                 
-                if ($this->object->getType() == 'qpl' && $writeAccess) {
+                if ($this->object->getType() === 'qpl' && $writeAccess) {
                     $questionGUI->addHeaderAction();
                 }
                 
@@ -379,7 +379,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             case "ilobjquestionpoolgui":
             case "":
                 
-                if ($cmd == 'questions') {
+                if ($cmd === 'questions') {
                     $this->ctrl->setParameter($this, 'q_id', '');
                 }
                 
@@ -393,7 +393,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $q_gui = assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParamater());
                 $q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                 $q_gui->object->setObjId($this->object->getId());
-                if ($this->object->getType() == 'qpl') {
+                if ($this->object->getType() === 'qpl') {
                     $q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
                     $this->object->addQuestionChangeListeners($q_gui->object);
                     if ($writeAccess) {
@@ -408,8 +408,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 break;
         }
 
-        if (!(strtolower($_GET["baseClass"]) == "iladministrationgui"
-                || strtolower($_GET['baseClass']) == 'ilrepositorygui')
+        if (!(strtolower($_GET["baseClass"]) === "iladministrationgui"
+                || strtolower($_GET['baseClass']) === 'ilrepositorygui')
             && $this->getCreationMode() != true) {
             $this->tpl->printToStdout();
         }
@@ -1009,7 +1009,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $lng = $DIC['lng'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-        if (get_class($this->object) == "ilObjTest") {
+        if (get_class($this->object) === "ilObjTest") {
             if ($_GET["calling_test"] > 0) {
                 $ref_id = $_GET["calling_test"];
                 $q_id = $_GET["q_id"];
@@ -1710,7 +1710,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $questionList->setParentObjId($this->object->getId());
         
         foreach ($table_gui->getFilterItems() as $item) {
-            if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
+            if (substr($item->getPostVar(), 0, strlen('tax_')) === 'tax_') {
                 $v = $item->getValue();
                 
                 if (is_array($v) && count($v) && !(int) $v[0]) {

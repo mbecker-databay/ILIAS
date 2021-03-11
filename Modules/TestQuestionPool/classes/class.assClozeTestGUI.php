@@ -86,7 +86,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
     {
         if (is_array($_POST['gap'])) {
-            if ($this->ctrl->getCmd() != 'createGaps') {
+            if ($this->ctrl->getCmd() !== 'createGaps') {
                 $this->object->clearGapAnswers();
             }
 
@@ -100,7 +100,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
                         $this->object->setGapShuffle($idx, 0);
 
-                        if ($this->ctrl->getCmd() != 'createGaps') {
+                        if ($this->ctrl->getCmd() !== 'createGaps') {
                             if (is_array($_POST['gap_' . $idx]['answer'])) {
                                 foreach ($_POST['gap_' . $idx]['answer'] as $order => $value) {
                                     $this->object->addGapAnswer($idx, $order, $value);
@@ -126,7 +126,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
                         $this->object->setGapShuffle($idx, (int) (isset($_POST["shuffle_$idx"]) && $_POST["shuffle_$idx"]));
 
-                        if ($this->ctrl->getCmd() != 'createGaps') {
+                        if ($this->ctrl->getCmd() !== 'createGaps') {
                             if (is_array($_POST['gap_' . $idx]['answer'])) {
                                 foreach ($_POST['gap_' . $idx]['answer'] as $order => $value) {
                                     $this->object->addGapAnswer($idx, $order, $value);
@@ -155,7 +155,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                         $this->object->getGap($idx)->clearItems();
 
                         if (array_key_exists('gap_' . $idx . '_numeric', $_POST)) {
-                            if ($this->ctrl->getCmd() != 'createGaps') {
+                            if ($this->ctrl->getCmd() !== 'createGaps') {
                                 $this->object->addGapAnswer(
                                     $idx,
                                     0,
@@ -177,7 +177,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
                             $this->object->setGapAnswerPoints($idx, 0, $_POST['gap_' . $idx . '_numeric_points']);
                         } else {
-                            if ($this->ctrl->getCmd() != 'createGaps') {
+                            if ($this->ctrl->getCmd() !== 'createGaps') {
                                 $this->object->addGapAnswer($idx, 0, '');
                             }
 
@@ -205,7 +205,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     );
                 }
             }
-            if ($this->ctrl->getCmd() != 'createGaps') {
+            if ($this->ctrl->getCmd() !== 'createGaps') {
                 $this->object->updateClozeTextFromGaps();
             }
         }

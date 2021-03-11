@@ -795,7 +795,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         }
                     } else {
                         $appendComma = "";
-                        if ($item[$posClosingBrackets + 2] == ',') {
+                        if ($item[$posClosingBrackets + 2] === ',') {
                             $appendComma = ",";
                         }
 
@@ -1135,7 +1135,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         foreach ($textarray as $textidx => $text) {
             $items = preg_split("/\s+/", trim($text));
             foreach ($items as $idx => $item) {
-                if (substr($item, 0, 1) == "#") {
+                if (substr($item, 0, 1) === "#") {
                     $item = substr($item, 1);
                     
                     // #14115 - add position to correct answer
@@ -1259,9 +1259,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     private function getErrorTokenHtml($item, $class, $useLinkTags)
     {
         if ($useLinkTags) {
-            return '<a class="' . $class . '" href="#">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>';
+            return '<a class="' . $class . '" href="#">' . ($item === '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>';
         }
         
-        return '<span class="' . $class . '">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</span>';
+        return '<span class="' . $class . '">' . ($item === '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</span>';
     }
 }

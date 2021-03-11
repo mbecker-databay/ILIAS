@@ -129,7 +129,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 include_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 
-                if ($cmd == 'view') {
+                if ($cmd === 'view') {
                     $cmd = 'showPage';
                     $ilCtrl->setCmd($cmd);
                 }
@@ -176,7 +176,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                         $DIC->ui()->mainTemplate()->parseCurrentBlock();
                     }
             
-                    if ((in_array($cmd, array('view', 'showPage')) || $cmd == 'edit') && $this->test_object->evalTotalPersons()) {
+                    if ((in_array($cmd, array('view', 'showPage')) || $cmd === 'edit') && $this->test_object->evalTotalPersons()) {
                         return $this->showPage();
                     }
                     

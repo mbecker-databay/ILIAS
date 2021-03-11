@@ -43,7 +43,7 @@ class ilAssQuestionPreviewSettings
     {
         $objectType = ilObject::_lookupType($this->contextRefId, true);
         
-        return $objectType == 'tst';
+        return $objectType === 'tst';
     }
     
     private function initSettingsWithTestObject()

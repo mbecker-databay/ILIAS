@@ -45,7 +45,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 
     public function getCommand($cmd)
     {
-        if (substr($cmd, 0, 6) == "delete") {
+        if (substr($cmd, 0, 6) === "delete") {
             $cmd = "delete";
         }
         return $cmd;

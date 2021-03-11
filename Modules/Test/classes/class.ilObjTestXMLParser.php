@@ -179,7 +179,7 @@ class ilObjTestXMLParser extends ilSaxParser
 
     public function handlerCharacterData($xmlParser, $charData)
     {
-        if ($charData != "\n") {
+        if ($charData !== "\n") {
             // Replace multiple tabs with one space
             $charData = preg_replace("/\t+/", " ", $charData);
 

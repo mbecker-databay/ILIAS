@@ -472,7 +472,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 'integer'
             );
             
-            if ($IN == ' 1=2 ') {
+            if ($IN === ' 1=2 ') {
                 $IN = ' 1=1 ';
             } // required for ILIAS < 5.0
             
@@ -730,7 +730,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      */
     public function getTitle($a_comp_id, $a_item_type, $a_item_id)
     {
-        if ($a_comp_id != 'qpl' || $a_item_type != 'quest' || !(int) $a_item_id) {
+        if ($a_comp_id !== 'qpl' || $a_item_type !== 'quest' || !(int) $a_item_id) {
             return '';
         }
         

@@ -108,7 +108,7 @@ class assQuestionImport
         $feedbacks = array();
         
         foreach ($item->itemfeedback as $ifb) {
-            if ($ifb->getIdent() == 'response_allcorrect' || $ifb->getIdent() == 'response_onenotcorrect') {
+            if ($ifb->getIdent() === 'response_allcorrect' || $ifb->getIdent() === 'response_onenotcorrect') {
                 continue;
             }
             

@@ -2047,7 +2047,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $questionList->setQuestionInstanceTypeFilter(null);
 
         foreach ($table_gui->getFilterItems() as $item) {
-            if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
+            if (substr($item->getPostVar(), 0, strlen('tax_')) === 'tax_') {
                 $v = $item->getValue();
 
                 if (is_array($v) && count($v) && !(int) $v[0]) {

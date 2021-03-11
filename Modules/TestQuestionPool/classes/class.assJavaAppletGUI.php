@@ -43,7 +43,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     public function getCommand($cmd)
     {
-        if (substr($cmd, 0, 6) == "delete") {
+        if (substr($cmd, 0, 6) === "delete") {
             $cmd = "delete";
         }
         return $cmd;

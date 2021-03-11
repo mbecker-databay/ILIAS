@@ -292,7 +292,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             if (strpos($item->getPostVar(), 'tax_') !== false) {
                 $taxId = substr($item->getPostVar(), strlen('tax_'));
                 $taxFilterSelection[$taxId] = $item->getValue();
-            } elseif ($item->getPostVar() == 'question_answer_status') {
+            } elseif ($item->getPostVar() === 'question_answer_status') {
                 $answerStatusFilterSelection = $item->getValue();
             }
         }

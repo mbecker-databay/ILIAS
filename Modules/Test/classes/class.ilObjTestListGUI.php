@@ -170,7 +170,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     private function removeUserResultsCommand($commands)
     {
         foreach ($commands as $key => $command) {
-            if ($command['cmd'] == 'userResultsGateway') {
+            if ($command['cmd'] === 'userResultsGateway') {
                 unset($commands[$key]);
                 break;
             }

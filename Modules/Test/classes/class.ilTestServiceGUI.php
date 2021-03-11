@@ -689,7 +689,7 @@ class ilTestServiceGUI
         $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
         $result_output = $question_gui->getSolutionOutput($active_id, $pass, true, false, $show_question_only, $this->object->getShowSolutionFeedback(), false, false, true);
         $best_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true, false, false);
-        if ($this->object->getShowSolutionFeedback() && $_GET['cmd'] != 'outCorrectSolution') {
+        if ($this->object->getShowSolutionFeedback() && $_GET['cmd'] !== 'outCorrectSolution') {
             $specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput(
                 $question_gui->object->fetchIndexedValuesFromValuePairs(
                     $question_gui->object->getSolutionValues($active_id, $pass)
@@ -1038,7 +1038,7 @@ class ilTestServiceGUI
         $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 
         foreach ($table_gui->getFilterItems() as $item) {
-            if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
+            if (substr($item->getPostVar(), 0, strlen('tax_')) === 'tax_') {
                 $v = $item->getValue();
 
                 if (is_array($v) && count($v) && !(int) $v[0]) {

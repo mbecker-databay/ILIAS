@@ -964,7 +964,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $questions = $this->object->getQuestions();
         foreach ($questions as $question_id) {
             $question_object = $this->object->getQuestionDataset($question_id);
-            if ($question_object->type_tag == 'assFileUpload') {
+            if ($question_object->type_tag === 'assFileUpload') {
                 // Pfad: /data/default/assessment/tst_2/14/21/files/file_14_4_1370417414.png
                 // /data/ - klar
                 // /assessment/ - Konvention
@@ -1517,7 +1517,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("SECONDNOW", $datenow["seconds"]);
         $template->setVariable("PTIME_M", $processing_time_minutes);
         $template->setVariable("PTIME_S", $processing_time_seconds);
-        if($this->ctrl->getCmd() == 'outQuestionSummary') {
+        if($this->ctrl->getCmd() === 'outQuestionSummary') {
             $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd'));
         } else {
             $template->setVariable("REDIRECT_URL", "");
@@ -1870,7 +1870,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function handlePasswordProtectionRedirect()
     {
-        if ($this->ctrl->getNextClass() == 'iltestpasswordprotectiongui') {
+        if ($this->ctrl->getNextClass() === 'iltestpasswordprotectiongui') {
             return;
         }
         
