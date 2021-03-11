@@ -211,7 +211,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     public function isComplete()
     {
-        if (strlen($this->title)
+        if ($this->title !== ''
             && $this->author
             && $this->question
             && $this->javaapplet_filename
@@ -220,7 +220,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
             && $this->getPoints() > 0
         ) {
             return true;
-        } elseif (strlen($this->title)
+        } elseif ($this->title !== ''
             && $this->author
             && $this->question
             && $this->getJavaArchive()
@@ -943,10 +943,10 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
         $i = 1;
         foreach ($solutions as $solution) {
             $worksheet->setCell($startrow + $i, 1, $this->lng->txt("result") . " $i");
-            if (strlen($solution["value1"])) {
+            if ($solution["value1"] != '') {
                 $worksheet->setCell($startrow + $i, 1, $solution["value1"]);
             }
-            if (strlen($solution["value2"])) {
+            if ($solution["value2"] != '') {
                 $worksheet->setCell($startrow + $i, 2, $solution["value2"]);
             }
             $i++;

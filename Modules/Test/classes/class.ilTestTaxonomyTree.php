@@ -48,7 +48,7 @@ class ilTestTaxonomyTree extends ilTaxonomyTree
         $pathString = '';
         
         foreach ($pathNodes as $n) {
-            if (strlen($pathString)) {
+            if ($pathString !== '') {
                 $pathString .= '-';
             }
             

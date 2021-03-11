@@ -610,7 +610,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->saveResult = false;
         if (!$force) {
             $formtimestamp = $_POST["formtimestamp"];
-            if (strlen($formtimestamp) == 0) {
+            if ($formtimestamp == '') {
                 $formtimestamp = $_GET["formtimestamp"];
             }
             if ($formtimestamp != $_SESSION["formtimestamp"]) {

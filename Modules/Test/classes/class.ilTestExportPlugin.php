@@ -117,7 +117,7 @@ abstract class ilTestExportPlugin extends ilPlugin
             throw new ilException('The format must be of type string.');
         }
 
-        if (!strlen($format_id)) {
+        if ($format_id === '') {
             throw new ilException('The format is empty.');
         }
 

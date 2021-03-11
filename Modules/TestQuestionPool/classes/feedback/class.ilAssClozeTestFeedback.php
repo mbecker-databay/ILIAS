@@ -903,7 +903,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         switch ($gap->getType()) {
             case CLOZE_TEXT:
                 
-                if (!strlen($answerValue)) {
+                if ($answerValue == '') {
                     return self::FB_TEXT_GAP_EMPTY_INDEX;
                 }
                 
@@ -921,7 +921,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             
             case CLOZE_SELECT:
                 
-                if (strlen($answerValue)) {
+                if ($answerValue != '') {
                     return $answerValue;
                 }
                 
@@ -929,7 +929,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             
             case CLOZE_NUMERIC:
                 
-                if (!strlen($answerValue)) {
+                if ($answerValue == '') {
                     return self::FB_NUMERIC_GAP_EMPTY_INDEX;
                 }
                 

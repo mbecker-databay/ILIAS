@@ -224,7 +224,7 @@ class assFormulaQuestionResult
     public function isCorrect($variables, $results, $value, $unit = null)
     {
         // The user did not answer the question ....
-        if ($value === null || 0 == strlen($value)) {
+        if ($value === null || $value == '') {
             return false;
         }
         $value = str_replace(' ', '', $value);
@@ -285,7 +285,7 @@ class assFormulaQuestionResult
         } elseif (
             (isset($matches[2]) && $matches[2] === '/') &&
             (isset($matches[4]) && strtolower($matches[4]) === "e") &&
-            (!isset($matches[1]) || !strlen($matches[1]) || !isset($matches[3]) || !strlen($matches[3]) || $matches[3] == 0)) {
+            (!isset($matches[1]) || $matches[1] == '' || !isset($matches[3]) || $matches[3] == '' || $matches[3] == 0)) {
             $check_valid_chars = false;
         }
         // result_type extension

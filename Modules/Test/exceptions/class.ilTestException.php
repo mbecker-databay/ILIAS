@@ -15,7 +15,7 @@ class ilTestException extends ilException
 {
     public function __construct($msg = '', $code = 0)
     {
-        if (!strlen($msg)) {
+        if ($msg == '') {
             $msg = get_class($this);
         }
 

@@ -62,7 +62,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function isComplete()
     {
         if (
-            strlen($this->title)
+            $this->title !== ''
             && ($this->author)
             && ($this->question)
             && ($this->getMaximumPoints() >= 0)
@@ -96,10 +96,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                                                                                              ) . " (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)",
             array( "integer", "float", "text", "integer" ),
             array(
-                                $this->getId(),
-                                (strlen($this->getMaxSize())) ? $this->getMaxSize() : null,
-                                (strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : null,
-                                (int) $this->isCompletionBySubmissionEnabled()
+                $this->getId(),
+                ($this->getMaxSize() != '') ? $this->getMaxSize() : null,
+                ($this->getAllowedExtensions() !== '') ? $this->getAllowedExtensions() : null,
+                (int) $this->isCompletionBySubmissionEnabled()
                             )
         );
     }
@@ -383,7 +383,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         
         // check suffixes
         if (count($this->getAllowedExtensionsArray())) {
-            if (!strlen($suffix)) {
+            if ($suffix == '') {
                 ilUtil::sendFailure($this->lng->txt("form_msg_file_missing_file_ext"), true);
                 return false;
             }
@@ -395,7 +395,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
         
         // virus handling
-        if (strlen($temp_name)) {
+        if ($temp_name != '') {
             $vir = ilUtil::virusHandling($temp_name, $filename);
             if ($vir[0] == false) {
                 ilUtil::sendFailure($this->lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1], true);
@@ -621,7 +621,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     */
     public function getMaxFilesizeInBytes()
     {
-        if (strlen($this->getMaxSize())) {
+        if ($this->getMaxSize() != '') {
             return $this->getMaxSize();
         } else {
             // get the value for the maximal uploadable filesize from the php.ini (if available)
@@ -958,7 +958,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         foreach ($solutions as $solution) {
             $worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
             $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-            if (strlen($solution["value1"])) {
+            if ($solution["value1"] != '') {
                 $worksheet->setCell($startrow + $i, 1, $solution["value1"]);
                 $worksheet->setCell($startrow + $i, 2, $solution["value2"]);
             }
@@ -1038,7 +1038,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     */
     public function getAllowedExtensionsArray()
     {
-        if (strlen($this->allowedextensions)) {
+        if ($this->allowedextensions != '') {
             return array_filter(array_map('trim', explode(",", $this->allowedextensions)));
         }
         return array();
@@ -1304,7 +1304,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             return false;
         }
         
-        return strlen($_FILES['upload']['tmp_name']) > 0;
+        return $_FILES['upload']['tmp_name'] != '';
     }
     // hey.
 }

@@ -181,8 +181,8 @@ class assTextQuestionExport extends assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_allcorrect . $feedback_onenotcorrect)) {
-            if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect . $feedback_onenotcorrect !== '') {
+            if ($feedback_allcorrect != '') {
                 $attrs = array(
                     "continue" => "Yes"
                 );
@@ -203,7 +203,7 @@ class assTextQuestionExport extends assQuestionExport
                 $a_xml_writer->xmlEndTag("respcondition");
             }
 
-            if (strlen($feedback_onenotcorrect)) {
+            if ($feedback_onenotcorrect != '') {
                 $attrs = array(
                     "continue" => "Yes"
                 );
@@ -236,7 +236,7 @@ class assTextQuestionExport extends assQuestionExport
 
         $this->addAnswerSpecificFeedback($a_xml_writer, $this->object->feedbackOBJ->getAnswerOptionsByAnswerIndex());
         
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "ident" => "response_allcorrect",
                 "view" => "All"
@@ -248,7 +248,7 @@ class assTextQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "ident" => "response_onenotcorrect",
                 "view" => "All"

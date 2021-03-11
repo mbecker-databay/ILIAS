@@ -295,7 +295,7 @@ class ilTestExportGUI extends ilExportGUI
             $file = basename($file);
             $dir = substr($file, 0, strlen($file) - 4);
 
-            if (!strlen($file) || !strlen($dir)) {
+            if ($file === '' || $dir == '') {
                 continue;
             }
             

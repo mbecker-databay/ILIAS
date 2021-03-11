@@ -166,7 +166,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     
                 case UPLOAD_ERR_NO_FILE:
                     if ($this->getRequired()) {
-                        if (!strlen($this->getValue())) {
+                        if ($this->getValue() === '') {
                             $this->setAlert($lng->txt("form_msg_file_no_upload"));
                             return false;
                         }
@@ -211,7 +211,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $max = 0;
         if (is_array($_POST[$this->getPostVar()]['coords']['name'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['name'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired)) {
+                if (($_POST[$this->getPostVar()]['coords']['points'][$idx] == '') && ($this->getRequired)) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }
@@ -245,7 +245,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $this->outputSuffixes($template, "allowed_image_suffixes");
         
         if ($this->getImage() != "") {
-            if (strlen($this->getValue())) {
+            if ($this->getValue() !== '') {
                 $template->setCurrentBlock("has_value");
                 $template->setVariable("TEXT_IMAGE_NAME", $this->getValue());
                 $template->setVariable("POST_VAR_D", $this->getPostVar());
@@ -279,13 +279,13 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         if (is_array($this->getAreas()) && $this->getAreas()) {
             $counter = 0;
             foreach ($this->getAreas() as $area) {
-                if (strlen($area->getPoints())) {
+                if ($area->getPoints() != '') {
                     $template->setCurrentBlock('area_points_value');
                     $template->setVariable('VALUE_POINTS', $area->getPoints());
                     $template->parseCurrentBlock();
                 }
                 if ($this->getPointsUncheckedFieldEnabled()) {
-                    if (strlen($area->getPointsUnchecked())) {
+                    if ($area->getPointsUnchecked() != '') {
                         $template->setCurrentBlock('area_points_unchecked_value');
                         $template->setVariable('VALUE_POINTS_UNCHECKED', $area->getPointsUnchecked());
                         $template->parseCurrentBlock();
@@ -294,7 +294,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
                     $template->setCurrentBlock('area_points_unchecked_field');
                     $template->parseCurrentBlock();
                 }
-                if (strlen($area->getAnswertext())) {
+                if ($area->getAnswertext() != '') {
                     $template->setCurrentBlock('area_name_value');
                     $template->setVariable('VALUE_NAME', $area->getAnswertext());
                     $template->parseCurrentBlock();

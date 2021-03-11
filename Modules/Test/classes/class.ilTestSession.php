@@ -191,14 +191,14 @@ class ilTestSession
             $ilDB->update(
                 'tst_active',
                 array(
-                        'lastindex' => array('integer', $this->getLastSequence()),
-                        'tries' => array('integer', $this->getPass()),
-                        'submitted' => array('integer', $submitted),
-                        'submittimestamp' => array('timestamp', strlen($this->getSubmittedTimestamp()) ? $this->getSubmittedTimestamp() : null),
-                        'tstamp' => array('integer', time()),
-                        'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
-                        'last_started_pass' => array('integer', $this->getLastStartedPass()),
-                        'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
+                    'lastindex' => array('integer', $this->getLastSequence()),
+                    'tries' => array('integer', $this->getPass()),
+                    'submitted' => array('integer', $submitted),
+                    'submittimestamp' => array('timestamp', $this->getSubmittedTimestamp() !== '' ? $this->getSubmittedTimestamp() : null),
+                    'tstamp' => array('integer', time()),
+                    'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
+                    'last_started_pass' => array('integer', $this->getLastStartedPass()),
+                    'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
                     ),
                 array(
                         'active_id' => array('integer', $this->getActiveId())
@@ -221,7 +221,7 @@ class ilTestSession
                     'lastindex' => array('integer', $this->getLastSequence()),
                     'tries' => array('integer', $this->getPass()),
                     'submitted' => array('integer', $submitted),
-                    'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
+                    'submittimestamp' => array('timestamp', ($this->getSubmittedTimestamp() !== '') ? $this->getSubmittedTimestamp() : null),
                     'tstamp' => array('integer', time() - 10),
                     'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
                     'last_started_pass' => array('integer', $this->getPass()),
@@ -246,7 +246,7 @@ class ilTestSession
                         'lastindex' => array('integer', $this->getLastSequence()),
                         'tries' => array('integer', $this->getPass()),
                         'submitted' => array('integer', $submitted),
-                        'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
+                        'submittimestamp' => array('timestamp', ($this->getSubmittedTimestamp() !== '') ? $this->getSubmittedTimestamp() : null),
                         'tstamp' => array('integer', time() - 10),
                         'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
                         'last_started_pass' => array('integer', $this->getPass()),
@@ -273,7 +273,7 @@ class ilTestSession
                 array('integer','integer','text'),
                 array($user_id, $test_id, $this->getAccessCodeFromSession())
             );
-        } elseif (strlen($anonymous_id)) {
+        } elseif ($anonymous_id != '') {
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),

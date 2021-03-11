@@ -67,7 +67,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         $newObj->fromXML($xml_file);
 
         // set another question pool name (if possible)
-        if (isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"])) {
+        if (isset($_POST["qpl_new"]) && $_POST["qpl_new"] != '') {
             $newObj->setTitle($_POST["qpl_new"]);
         }
         
@@ -94,7 +94,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         $result = $qtiParser->startParsing();
 
         // import page data
-        if (strlen($xml_file)) {
+        if ($xml_file != '') {
             include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
             $contParser = new ilContObjParser($newObj, $xml_file, basename($this->getImportDirectory()));
             $contParser->setQuestionMapping($qtiParser->getImportMapping());

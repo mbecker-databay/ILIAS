@@ -262,17 +262,17 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         $i = 0;
         foreach ($this->values as $value) {
             if (is_object($value)) {
-                if (strlen($value->text_wrong)) {
+                if ($value->text_wrong != '') {
                     $tpl->setCurrentBlock("prop_key_propval");
                     $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_wrong));
                     $tpl->parseCurrentBlock();
                 }
-                if (strlen($value->text_correct)) {
+                if ($value->text_correct != '') {
                     $tpl->setCurrentBlock("prop_value_propval");
                     $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_correct));
                     $tpl->parseCurrentBlock();
                 }
-                if (strlen($value->points)) {
+                if ($value->points != '') {
                     $tpl->setCurrentBlock("prop_points_propval");
                     $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->points));
                     $tpl->parseCurrentBlock();

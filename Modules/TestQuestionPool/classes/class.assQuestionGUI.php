@@ -514,7 +514,7 @@ abstract class assQuestionGUI
             $question_type = assQuestion::getQuestionTypeFromDb($question_id);
         }
         
-        if (strlen($question_type) == 0) {
+        if ($question_type == '') {
             return null;
         }
 
@@ -662,7 +662,7 @@ abstract class assQuestionGUI
         }
         // fau.
 
-        if (strlen($html)) {
+        if ($html != '') {
             if ($inlineFeedbackEnabled && $this->hasInlineFeedback()) {
                 $html = $this->buildFocusAnchorHtml() . $html;
             }
@@ -732,12 +732,12 @@ abstract class assQuestionGUI
      */
     public function originalSyncForm($return_to = "", $return_to_feedback = '')
     {
-        if (strlen($return_to)) {
+        if ($return_to !== '') {
             $this->ctrl->setParameter($this, "return_to", $return_to);
         } elseif ($_REQUEST['return_to']) {
             $this->ctrl->setParameter($this, "return_to", $_REQUEST['return_to']);
         }
-        if (strlen($return_to_feedback)) {
+        if ($return_to_feedback !== '') {
             $this->ctrl->setParameter($this, 'return_to_fb', 'true');
         }
 
@@ -757,10 +757,10 @@ abstract class assQuestionGUI
         if ($original_id) {
             $this->object->syncWithOriginal();
         }
-        if (strlen($_GET["return_to"])) {
+        if ($_GET["return_to"] != '') {
             $this->ctrl->redirect($this, $_GET["return_to"]);
         }
-        if (strlen($_REQUEST["return_to_fb"])) {
+        if ($_REQUEST["return_to_fb"] != '') {
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
         } else {
             if (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
@@ -784,10 +784,10 @@ abstract class assQuestionGUI
 
     public function cancelSync()
     {
-        if (strlen($_GET["return_to"])) {
+        if ($_GET["return_to"] != '') {
             $this->ctrl->redirect($this, $_GET["return_to"]);
         }
-        if (strlen($_REQUEST['return_to_fb'])) {
+        if ($_REQUEST['return_to_fb'] != '') {
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
         } else {
             if (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
@@ -1111,7 +1111,7 @@ abstract class assQuestionGUI
 
     public function addErrorMessage($errormessage)
     {
-        $this->errormessage .= ((strlen($this->errormessage)) ? "<br />" : "") . $errormessage;
+        $this->errormessage .= (($this->errormessage != '') ? "<br />" : "") . $errormessage;
     }
     
     public function outAdditionalOutput()
@@ -1141,7 +1141,7 @@ abstract class assQuestionGUI
     public function getAsValueAttribute($a_value)
     {
         $result = "";
-        if (strlen($a_value)) {
+        if ($a_value != '') {
             $result = " value=\"$a_value\" ";
         }
         return $result;
@@ -1273,7 +1273,7 @@ abstract class assQuestionGUI
             $form->addItem($duration);
         } else {
             // number of tries
-            if (strlen($this->object->getNrOfTries())) {
+            if ($this->object->getNrOfTries() != '') {
                 $nr_tries = $this->object->getNrOfTries();
             } else {
                 $nr_tries = $this->object->getDefaultNrOfTries();
@@ -1367,12 +1367,12 @@ abstract class assQuestionGUI
         $output = "";
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
-        if (strlen($manual_feedback)) {
+        if ($manual_feedback !== '') {
             return $manual_feedback;
         }
         $correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
         $incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
-        if (strlen($correct_feedback . $incorrect_feedback)) {
+        if ($correct_feedback . $incorrect_feedback !== '') {
             $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
             $max_points = $this->object->getMaximumPoints();
             if ($reached_points == $max_points) {
@@ -1477,10 +1477,10 @@ abstract class assQuestionGUI
             );
             $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
-        if ($save && strlen($_POST["filename"])) {
+        if ($save && $_POST["filename"] != '') {
             $solution_array["value"]["filename"] = $_POST["filename"];
         }
-        if ($save && strlen($_POST["solutiontext"])) {
+        if ($save && $_POST["solutiontext"] != '') {
             $solution_array["value"] = $_POST["solutiontext"];
         }
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1496,7 +1496,7 @@ abstract class assQuestionGUI
             include_once "./Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php";
             $title = new ilSolutionTitleInputGUI($this->lng->txt("showSuggestedSolution"), "solutiontype");
             $template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", true, true, "Modules/TestQuestionPool");
-            if (strlen($solution_array["internal_link"])) {
+            if ($solution_array["internal_link"] != '') {
                 $href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
@@ -1506,7 +1506,7 @@ abstract class assQuestionGUI
                 $href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
-                $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilUtil::prepareFormOutput((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]) . "</a> ");
+                $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilUtil::prepareFormOutput(($solution_array["value"]["filename"] != '') ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]) . "</a> ");
                 $template->parseCurrentBlock();
             }
             $template->setVariable("TEXT_TYPE", $this->lng->txt("type"));
@@ -1552,7 +1552,7 @@ abstract class assQuestionGUI
                 } else {
                     if (is_array($solution_array["value"])) {
                         $file->setValue($solution_array["value"]["name"]);
-                        $file->setFilename((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]);
+                        $file->setFilename(($solution_array["value"]["filename"] != '') ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]);
                     }
                 }
                 $form->addItem($file);
@@ -1863,7 +1863,7 @@ abstract class assQuestionGUI
     public function addPG()
     {
         $subquestion_index = 0;
-        if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
+        if ($_GET["subquestion_index"] != '' && $_GET["subquestion_index"] >= 0) {
             $subquestion_index = $_GET["subquestion_index"];
         }
         $this->object->saveSuggestedSolution("pg", "il__pg_" . $_GET["pg"], $subquestion_index);
@@ -1874,7 +1874,7 @@ abstract class assQuestionGUI
     public function addST()
     {
         $subquestion_index = 0;
-        if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
+        if ($_GET["subquestion_index"] != '' && $_GET["subquestion_index"] >= 0) {
             $subquestion_index = $_GET["subquestion_index"];
         }
         $this->object->saveSuggestedSolution("st", "il__st_" . $_GET["st"], $subquestion_index);
@@ -1885,7 +1885,7 @@ abstract class assQuestionGUI
     public function addGIT()
     {
         $subquestion_index = 0;
-        if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
+        if ($_GET["subquestion_index"] != '' && $_GET["subquestion_index"] >= 0) {
             $subquestion_index = $_GET["subquestion_index"];
         }
         $this->object->saveSuggestedSolution("git", "il__git_" . $_GET["git"], $subquestion_index);
@@ -1937,7 +1937,7 @@ abstract class assQuestionGUI
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type !== '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
@@ -2227,7 +2227,7 @@ abstract class assQuestionGUI
     {
         if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
             $ref_id = $_GET["calling_test"];
-            if (strlen($ref_id) == 0) {
+            if ($ref_id == '') {
                 $ref_id = $_GET["test_ref_id"];
             }
 

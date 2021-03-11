@@ -84,7 +84,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function isComplete()
     {
         if (
-            strlen($this->title)
+            $this->title !== ''
             && $this->author
             && $this->question &&
             count($this->answers) >= $this->correctanswers
@@ -608,7 +608,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
             foreach ($solutionSubmit as $value) {
-                if (strlen($value)) {
+                if ($value != '') {
                     $this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
                     $entered_values++;
                 }
@@ -837,7 +837,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         foreach ($_POST as $key => $val) {
             if (preg_match("/^TEXTSUBSET_(\d+)/", $key, $matches)) {
                 $val = trim($val);
-                if (strlen($val)) {
+                if ($val !== '') {
                     $val = $purifier->purify($val);
                     $solutionSubmit[] = $val;
                 }

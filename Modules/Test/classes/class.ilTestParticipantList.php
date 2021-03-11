@@ -403,7 +403,7 @@ class ilTestParticipantList implements Iterator
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
-        if (strlen($participant->getFirstname() . $participant->getLastname()) == 0) {
+        if ($participant->getFirstname() . $participant->getLastname() === '') {
             return $DIC->language()->txt("deleted_user");
         }
         

@@ -69,14 +69,14 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
         if ($data["question_fi"] || $data["original_fi"]) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             $title = assQuestion::_getQuestionTitle($data["question_fi"]);
-            if (strlen($title) == 0) {
+            if ($title == '') {
                 $title = assQuestion::_getQuestionTitle($data["original_fi"]);
             }
             $title = $this->lng->txt("assessment_log_question") . ": " . $title;
         }
-        $this->tpl->setVariable("MESSAGE", ilUtil::prepareFormOutput($data['logtext']) . ((strlen($title)) ?  " (" . $title . ")" : ''));
+        $this->tpl->setVariable("MESSAGE", ilUtil::prepareFormOutput($data['logtext']) . (($title !== '') ?  " (" . $title . ")" : ''));
 
-        if (strlen($data['location_href']) > 0 && strlen($data['location_txt']) > 0) {
+        if ($data['location_href'] != '' && $data['location_txt'] != '') {
             $this->tpl->setVariable("LOCATION_HREF", $data['location_href']);
             $this->tpl->setVariable("LOCATION_TXT", $data['location_txt']);
         }

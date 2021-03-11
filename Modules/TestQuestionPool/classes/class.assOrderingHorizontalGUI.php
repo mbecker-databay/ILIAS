@@ -136,7 +136,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         if (($active_id > 0) && (!$show_correct_solution)) {
             $elements = [];
             $solutions = $this->object->getSolutionValues($active_id, $pass);
-            if (strlen($solutions[0]["value1"])) {
+            if ($solutions[0]["value1"] != '') {
                 $elements = explode("{::}", $solutions[0]["value1"]);
             }
 
@@ -210,13 +210,13 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
-                $feedback .= strlen($fb) ? $fb : '';
+                $feedback .= $fb !== '' ? $fb : '';
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .= strlen($fb) ? $fb : '';
+            $feedback .= $fb != '' ? $fb : '';
         }
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -235,7 +235,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     
     public function getPreview($show_question_only = false, $showInlineFeedback = false)
     {
-        if (is_object($this->getPreviewSession()) && strlen((string) $this->getPreviewSession()->getParticipantsSolution())) {
+        if (is_object($this->getPreviewSession()) && (string)$this->getPreviewSession()->getParticipantsSolution() !== '') {
             $elements = (string) $this->getPreviewSession()->getParticipantsSolution();
             $elements = $this->object->splitAndTrimOrderElementText($elements, $this->object->getAnswerSeparator());
         } else {
@@ -377,7 +377,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);

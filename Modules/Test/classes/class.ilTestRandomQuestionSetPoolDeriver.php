@@ -130,7 +130,7 @@ class ilTestRandomQuestionSetPoolDeriver
     {
         $pool = $this->poolFactory->createNewInstance($this->getTargetContainerRef());
         
-        if (strlen($nonAvailablePool->getTitle())) {
+        if ($nonAvailablePool->getTitle() !== '') {
             $pool->setTitle($nonAvailablePool->getTitle());
             $pool->update();
         }

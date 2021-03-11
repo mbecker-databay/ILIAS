@@ -482,7 +482,7 @@ class ilTestServiceGUI
                     $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $this->object->getShowSolutionFeedback(), false, true);
 
                     $solout = $question_gui->object->getSuggestedSolutionOutput();
-                    if (strlen($solout)) {
+                    if ($solout !== '') {
                         $scoretemplate->setCurrentBlock("suggested_solution");
                         $scoretemplate->setVariable("TEXT_SUGGESTED_SOLUTION", $this->lng->txt("solution_hint"));
                         $scoretemplate->setVariable("VALUE_SUGGESTED_SOLUTION", $solout);
@@ -556,7 +556,7 @@ class ilTestServiceGUI
                 continue;
             }
 
-            if ($this->object->getShowSolutionSuggested() && strlen($val['solution'])) {
+            if ($this->object->getShowSolutionSuggested() && $val['solution'] != '') {
                 $tableGUI->setShowSuggestedSolution(true);
             }
 
@@ -617,7 +617,7 @@ class ilTestServiceGUI
         $template = new ilTemplate("tpl.il_as_tst_results_userdata.html", true, true, "Modules/Test");
         include_once './Services/User/classes/class.ilObjUser.php';
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
-        if (strlen(ilObjUser::_lookupLogin($user_id)) > 0) {
+        if (ilObjUser::_lookupLogin($user_id) != '') {
             $user = new ilObjUser($user_id);
         } else {
             $user = new ilObjUser();
@@ -637,7 +637,7 @@ class ilTestServiceGUI
         }
 
         $title_matric = "";
-        if (strlen($user->getMatriculation()) && (($this->object->getAnonymity() == false) || ($overwrite_anonymity))) {
+        if ($user->getMatriculation() != '' && (($this->object->getAnonymity() == false) || ($overwrite_anonymity))) {
             $template->setCurrentBlock("matriculation");
             $template->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
             $template->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
@@ -646,7 +646,7 @@ class ilTestServiceGUI
         }
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
-        if (strlen($invited_user["clientip"])) {
+        if ($invited_user["clientip"] != '') {
             $template->setCurrentBlock("client_ip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
@@ -695,13 +695,13 @@ class ilTestServiceGUI
                     $question_gui->object->getSolutionValues($active_id, $pass)
                 )
             );
-            if (strlen($specificAnswerFeedback)) {
+            if ($specificAnswerFeedback !== '') {
                 $template->setCurrentBlock("outline_specific_feedback");
                 $template->setVariable("OUTLINE_SPECIFIC_FEEDBACK", $specificAnswerFeedback);
                 $template->parseCurrentBlock();
             }
         }
-        if ($this->object->isBestSolutionPrintedWithResult() && strlen($best_output)) {
+        if ($this->object->isBestSolutionPrintedWithResult() && $best_output != '') {
             $template->setCurrentBlock("best_solution");
             $template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
             $template->setVariable("BEST_OUTPUT", $best_output);
@@ -756,7 +756,7 @@ class ilTestServiceGUI
             $uname = $this->object->userLookupFullName($user_id, true);
         }
         
-        if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass))) {
+        if (((array_key_exists("pass", $_GET)) && ($_GET["pass"] != '')) || (!is_null($pass))) {
             if (is_null($pass)) {
                 $pass = $_GET["pass"];
             }
@@ -875,14 +875,14 @@ class ilTestServiceGUI
         $template = new ilTemplate("tpl.il_as_tst_results_head_user_pass.html", true, true, "Modules/Test");
         include_once './Services/User/classes/class.ilObjUser.php';
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
-        if (strlen(ilObjUser::_lookupLogin($user_id)) > 0) {
+        if (ilObjUser::_lookupLogin($user_id) != '') {
             $user = new ilObjUser($user_id);
         } else {
             $user = new ilObjUser();
             $user->setLastname($this->lng->txt("deleted_user"));
         }
         $title_matric = "";
-        if (strlen($user->getMatriculation()) && (($this->object->getAnonymity() == false))) {
+        if ($user->getMatriculation() != '' && (($this->object->getAnonymity() == false))) {
             $template->setCurrentBlock("user_matric");
             $template->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
             $template->parseCurrentBlock();
@@ -894,7 +894,7 @@ class ilTestServiceGUI
         }
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
-        if (strlen($invited_user["clientip"])) {
+        if ($invited_user["clientip"] != '') {
             $template->setCurrentBlock("user_clientip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->parseCurrentBlock();

@@ -131,7 +131,7 @@ class assLongMenuExport extends assQuestionExport
             $this->object->getId(),
             true
         );
-        if (strlen($feedback_allcorrect) > 0) {
+        if ($feedback_allcorrect != '') {
             $xml->xmlStartTag("respcondition", array('continue' => 'Yes'));
             $xml->xmlStartTag("conditionvar");
             foreach ($correct_answers as $key => $values) {
@@ -162,7 +162,7 @@ class assLongMenuExport extends assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $xml->xmlStartTag("respcondition", array('continue' => 'Yes'));
             $xml->xmlStartTag("conditionvar");
             $xml->xmlStartTag("not");
@@ -214,7 +214,7 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("itemfeedback");
         }
         
-        if (strlen($feedback_allcorrect) > 0) {
+        if ($feedback_allcorrect != '') {
             $xml->xmlStartTag("itemfeedback", array('ident' => 'response_allcorrect','view' => 'All'));
             $xml->xmlStartTag("flow_mat");
             $xml->xmlStartTag("material");
@@ -223,7 +223,7 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_onenotcorrect) > 0) {
+        if ($feedback_onenotcorrect != '') {
             $xml->xmlStartTag("itemfeedback", array('ident' => 'response_onenotcorrect', 'view' => 'All'));
             $xml->xmlStartTag("flow_mat");
             $xml->xmlStartTag("material");

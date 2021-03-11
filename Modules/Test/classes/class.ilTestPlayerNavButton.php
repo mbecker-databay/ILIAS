@@ -76,7 +76,7 @@ class ilTestPlayerNavButton extends ilLinkButton
             'target' => $this->getTarget()
         );
         
-        if (strlen($this->getNextCommand())) {
+        if ($this->getNextCommand() !== '') {
             $attr['data-nextcmd'] = $this->getNextCommand();
         }
 

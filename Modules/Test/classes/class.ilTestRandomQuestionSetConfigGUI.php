@@ -319,7 +319,7 @@ class ilTestRandomQuestionSetConfigGUI
             return self::CMD_SHOW_GENERAL_CONFIG_FORM;
         }
         
-        if (!strlen($_GET[self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD])) {
+        if ($_GET[self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD] == '') {
             return self::CMD_SHOW_GENERAL_CONFIG_FORM;
         }
 

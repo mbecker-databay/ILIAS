@@ -104,7 +104,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function isComplete()
     {
-        if (strlen($this->title)
+        if ($this->title !== ''
             && $this->author
             && $this->question
             && count($this->matchingpairs)
@@ -458,7 +458,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
         
         foreach ($this->terms as $term) {
-            if (strlen($term->picture)) {
+            if ($term->picture != '') {
                 $filename = $term->picture;
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
@@ -474,7 +474,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->picture)) {
+            if ($definition->picture != '') {
                 $filename = $definition->picture;
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
@@ -500,7 +500,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
         foreach ($this->terms as $term) {
-            if (strlen($term->picture)) {
+            if ($term->picture != '') {
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
                 }
@@ -514,7 +514,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->picture)) {
+            if ($definition->picture != '') {
                 $filename = $definition->picture;
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
@@ -1024,7 +1024,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function setImageFile($image_tempfilename, $image_filename, $previous_filename = '')
     {
         $result = true;
-        if (strlen($image_tempfilename)) {
+        if ($image_tempfilename !== '') {
             $image_filename = str_replace(" ", "_", $image_filename);
             $imagepath = $this->getImagePath();
             if (!file_exists($imagepath)) {
@@ -1038,7 +1038,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
                 ilUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", $this->getThumbGeometry());
             }
-            if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename))) {
+            if ($result && (strcmp($image_filename, $previous_filename) != 0) && ($previous_filename != '')) {
                 $this->deleteImagefile($previous_filename);
             }
         }
@@ -1260,14 +1260,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 }
                 $matches_written = true;
                 if ($pair->definition->identifier == $solution["value2"]) {
-                    if (strlen($pair->definition->text)) {
+                    if ($pair->definition->text != '') {
                         $worksheet->setCell($startrow + $i, 0, $pair->definition->text);
                     } else {
                         $worksheet->setCell($startrow + $i, 0, $pair->definition->picture);
                     }
                 }
                 if ($pair->term->identifier == $solution["value1"]) {
-                    if (strlen($pair->term->text)) {
+                    if ($pair->term->text != '') {
                         $worksheet->setCell($startrow + $i, 2, $pair->term->text);
                     } else {
                         $worksheet->setCell($startrow + $i, 2, $pair->term->picture);
@@ -1316,12 +1316,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function rebuildThumbnails()
     {
         foreach ($this->terms as $term) {
-            if (strlen($term->picture)) {
+            if ($term->picture != '') {
                 $this->generateThumbForFile($this->getImagePath(), $term->picture);
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->picture)) {
+            if ($definition->picture != '') {
                 $this->generateThumbForFile($this->getImagePath(), $definition->picture);
             }
         }

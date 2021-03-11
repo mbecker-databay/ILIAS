@@ -43,7 +43,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->object->loadFromDb($id);
         }
         $assessmentSetting = new ilSetting("assessment");
-        $this->linecolor = (strlen($assessmentSetting->get("imap_line_color"))) ? "#" . $assessmentSetting->get("imap_line_color") : "#FF0000";
+        $this->linecolor = ($assessmentSetting->get("imap_line_color") != '') ? "#" . $assessmentSetting->get("imap_line_color") : "#FF0000";
     }
 
     public function getCommand($cmd)
@@ -110,7 +110,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
             }
 
-            if (strlen($_FILES['imagemapfile']['tmp_name'])) {
+            if ($_FILES['imagemapfile']['tmp_name'] != '') {
                 if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1) {
                     $this->object->createNewQuestion();
                 }
@@ -123,11 +123,11 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
     {
         if ($this->ctrl->getCmd() !== 'deleteImage') {
-            if (strlen($_FILES['image']['tmp_name']) == 0) {
+            if ($_FILES['image']['tmp_name'] == '') {
                 $this->object->setImageFilename($_POST["image_name"]);
             }
         }
-        if (strlen($_FILES['image']['tmp_name'])) {
+        if ($_FILES['image']['tmp_name'] != '') {
             if ($this->object->getSelfAssessmentEditingMode() && $this->object->getId() < 1) {
                 $this->object->createNewQuestion();
             }
@@ -196,14 +196,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $image->setPointsUncheckedFieldEnabled($this->object->getIsMultipleChoice());
         $image->setRequired(true);
 
-        if (strlen($this->object->getImageFilename())) {
+        if ($this->object->getImageFilename() !== '') {
             $image->setImage($this->object->getImagePathWeb() . $this->object->getImageFilename());
             $image->setValue($this->object->getImageFilename());
             $image->setAreas($this->object->getAnswers());
             $assessmentSetting = new ilSetting("assessment");
-            $linecolor = (strlen(
-                $assessmentSetting->get("imap_line_color")
-            )) ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
+            $linecolor = ($assessmentSetting->get("imap_line_color") != '') ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
             $image->setLineColor($linecolor);
             $image->setImagePath($this->object->getImagePath());
             $image->setImagePathWeb($this->object->getImagePathWeb());
@@ -261,7 +259,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function areaEditor($shape = '')
     {
-        $shape = (strlen($shape)) ? $shape : $_POST['shape'];
+        $shape = ($shape != '') ? $shape : $_POST['shape'];
 
         $this->getQuestionTemplate();
 
@@ -335,7 +333,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
                 break;
         }
-        if (strlen($c)) {
+        if ($c !== '') {
             $preview->addArea($preview->getAreaCount(), $shape, $c, $_POST["shapetitle"], "", "", true, "blue");
         }
         $preview->createPreview();
@@ -352,7 +350,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $editorTpl->parseCurrentBlock();
         }
 
-        if (strlen($_POST['shapetitle'])) {
+        if ($_POST['shapetitle'] != '') {
             $editorTpl->setCurrentBlock("shapetitle");
             $editorTpl->setVariable("VALUE_SHAPETITLE", $_POST["shapetitle"]);
             $editorTpl->parseCurrentBlock();
@@ -550,7 +548,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $solution_id
             );
             
-            if (strlen($fb)) {
+            if ($fb !== '') {
                 $template->setCurrentBlock("feedback");
                 $template->setVariable("FEEDBACK", $fb);
                 $template->parseCurrentBlock();
@@ -559,7 +557,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $questionoutput = $template->get();
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -605,7 +603,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", true, true, "Modules/TestQuestionPool");
 
-        if ($this->getQuestionActionCmd() && strlen($this->getTargetGuiClass())) {
+        if ($this->getQuestionActionCmd() && $this->getTargetGuiClass() != '') {
             $hrefArea = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd());
         } else {
             $hrefArea = null;
@@ -665,7 +663,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->getImageFilename());
             
             foreach ($solutions as $idx => $solution_value) {
-                if (strlen($solution_value["value1"])) {
+                if ($solution_value["value1"] != '') {
                     $preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
                     $userSelection[$selectionIndex] = $solution_value["value1"];
                     
@@ -700,7 +698,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                         0,
                         $answer_id
                     );
-                    if (strlen($feedback)) {
+                    if ($feedback !== '') {
                         $template->setCurrentBlock("feedback");
                         $template->setVariable("FEEDBACK", $feedback);
                         $template->parseCurrentBlock();
@@ -791,7 +789,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
@@ -1004,14 +1002,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $image->setPointsUncheckedFieldEnabled($this->object->getIsMultipleChoice());
         $image->setRequired(true);
         
-        if (strlen($this->object->getImageFilename())) {
+        if ($this->object->getImageFilename() !== '') {
             $image->setImage($this->object->getImagePathWeb() . $this->object->getImageFilename());
             $image->setValue($this->object->getImageFilename());
             $image->setAreas($this->object->getAnswers());
             $assessmentSetting = new ilSetting("assessment");
-            $linecolor = (strlen(
-                $assessmentSetting->get("imap_line_color")
-            )) ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
+            $linecolor = ($assessmentSetting->get("imap_line_color") != '') ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
             $image->setLineColor($linecolor);
             $image->setImagePath($this->object->getImagePath());
             $image->setImagePathWeb($this->object->getImagePathWeb());

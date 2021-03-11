@@ -268,7 +268,6 @@ class assClozeTestExport extends assQuestionExport
                         );
                         $a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
                         // qti displayfeedback
-                        $linkrefid = "";
                         $linkrefid = "$i" . "_Response_" . $answer->getOrder();
                         $attrs = array(
                             "feedbacktype" => "Response",
@@ -314,7 +313,7 @@ class assClozeTestExport extends assQuestionExport
             $this->object->getId(),
             true
         );
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -366,7 +365,7 @@ class assClozeTestExport extends assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -469,7 +468,7 @@ class assClozeTestExport extends assQuestionExport
         }
         $this->exportAnswerSpecificFeedbacks($a_xml_writer);
 
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "ident" => "response_allcorrect",
                 "view" => "All"
@@ -481,7 +480,7 @@ class assClozeTestExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "ident" => "response_onenotcorrect",
                 "view" => "All"

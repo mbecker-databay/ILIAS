@@ -211,7 +211,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
                 $counter++;
             }
 
-            if (strlen($pair->points)) {
+            if ($pair->points != '') {
                 $tpl->setCurrentBlock('points_value');
                 $tpl->setVariable('POINTS_VALUE', $pair->points);
                 $tpl->parseCurrentBlock();

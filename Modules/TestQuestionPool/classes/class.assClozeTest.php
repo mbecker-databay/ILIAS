@@ -139,7 +139,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function isComplete()
     {
-        if (strlen($this->getTitle())
+        if ($this->getTitle() !== ''
             && $this->getAuthor()
             && $this->getClozeText()
             && count($this->getGaps())
@@ -413,14 +413,14 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                 "integer"
                             ),
             array(
-                                $next_id,
-                                $this->getId(),
-                                $key,
-                                strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
-                                $item->getPoints(),
-                                $item->getOrder(),
-                                $gap->getType(),
-                                (int) $gap->getGapSize()
+                $next_id,
+                $this->getId(),
+                $key,
+                $item->getAnswertext() != '' ? $item->getAnswertext() : "",
+                $item->getPoints(),
+                $item->getOrder(),
+                $gap->getType(),
+                (int) $gap->getGapSize()
                             )
         );
     }
@@ -450,14 +450,14 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                 "text"
                             ),
             array(
-                                $next_id,
-                                $this->getId(),
-                                $key,
-                                strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
-                                $item->getPoints(),
-                                $item->getOrder(),
-                                $gap->getType(),
-                                ($gap->getShuffle()) ? "1" : "0"
+                $next_id,
+                $this->getId(),
+                $key,
+                $item->getAnswertext() != '' ? $item->getAnswertext() : "",
+                $item->getPoints(),
+                $item->getOrder(),
+                $gap->getType(),
+                ($gap->getShuffle()) ? "1" : "0"
                             )
         );
     }
@@ -493,20 +493,16 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                 "integer"
                             ),
             array(
-                                $next_id,
-                                $this->getId(),
-                                $key,
-                                strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
-                                $item->getPoints(),
-                                $item->getOrder(),
-                                $gap->getType(),
-                                ($eval->e($item->getLowerBound() !== false) && strlen(
-                                    $item->getLowerBound()
-                                ) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
-                                ($eval->e($item->getUpperBound() !== false) && strlen(
-                                    $item->getUpperBound()
-                                ) > 0) ? $item->getUpperBound() : $item->getAnswertext(),
-                                (int) $gap->getGapSize()
+                $next_id,
+                $this->getId(),
+                $key,
+                $item->getAnswertext() != '' ? $item->getAnswertext() : "",
+                $item->getPoints(),
+                $item->getOrder(),
+                $gap->getType(),
+                ($eval->e($item->getLowerBound() !== false) && $item->getLowerBound() != '') ? $item->getLowerBound() : $item->getAnswertext(),
+                ($eval->e($item->getUpperBound() !== false) && $item->getUpperBound() != '') ? $item->getUpperBound() : $item->getAnswertext(),
+                (int) $gap->getGapSize()
                             )
         );
     }
@@ -1288,7 +1284,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 continue;
             }
 
-            if (strlen($value) && !$this->isValidNumericSubmitValue($value)) {
+            if ($value != '' && !$this->isValidNumericSubmitValue($value)) {
                 ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
                 return false;
             }
@@ -1304,7 +1300,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         foreach ($submit as $key => $value) {
             if (preg_match("/^gap_(\d+)/", $key, $matches)) {
                 $value = ilUtil::stripSlashes($value, false);
-                if (strlen($value)) {
+                if ($value != '') {
                     $gap = $this->getGap($matches[1]);
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
@@ -1331,7 +1327,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         foreach ($submit as $key => $value) {
             if (preg_match("/^gap_(\d+)/", $key, $matches)) {
                 $value = ilUtil::stripSlashes($value, false);
-                if (strlen($value)) {
+                if ($value != '') {
                     $gap = $this->getGap($matches[1]);
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
@@ -1378,7 +1374,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
             foreach ($this->getSolutionSubmit() as $val1 => $val2) {
                 $value = trim(ilUtil::stripSlashes($val2, false));
-                if (strlen($value)) {
+                if ($value !== '') {
                     $gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {

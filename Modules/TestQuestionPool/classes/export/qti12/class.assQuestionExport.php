@@ -77,14 +77,14 @@ class assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_allcorrect . $feedback_onenotcorrect)) {
+        if ($feedback_allcorrect . $feedback_onenotcorrect !== '') {
             $a_xml_writer->xmlStartTag("resprocessing");
             $a_xml_writer->xmlStartTag("outcomes");
             $a_xml_writer->xmlStartTag("decvar");
             $a_xml_writer->xmlEndTag("decvar");
             $a_xml_writer->xmlEndTag("outcomes");
 
-            if (strlen($feedback_allcorrect)) {
+            if ($feedback_allcorrect != '') {
                 $attrs = array(
                     "continue" => "Yes"
                 );
@@ -105,7 +105,7 @@ class assQuestionExport
                 $a_xml_writer->xmlEndTag("respcondition");
             }
 
-            if (strlen($feedback_onenotcorrect)) {
+            if ($feedback_onenotcorrect != '') {
                 $attrs = array(
                     "continue" => "Yes"
                 );
@@ -130,7 +130,7 @@ class assQuestionExport
             $a_xml_writer->xmlEndTag("resprocessing");
         }
 
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "ident" => "response_allcorrect",
                 "view" => "All"
@@ -142,7 +142,7 @@ class assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "ident" => "response_onenotcorrect",
                 "view" => "All"

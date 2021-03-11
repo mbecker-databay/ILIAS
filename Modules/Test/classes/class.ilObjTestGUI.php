@@ -624,7 +624,7 @@ class ilObjTestGUI extends ilObjectGUI
                 $page_gui->test_object = $this->object;
                 $page_gui->setEditPreview(true);
                 $page_gui->setEnabledTabs(false);
-                if (strlen($this->ctrl->getCmd()) == 0) {
+                if ($this->ctrl->getCmd() == '') {
                     $this->ctrl->setCmdClass(get_class($page_gui));
                     $this->ctrl->setCmd("preview");
                 }
@@ -1155,7 +1155,7 @@ class ilObjTestGUI extends ilObjectGUI
         $complete = 0;
         $incomplete = 0;
         foreach ($founditems as $item) {
-            if (strlen($item["type"])) {
+            if ($item["type"] != '') {
                 $complete++;
             } else {
                 $incomplete++;
@@ -2360,7 +2360,7 @@ class ilObjTestGUI extends ilObjectGUI
     public function participantsActionObject()
     {
         $command = $_POST["command"];
-        if (strlen($command)) {
+        if ($command != '') {
             $method = $command . "Object";
             if (method_exists($this, $method)) {
                 $this->$method();
@@ -2703,7 +2703,7 @@ class ilObjTestGUI extends ilObjectGUI
     */
     public function addDefaultsObject()
     {
-        if (strlen($_POST["name"]) > 0) {
+        if ($_POST["name"] != '') {
             $this->object->addDefaults($_POST['name']);
         } else {
             ilUtil::sendInfo($this->lng->txt("tst_defaults_enter_name"));
@@ -2801,7 +2801,7 @@ class ilObjTestGUI extends ilObjectGUI
             $info->enablePrivateNotes();
         }
         
-        if (strlen($this->object->getIntroduction())) {
+        if ($this->object->getIntroduction() != '') {
             $info->addSection($this->lng->txt("tst_introduction"));
             $info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true) .
                     $info->getHiddenToggleButton());
@@ -2897,7 +2897,7 @@ class ilObjTestGUI extends ilObjectGUI
             if ($this->object->getEnableProcessingTime()) {
                 $info->addProperty($this->lng->txt("tst_processing_time"), $this->object->getProcessingTime());
             }
-            if (strlen($this->object->getAllowedUsers()) && ($this->object->getAllowedUsersTimeGap())) {
+            if ($this->object->getAllowedUsers() != '' && ($this->object->getAllowedUsersTimeGap())) {
                 $info->addProperty($this->lng->txt("tst_allowed_users"), $this->object->getAllowedUsers());
             }
         
@@ -3596,7 +3596,7 @@ class ilObjTestGUI extends ilObjectGUI
         }
 
         foreach ($simpleSetters as $field => $setter) {
-            if ($templateData[$field] && strlen($setter)) {
+            if ($templateData[$field] && $setter != '') {
                 $object->$setter($templateData[$field]['value']);
                 continue;
             }
@@ -3620,7 +3620,7 @@ class ilObjTestGUI extends ilObjectGUI
                     {
                         $object->setRedirectionMode(REDIRECT_NONE);
                     } */
-                    if (strlen($templateData[$field]['value'])) {
+                    if ($templateData[$field]['value'] != '') {
                         $object->setRedirectionMode(REDIRECT_ALWAYS);
                         $object->setRedirectionUrl($templateData[$field]['value']);
                     } else {

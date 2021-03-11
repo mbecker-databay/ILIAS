@@ -392,7 +392,7 @@ abstract class ilAssQuestionFeedback
         
         $feedbackId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
         
-        if (strlen($feedbackContent)) {
+        if ($feedbackContent !== '') {
             $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($feedbackContent, 0);
         }
         

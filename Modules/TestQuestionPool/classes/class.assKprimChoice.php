@@ -346,7 +346,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     public function isComplete()
     {
         foreach (array($this->title, $this->author, $this->question) as $text) {
-            if (!strlen($text)) {
+            if ($text == '') {
                 return false;
             }
         }
@@ -362,7 +362,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 return false;
             }
             
-            if (!strlen($answer->getAnswertext()) && !strlen($answer->getImageFile())) {
+            if ($answer->getAnswertext() == '' && $answer->getImageFile() == '') {
                 return false;
             }
         }
@@ -570,7 +570,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         if ($this->isSingleLineAnswerType($this->getAnswerType()) && $this->getThumbSize()) {
             foreach ($this->getAnswers() as $answer) {
-                if (strlen($answer->getImageFile())) {
+                if ($answer->getImageFile() != '') {
                     $this->generateThumbForFile($answer->getImageFsDir(), $answer->getImageFile());
                 }
             }
@@ -654,7 +654,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $matches = null;
             
             if (preg_match("/^kprim_choice_result_(\d+)/", $key, $matches)) {
-                if (strlen($value)) {
+                if ($value != '') {
                     $solutionSubmit[$matches[1]] = $value;
                 }
             }
@@ -839,7 +839,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         foreach ($this->getAnswers() as $answer) {
             $filename = $answer->getImageFile();
             
-            if (strlen($filename)) {
+            if ($filename != '') {
                 if (!file_exists($targetPath)) {
                     ilUtil::makeDirParents($targetPath);
                 }
@@ -930,7 +930,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $has_image = false;
         
         foreach ($this->getAnswers() as $key => $answer) {
-            if (strlen((string) $answer->getImageFile())) {
+            if ((string) $answer->getImageFile() !== '') {
                 $has_image = true;
             }
 

@@ -197,7 +197,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     {
         require_once 'Services/RTE/classes/class.ilRTE.php';
         
-        if (strlen($feedbackContent)) {
+        if ($feedbackContent !== '') {
             $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($feedbackContent, 0);
         }
         

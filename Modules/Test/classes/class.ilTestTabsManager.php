@@ -254,11 +254,11 @@ class ilTestTabsManager
      */
     public function hasParentBackLink()
     {
-        if (!is_string($this->getParentBackHref()) || !strlen($this->getParentBackHref())) {
+        if (!is_string($this->getParentBackHref()) || $this->getParentBackHref() == '') {
             return false;
         }
         
-        if (!is_string($this->getParentBackLabel()) || !strlen($this->getParentBackLabel())) {
+        if (!is_string($this->getParentBackLabel()) || $this->getParentBackLabel() == '') {
             return false;
         }
         

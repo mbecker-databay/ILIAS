@@ -242,7 +242,7 @@ class assImagemapQuestionExport extends assQuestionExport
             $this->object->getId(),
             true
         );
-        if (strlen($feedback_allcorrect) && count($answers) > 0) {
+        if ($feedback_allcorrect != '' && count($answers) > 0) {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -318,7 +318,7 @@ class assImagemapQuestionExport extends assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_onenotcorrect) && count($answers) > 0) {
+        if ($feedback_onenotcorrect != '' && count($answers) > 0) {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -423,7 +423,7 @@ class assImagemapQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "ident" => "response_allcorrect",
                 "view" => "All"
@@ -435,7 +435,7 @@ class assImagemapQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "ident" => "response_onenotcorrect",
                 "view" => "All"

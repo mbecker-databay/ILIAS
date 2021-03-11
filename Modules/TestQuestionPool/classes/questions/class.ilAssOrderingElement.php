@@ -386,7 +386,7 @@ class ilAssOrderingElement
     
     protected function thumbnailFileExists()
     {
-        if (!strlen($this->getContent())) {
+        if ($this->getContent() == '') {
             return false;
         }
         
@@ -405,7 +405,7 @@ class ilAssOrderingElement
     
     protected function imageFileExists()
     {
-        if (!strlen($this->getContent())) {
+        if ($this->getContent() == '') {
             return false;
         }
         
@@ -449,7 +449,7 @@ class ilAssOrderingElement
     
     public function isExportIdent($ident)
     {
-        if (!strlen($ident)) {
+        if ($ident == '') {
             return false;
         }
         

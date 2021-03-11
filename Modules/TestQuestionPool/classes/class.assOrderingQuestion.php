@@ -165,7 +165,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
-            $this->ordering_type = strlen($data["ordering_type"]) ? $data["ordering_type"] : OQ_TERMS;
+            $this->ordering_type = $data["ordering_type"] != '' ? $data["ordering_type"] : OQ_TERMS;
             $this->thumb_geometry = $data["thumb_geometry"];
             $this->element_height = $data["element_height"];
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
@@ -767,7 +767,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function dropImageFile($imageFilename)
     {
-        if (!strlen($imageFilename)) {
+        if ($imageFilename == '') {
             return false;
         }
         
@@ -779,7 +779,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     
     public function isImageFileStored($imageFilename)
     {
-        if (!strlen($imageFilename)) {
+        if ($imageFilename == '') {
             return false;
         }
         
@@ -813,7 +813,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function storeImageFile($uploadFile, $targetFile)
     {
-        if (!strlen($uploadFile)) {
+        if ($uploadFile == '') {
             return false;
         }
         
@@ -1609,7 +1609,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (isset($formSubmissionDataStructure['orderresult'])) {
             $orderresult = $formSubmissionDataStructure['orderresult'];
             
-            if (strlen($orderresult)) {
+            if ($orderresult != '') {
                 $orderarray = explode(":", $orderresult);
                 $ordervalue = 1;
                 foreach ($orderarray as $index) {
@@ -1640,7 +1640,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $matches = null;
                 if (preg_match("/^order_(\d+)/", $key, $matches)) {
                     if (!(preg_match("/initial_value_\d+/", $value))) {
-                        if (strlen($value)) {
+                        if ($value != '') {
                             foreach ($this->getOrderingElementList() as $answeridx => $answer) {
                                 if ($answer->getRandomIdentifier() == $matches[1]) {
                                     $solutionSubmit[$answeridx] = $value;

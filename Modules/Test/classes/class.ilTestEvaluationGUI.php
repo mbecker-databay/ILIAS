@@ -264,7 +264,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                         $evaluationrow['login'] = '';
                     } else {
                         $evaluationrow['name'] = $userdata->getName();
-                        if (strlen($userdata->getLogin())) {
+                        if ($userdata->getLogin() !== '') {
                             $evaluationrow['login'] = "[" . $userdata->getLogin() . "]";
                         } else {
                             $evaluationrow['login'] = '';
@@ -377,7 +377,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilObjTestGUI::accessViolationRedirect();
         }
         
-        if (strlen($active_id) == 0) {
+        if ($active_id == '') {
             ilUtil::sendInfo($this->lng->txt('detailed_evaluation_missing_active_id'), true);
             $this->ctrl->redirect($this, 'outEvaluation');
         }
@@ -409,11 +409,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $resultPoints->setValue($data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")");
         $form->addItem($resultPoints);
 
-        if (strlen($data->getParticipant($active_id)->getMark())) {
+        if ($data->getParticipant($active_id)->getMark() !== '') {
             $resultMarks = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_resultsmarks'));
             $resultMarks->setValue($data->getParticipant($active_id)->getMark());
             $form->addItem($resultMarks);
-            if (strlen($data->getParticipant($active_id)->getECTSMark())) {
+            if ($data->getParticipant($active_id)->getECTSMark() !== '') {
                 $ectsGrade = new ilNonEditableValueGUI($this->lng->txt('ects_grade'));
                 $ectsGrade->setValue($data->getParticipant($active_id)->getECTSMark());
                 $form->addItem($ectsGrade);
@@ -773,7 +773,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 if ($passedonly) {
                     $this->ctrl->setParameterByClass("iltestcertificategui", "g_passedonly", "1");
                 }
-                if (strlen($filtertext)) {
+                if ($filtertext != '') {
                     $this->ctrl->setParameterByClass("iltestcertificategui", "g_userfilter", $filtertext);
                 }
                 $this->ctrl->redirect($this, "exportCertificate");
@@ -856,7 +856,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 );
 
                 $pdf = $pdfAction->createPDF($user_id, $objectId);
-                if (strlen($pdf)) {
+                if ($pdf !== '') {
                     $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
                 }
             }
@@ -1515,7 +1515,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $pass = null;
         if (array_key_exists("pass", $_GET)) {
-            if (strlen($_GET["pass"])) {
+            if ($_GET["pass"] != '') {
                 $pass = $_GET["pass"];
             }
         }
@@ -1541,7 +1541,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 
         $signature = "";
-        if (strlen($pass)) {
+        if ($pass != '') {
             require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
             $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
@@ -1589,7 +1589,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);
         $template->setVariable("USER_DATA", $user_data);
         $template->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
-        if (strlen($signature)) {
+        if ($signature !== '') {
             $template->setVariable("SIGNATURE", $signature);
         }
         if (!is_null($pass) && $this->object->isShowExamIdInTestResultsEnabled()) {
@@ -1618,7 +1618,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     */
     public function passDetails()
     {
-        if (array_key_exists("pass", $_GET) && (strlen($_GET["pass"]) > 0)) {
+        if (array_key_exists("pass", $_GET) && ($_GET["pass"] != '')) {
             $this->ctrl->saveParameter($this, "pass");
             $this->ctrl->saveParameter($this, "active_id");
             $this->outTestResults(false, $_GET["pass"]);
@@ -1728,7 +1728,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function confirmDeletePass()
     {
-        if (isset($_GET['context']) && strlen($_GET['context'])) {
+        if (isset($_GET['context']) && $_GET['context'] != '') {
             $context = $_GET['context'];
         } else {
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
@@ -1776,7 +1776,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     
     public function performDeletePass()
     {
-        if (isset($_POST['context']) && strlen($_POST['context'])) {
+        if (isset($_POST['context']) && $_POST['context'] != '') {
             $context = $_POST['context'];
         } else {
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;

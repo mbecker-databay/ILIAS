@@ -274,7 +274,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     }
                 }
             }
-            if (strlen($answer->getImage())) {
+            if ($answer->getImage() != '') {
                 $template->setCurrentBlock("answer_image");
                 if ($this->object->getThumbSize()) {
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
@@ -282,7 +282,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
                 }
                 $alt = $answer->getImage();
-                if (strlen($answer->getAnswertext())) {
+                if ($answer->getAnswertext() != '') {
                     $alt = $answer->getAnswertext();
                 }
                 $alt = preg_replace("/<[^>]*?>/", "", $alt);
@@ -300,7 +300,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                                 0,
                                 $answer_id
                             );
-                            if (strlen($fb)) {
+                            if ($fb !== '') {
                                 $template->setCurrentBlock("feedback");
                                 $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
                                 $template->parseCurrentBlock();
@@ -315,7 +315,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                         0,
                         $answer_id
                     );
-                    if (strlen($fb)) {
+                    if ($fb !== '') {
                         $template->setCurrentBlock("feedback");
                         $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
                         $template->parseCurrentBlock();
@@ -331,7 +331,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                             0,
                             $answer_id
                         );
-                        if (strlen($fb)) {
+                        if ($fb !== '') {
                             $template->setCurrentBlock("feedback");
                             $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
                             $template->parseCurrentBlock();
@@ -382,7 +382,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $questionoutput = $template->get();
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
         
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -417,7 +417,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
-            if (strlen($answer->getImage())) {
+            if ($answer->getImage() != '') {
                 if ($this->object->getThumbSize()) {
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
@@ -426,7 +426,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();
-                    if (strlen($answer->getAnswertext())) {
+                    if ($answer->getAnswertext() != '') {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
@@ -438,7 +438,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();
-                    if (strlen($answer->getAnswertext())) {
+                    if ($answer->getAnswertext() != '') {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
@@ -540,7 +540,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
-            if (strlen($answer->getImage())) {
+            if ($answer->getImage() != '') {
                 if ($this->object->getThumbSize()) {
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
@@ -549,7 +549,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();
-                    if (strlen($answer->getAnswertext())) {
+                    if ($answer->getAnswertext() != '') {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
@@ -561,7 +561,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();
-                    if (strlen($answer->getAnswertext())) {
+                    if ($answer->getAnswertext() != '') {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
@@ -664,7 +664,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
@@ -765,7 +765,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         } else {
             $this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
         }
-        $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
+        $this->object->setThumbSize(($_POST["thumb_size"] != '') ? $_POST["thumb_size"] : "");
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
@@ -780,7 +780,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $file_org_name = $_FILES['choice']['name']['image'][$index];
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
 
-                if (strlen($file_temp_name)) {
+                if ($file_temp_name != '') {
                     // check suffix
                     $name_parts = explode(".", $file_org_name);
                     $suffix = strtolower(array_pop($name_parts));
@@ -997,7 +997,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             foreach ($user_solution as $mc_solution) {
                 if (strcmp($mc_solution, $answer_id) == 0) {
                     $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
-                    if (strlen($fb)) {
+                    if ($fb !== '') {
                         $template->setCurrentBlock("feedback");
                         $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
                         $template->parseCurrentBlock();
@@ -1008,7 +1008,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         if ($this->object->getSpecificFeedbackSetting() == 1) {
             $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
-            if (strlen($fb)) {
+            if ($fb !== '') {
                 $template->setCurrentBlock("feedback");
                 $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
                 $template->parseCurrentBlock();
@@ -1020,7 +1020,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
             if ($answer->getPoints() > 0) {
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
-                if (strlen($fb)) {
+                if ($fb !== '') {
                     $template->setCurrentBlock("feedback");
                     $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
                     $template->parseCurrentBlock();

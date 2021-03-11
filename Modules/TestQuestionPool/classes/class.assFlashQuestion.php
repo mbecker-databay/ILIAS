@@ -59,11 +59,11 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     */
     public function isComplete()
     {
-        if (strlen($this->title)
+        if ($this->title !== ''
             && ($this->author)
             && ($this->question)
             && ($this->getMaximumPoints() > 0)
-            && (strlen($this->getApplet()))
+            && ($this->getApplet() !== '')
         ) {
             return true;
         }
@@ -96,11 +96,11 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
                                                                                ) . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)",
             array( "integer", "integer", "integer", "text", "text" ),
             array(
-                                $this->getId(),
-                                (strlen($this->getWidth())) ? $this->getWidth() : 550,
-                                (strlen($this->getHeight())) ? $this->getHeight() : 400,
-                                $this->getApplet(),
-                                serialize($this->getParameters())
+                $this->getId(),
+                ($this->getWidth() != '') ? $this->getWidth() : 550,
+                ($this->getHeight() != '') ? $this->getHeight() : 400,
+                $this->getApplet(),
+                serialize($this->getParameters())
                             )
         );
 

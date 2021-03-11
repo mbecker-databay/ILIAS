@@ -329,7 +329,7 @@ class ilAssQuestionPreviewGUI
         $pageGUI->setEnabledTabs(false);
 
         // FOR WHICH SITUATION IS THIS WORKAROUND NECCESSARY? (sure .. imagemaps, but where this can be done?)
-        if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST['editImagemapForward_x'])) { // workaround for page edit imagemaps, keep in mind
+        if ($this->ctrl->getCmd() == '' && !isset($_POST['editImagemapForward_x'])) { // workaround for page edit imagemaps, keep in mind
             $this->ctrl->setCmdClass(get_class($pageGUI));
             $this->ctrl->setCmd('preview');
         }
@@ -385,7 +385,7 @@ class ilAssQuestionPreviewGUI
         $pageGUI->setEnabledTabs(false);
 
         // FOR WHICH SITUATION IS THIS WORKAROUND NECCESSARY? (sure .. imagemaps, but where this can be done?)
-        if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST['editImagemapForward_x'])) { // workaround for page edit imagemaps, keep in mind
+        if ($this->ctrl->getCmd() == '' && !isset($_POST['editImagemapForward_x'])) { // workaround for page edit imagemaps, keep in mind
             $this->ctrl->setCmdClass(get_class($pageGUI));
             $this->ctrl->setCmd('preview');
         }
@@ -437,7 +437,7 @@ class ilAssQuestionPreviewGUI
             $cssClass = ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG;
         }
         
-        if (strlen($feedback)) {
+        if ($feedback != '') {
             $tpl->setCurrentBlock('instant_feedback_generic');
             $tpl->setVariable('GENERIC_FEEDBACK', $feedback);
             $tpl->setVariable('ILC_FB_CSS_CLASS', $cssClass);
@@ -561,7 +561,7 @@ class ilAssQuestionPreviewGUI
     
     protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML)
     {
-        if (!strlen($notesPanelHTML)) {
+        if ($notesPanelHTML == '') {
             $notesPanelHTML = $this->questionGUI->getNotesHTML();
         }
         

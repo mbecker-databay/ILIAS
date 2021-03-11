@@ -153,7 +153,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     
     public function isComplete()
     {
-        if (strlen($this->title)
+        if ($this->title !== ''
             && $this->author
             && $this->long_menu_text
             && sizeof($this->answers) > 0
@@ -658,7 +658,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
             foreach ($this->getSolutionSubmit() as $val1 => $val2) {
                 $value = ilUtil::stripSlashes($val2, false);
-                if (strlen($value)) {
+                if ($value != '') {
                     $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
                     $entered_values++;
                 }

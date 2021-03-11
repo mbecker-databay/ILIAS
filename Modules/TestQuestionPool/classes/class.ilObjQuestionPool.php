@@ -759,7 +759,7 @@ class ilObjQuestionPool extends ilObject
     */
     public static function _setImportDirectory($a_import_dir = null)
     {
-        if (strlen($a_import_dir)) {
+        if ($a_import_dir != '') {
             $_SESSION["qpl_import_dir"] = $a_import_dir;
         } else {
             unset($_SESSION["qpl_import_dir"]);
@@ -771,7 +771,7 @@ class ilObjQuestionPool extends ilObject
     */
     public static function _getImportDirectory()
     {
-        if (strlen($_SESSION["qpl_import_dir"])) {
+        if ($_SESSION["qpl_import_dir"] != '') {
             return $_SESSION["qpl_import_dir"];
         }
         return null;
@@ -1282,8 +1282,8 @@ class ilObjQuestionPool extends ilObject
         $lng = $DIC['lng'];
 
         $result_array = array();
-        $permission = (strlen($permission) == 0) ? "read" : $permission;
-        $qpls = ilUtil::_getObjectsByOperations("qpl", $permission, (strlen($usr_id)) ? $usr_id : $ilUser->getId(), -1);
+        $permission = ($permission == '') ? "read" : $permission;
+        $qpls = ilUtil::_getObjectsByOperations("qpl", $permission, ($usr_id != '') ? $usr_id : $ilUser->getId(), -1);
         $obj_ids = array();
         foreach ($qpls as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);

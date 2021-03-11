@@ -68,7 +68,7 @@ class assTextQuestionImport extends assQuestionImport
 
             foreach ($resprocessing->respcondition as $respcondition) {
                 foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                    if (strlen($feedbackpointer->getLinkrefid())) {
+                    if ($feedbackpointer->getLinkrefid() != '') {
                         foreach ($item->itemfeedback as $ifb) {
                             if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                 // found a feedback for the identifier
@@ -121,10 +121,10 @@ class assTextQuestionImport extends assQuestionImport
         $this->object->setMaxNumOfChars($maxchars);
         $this->object->setWordCounterEnabled((bool) $item->getMetadataEntry('wordcounter'));
         $textrating = $item->getMetadataEntry("textrating");
-        if (strlen($textrating)) {
+        if ($textrating != '') {
             $this->object->setTextRating($textrating);
         }
-        $this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
+        $this->object->matchcondition = ($item->getMetadataEntry('matchcondition') != '') ? $item->getMetadataEntry('matchcondition') : 0;
         
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
         $no_keywords_found = true;
@@ -139,7 +139,7 @@ class assTextQuestionImport extends assQuestionImport
         }
         
         $keywords = $item->getMetadataEntry("keywords");
-        if (strlen($keywords)) {
+        if ($keywords != '') {
             #$this->object->setKeywords($keywords);
             $answers = explode(' ', $keywords);
             foreach ($answers as $answer) {
@@ -229,7 +229,7 @@ class assTextQuestionImport extends assQuestionImport
     {
         $termScoringString = $item->getMetadataEntry('termscoring');
         
-        if (!strlen($termScoringString)) {
+        if ($termScoringString == '') {
             return array();
         }
 

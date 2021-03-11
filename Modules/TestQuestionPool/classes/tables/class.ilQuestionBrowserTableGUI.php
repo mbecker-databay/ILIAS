@@ -512,7 +512,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($data["description"])) ? $data["description"] : "&nbsp;");
+                $this->tpl->setVariable("QUESTION_COMMENT", ($data["description"] != '') ? $data["description"] : "&nbsp;");
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'type') == 0) {

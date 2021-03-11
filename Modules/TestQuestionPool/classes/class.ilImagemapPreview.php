@@ -207,12 +207,12 @@ class ilImagemapPreview
                 $ident = $this->getAreaIdent();
                 $previewfile = $imagePath . $ident . $baseFileName;
                 if (@md5_file($previewfile) != @md5_file($pfile)) {
-                    if (strlen($ident) > 0) {
+                    if ($ident !== '') {
                         @copy($pfile, $previewfile);
                     }
                 }
                 @unlink($pfile);
-                if (strlen($pfile) == 0) {
+                if ($pfile === '') {
                     ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
                 } else {
                     $filename = basename($previewfile);

@@ -40,7 +40,7 @@ class ilTestPDFGenerator
      */
     private static function makeHtmlDocument($contentHtml, $styleHtml)
     {
-        if (!is_string($contentHtml) || !strlen(trim($contentHtml))) {
+        if (!is_string($contentHtml) || trim($contentHtml) === '') {
             return $contentHtml;
         }
         

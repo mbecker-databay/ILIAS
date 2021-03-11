@@ -76,7 +76,7 @@ class assTextSubsetImport extends assQuestionImport
                 foreach ($respcondition->setvar as $setvar) {
                     if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ACTION_ADD)) {
                         foreach ($responses[$respident] as $idx => $solutionarray) {
-                            if (strlen($solutionarray["points"] == 0)) {
+                            if ($solutionarray["points"] == 0) {
                                 $responses[$respident][$idx]["points"] = $setvar->getContent();
                             }
                         }
@@ -84,7 +84,7 @@ class assTextSubsetImport extends assQuestionImport
                 }
                 foreach ($resprocessing->respcondition as $respcondition) {
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
+                        if ($feedbackpointer->getLinkrefid() != '') {
                             foreach ($item->itemfeedback as $ifb) {
                                 if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                     // found a feedback for the identifier
@@ -135,7 +135,7 @@ class assTextSubsetImport extends assQuestionImport
         $this->object->setObjId($questionpool_id);
         $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
         $textrating = $item->getMetadataEntry("textrating");
-        if (strlen($textrating) == 0) {
+        if ($textrating == '') {
             $textrating = "ci";
         }
         $this->object->setTextRating($textrating);

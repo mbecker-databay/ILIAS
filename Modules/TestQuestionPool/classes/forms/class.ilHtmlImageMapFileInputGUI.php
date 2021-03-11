@@ -30,7 +30,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
         }
 
         $tmp_file_name = $_FILES[$this->getPostVar()]['tmp_name'];
-        if (strlen($tmp_file_name) == 0) {
+        if ($tmp_file_name == '') {
             return true;
         }
 

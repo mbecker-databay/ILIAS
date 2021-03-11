@@ -181,7 +181,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && ($foundvalues['imagename'][$aidx] == '')) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -206,7 +206,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired()) {
-                                        if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                        if (($foundvalues['imagename'][$index] == '') && ($foundvalues['answer'][$index] == '')) {
                                             $this->setAlert($lng->txt("form_msg_file_no_upload"));
                                             return false;
                                         }
@@ -239,7 +239,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                         $suffix = $filename_arr["extension"];
 
                         // check suffixes
-                        if (strlen($tmpname) && is_array($this->getSuffixes())) {
+                        if ($tmpname != '' && is_array($this->getSuffixes())) {
                             $vir = ilUtil::virusHandling($tmpname, $filename);
                             if ($vir[0] == false) {
                                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
@@ -272,7 +272,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $i = 0;
         foreach ($this->values as $value) {
             if (!$this->hideImages) {
-                if (strlen($value->picture)) {
+                if ($value->picture != '') {
                     $imagename = $this->qstObject->getImagePathWeb() . $value->picture;
                     if ($this->qstObject->getThumbSize()) {
                         if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->picture)) {

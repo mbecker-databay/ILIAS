@@ -167,7 +167,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
             $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
             if (strcmp($this->outputmode, "detailed") == 0) {
                 $solutionoutput = $question_gui->getSolutionOutput($active_id = "", $pass = null, $graphicalOutput = false, $result_output = false, $show_question_only = false, $show_feedback = false, $show_correct_solution = true, $show_manual_scoring = false);
-                if (strlen($solutionoutput) == 0) {
+                if ($solutionoutput == '') {
                     $solutionoutput = $question_gui->getPreview();
                 }
                 $this->tpl->setVariable("DETAILS", $solutionoutput);

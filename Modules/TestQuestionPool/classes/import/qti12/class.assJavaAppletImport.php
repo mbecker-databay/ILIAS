@@ -53,7 +53,7 @@ class assJavaAppletImport extends assQuestionImport
                         $mat = $material->getMaterial($i);
                         if (strcmp($mat["type"], "mattext") == 0) {
                             $mattext = $mat["material"];
-                            if ((strlen($mattext->getLabel()) == 0) && (strlen($this->object->QTIMaterialToString($item->getQuestiontext())) == 0)) {
+                            if (($mattext->getLabel() == '') && ($this->object->QTIMaterialToString($item->getQuestiontext()) === '')) {
                                 $item->setQuestiontext($mattext->getContent());
                             }
                             if (strcmp($mattext->getLabel(), "points") == 0) {
@@ -64,7 +64,7 @@ class assJavaAppletImport extends assQuestionImport
                                 $javacodebase = $mattext->getContent();
                             } elseif (strcmp($mattext->getLabel(), "java_archive") == 0) {
                                 $javaarchive = $mattext->getContent();
-                            } elseif (strlen($mattext->getLabel()) > 0) {
+                            } elseif ($mattext->getLabel() != '') {
                                 array_push($params, array("key" => $mattext->getLabel(), "value" => $mattext->getContent()));
                             }
                         } elseif (strcmp($mat["type"], "matapplet") == 0) {
@@ -79,7 +79,7 @@ class assJavaAppletImport extends assQuestionImport
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                    if (strlen($feedbackpointer->getLinkrefid())) {
+                    if ($feedbackpointer->getLinkrefid() != '') {
                         foreach ($item->itemfeedback as $ifb) {
                             if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                 // found a feedback for the identifier

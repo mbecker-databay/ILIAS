@@ -144,7 +144,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     */
     public function isComplete()
     {
-        if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
+        if ($this->title !== '' and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
             return true;
         } else {
             return false;
@@ -173,7 +173,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     {
         if ($this->isSingleline && ($this->getThumbSize())) {
             foreach ($this->getAnswers() as $answer) {
-                if (strlen($answer->getImage())) {
+                if ($answer->getImage() != '') {
                     $this->generateThumbForFile($this->getImagePath(), $answer->getImage());
                 }
             }
@@ -521,7 +521,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             return;
         }
         $answer = $this->answers[$index];
-        if (strlen($answer->getImage())) {
+        if ($answer->getImage() != '') {
             $this->deleteImage($answer->getImage());
         }
         unset($this->answers[$index]);
@@ -654,7 +654,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $solutionSubmit = $this->getSolutionSubmit();
 
             foreach ($solutionSubmit as $value) {
-                if (strlen($value)) {
+                if ($value != '') {
                     $this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
                     $entered_values++;
                 }
@@ -713,7 +713,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             array(
                 'shuffle' => array('text', $this->getShuffle()),
                 'allow_images' => array('text', $this->isSingleline ? 0 : 1),
-                'thumb_size' => array('integer', strlen($this->getThumbSize()) ? $this->getThumbSize() : null),
+                'thumb_size' => array('integer', $this->getThumbSize() != '' ? $this->getThumbSize() : null),
                 'selection_limit' => array('integer', $this->getSelectionLimit()),
                 'feedback_setting' => array('integer', $this->getSpecificFeedbackSetting())
             ),
@@ -856,7 +856,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($filename != '') {
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
                 }
@@ -901,7 +901,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($filename != '') {
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
                 }
@@ -936,7 +936,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         ilUtil::delDir($imagepath_original);
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($filename != '') {
                 if (@file_exists($imagepath . $filename)) {
                     if (!file_exists($imagepath)) {
                         ilUtil::makeDirParents($imagepath);
@@ -1259,7 +1259,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $solutionSubmit = array();
         foreach ($_POST as $key => $value) {
             if (preg_match("/^multiple_choice_result_(\d+)/", $key)) {
-                if (strlen($value)) {
+                if ($value != '') {
                     $solutionSubmit[] = $value;
                 }
             }

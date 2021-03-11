@@ -161,7 +161,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
         // flash file
         $flash = new ilFlashFileInputGUI($this->lng->txt("flashfile"), "flash");
         $flash->setRequired(true);
-        if (strlen($this->object->getApplet())) {
+        if ($this->object->getApplet() !== '') {
             $flash->setApplet($this->object->getApplet());
             $flash->setAppletPathWeb($this->object->getFlashPathWeb());
         }
@@ -346,7 +346,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
         array_push($params, "client=" . urlencode(CLIENT_ID));
         array_push($params, "points_max=" . urlencode($this->object->getPoints()));
         array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));
-        if (strlen($pass)) {
+        if ($pass != '') {
             array_push($params, "pass=" . $pass);
         } else {
             include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -396,7 +396,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);

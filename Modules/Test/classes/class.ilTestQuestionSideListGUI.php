@@ -162,7 +162,7 @@ class ilTestQuestionSideListGUI
         foreach ($this->getQuestionSummaryData() as $row) {
             $title = ilUtil::prepareFormOutput($row['title']);
 
-            if (strlen($row['description'])) {
+            if ($row['description'] != '') {
                 $description = " title=\"{$row['description']}\" ";
             } else {
                 $description = "";

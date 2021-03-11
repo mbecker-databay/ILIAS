@@ -141,7 +141,7 @@ class assMatchingQuestionExport extends assQuestionExport
             );
             $a_xml_writer->xmlStartTag("response_label", $attrs);
             $a_xml_writer->xmlStartTag("material");
-            if (strlen($definition->picture)) {
+            if ($definition->picture != '') {
                 if ($force_image_references) {
                     $attrs = array(
                         "imagtype" => "image/jpeg",
@@ -165,7 +165,7 @@ class assMatchingQuestionExport extends assQuestionExport
                     }
                 }
             }
-            if (strlen($definition->text)) {
+            if ($definition->text != '') {
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
@@ -184,7 +184,7 @@ class assMatchingQuestionExport extends assQuestionExport
             );
             $a_xml_writer->xmlStartTag("response_label", $attrs);
             $a_xml_writer->xmlStartTag("material");
-            if (strlen($term->picture)) {
+            if ($term->picture != '') {
                 if ($force_image_references) {
                     $attrs = array(
                         "imagtype" => "image/jpeg",
@@ -208,7 +208,7 @@ class assMatchingQuestionExport extends assQuestionExport
                     }
                 }
             }
-            if (strlen($term->text)) {
+            if ($term->text != '') {
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
@@ -263,7 +263,7 @@ class assMatchingQuestionExport extends assQuestionExport
             $this->object->getId(),
             true
         );
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -290,7 +290,7 @@ class assMatchingQuestionExport extends assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -337,7 +337,7 @@ class assMatchingQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
 
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "ident" => "response_allcorrect",
                 "view" => "All"
@@ -349,7 +349,7 @@ class assMatchingQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "ident" => "response_onenotcorrect",
                 "view" => "All"

@@ -943,7 +943,7 @@ abstract class assQuestion
      */
     public function getExternalId()
     {
-        if (!strlen($this->external_id)) {
+        if ($this->external_id === '') {
             if ($this->getId() > 0) {
                 return 'il_' . IL_INST_ID . '_qst_' . $this->getId();
             } else {
@@ -1435,11 +1435,11 @@ abstract class assQuestion
 
             $ilDB->insert('tst_result_cache', array(
                 'active_fi' => array('integer', $active_id),
-                'pass' => array('integer', strlen($pass) ? $pass : 0),
-                'max_points' => array('float', strlen($max) ? $max : 0),
-                'reached_points' => array('float', strlen($reached) ? $reached : 0),
-                'mark_short' => array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
-                'mark_official' => array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
+                'pass' => array('integer', $pass != '' ? $pass : 0),
+                'max_points' => array('float', $max != '' ? $max : 0),
+                'reached_points' => array('float', $reached != '' ? $reached : 0),
+                'mark_short' => array('text', $mark["short_name"] != '' ? $mark["short_name"] : " "),
+                'mark_official' => array('text', $mark["official_name"] != '' ? $mark["official_name"] : " "),
                 'passed_once' => array('integer', $passedOnce),
                 'passed' => array('integer', $isPassed),
                 'failed' => array('integer', $isFailed),
@@ -1543,7 +1543,7 @@ abstract class assQuestion
                     'tst_pass_result',
                     array(
                         'active_fi' => array('integer', $active_id),
-                        'pass' => array('integer', strlen($pass) ? $pass : 0)),
+                        'pass' => array('integer', $pass != '' ? $pass : 0)),
                     array(
                         'points' => array('float', $row['reachedpoints'] ? $row['reachedpoints'] : 0),
                         'maxpoints' => array('float', $data['points']),
@@ -1594,7 +1594,7 @@ abstract class assQuestion
     public static function logAction($logtext = "", $active_id = "", $question_id = "")
     {
         $original_id = "";
-        if (strlen($question_id)) {
+        if ($question_id != '') {
             $original_id = self::_getOriginalId($question_id);
         }
         
@@ -1961,7 +1961,7 @@ abstract class assQuestion
         }
         
         foreach ($answer_table_name as $table) {
-            if (strlen($table)) {
+            if ($table != '') {
                 $affectedRows = $ilDB->manipulateF(
                     "DELETE FROM $table WHERE question_fi = %s",
                     array('integer'),
@@ -1989,7 +1989,7 @@ abstract class assQuestion
         }
         
         foreach ($additional_table_name as $table) {
-            if (strlen($table)) {
+            if ($table != '') {
                 $affectedRows = $ilDB->manipulateF(
                     "DELETE FROM $table WHERE question_fi = %s",
                     array('integer'),
@@ -2535,7 +2535,7 @@ abstract class assQuestion
         $complete = "0";
         $estw_time = $this->getEstimatedWorkingTime();
         $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
+        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId(($_GET["ref_id"] != '') ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
         if ($obj_id > 0) {
             if ($a_create_page) {
                 $tstamp = 0;
@@ -2840,7 +2840,7 @@ abstract class assQuestion
                     ilUtil::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
-                if (strlen($filename)) {
+                if ($filename != '') {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
                         $ilLog->write("File could not be duplicated!!!!", $ilLog->ERROR);
                         $ilLog->write("object: " . print_r($this, true), $ilLog->ERROR);
@@ -2867,7 +2867,7 @@ abstract class assQuestion
                     ilUtil::makeDirParents($filepath_original);
                 }
                 $filename = $solution["value"]["name"];
-                if (strlen($filename)) {
+                if ($filename != '') {
                     if (!@copy($filepath . $filename, $filepath_original . $filename)) {
                         $ilLog->write("File could not be duplicated!!!!", $ilLog->ERROR);
                         $ilLog->write("object: " . print_r($this, true), $ilLog->ERROR);
@@ -2890,7 +2890,7 @@ abstract class assQuestion
                     ilUtil::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
-                if (strlen($filename)) {
+                if ($filename != '') {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
                         $ilLog->write("File could not be copied!!!!", $ilLog->ERROR);
                         $ilLog->write("object: " . print_r($this, true), $ilLog->ERROR);
@@ -2908,7 +2908,7 @@ abstract class assQuestion
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
+        $id = ($original_id != '' && is_numeric($original_id)) ? $original_id : $this->getId();
         include_once "./Services/Link/classes/class.ilInternalLink.php";
         $affectedRows = $ilDB->manipulateF(
             "DELETE FROM qpl_sol_sug WHERE question_fi = %s",
@@ -2937,7 +2937,7 @@ abstract class assQuestion
                 ilInternalLink::_saveLink("qst", $id, $matches[2], $matches[3], $matches[1]);
             }
         }
-        if (strlen($original_id) && is_numeric($original_id)) {
+        if ($original_id != '' && is_numeric($original_id)) {
             $this->syncSuggestedSolutionFiles($id);
         }
         $this->cleanupMediaObjectUsage();
@@ -3275,7 +3275,7 @@ abstract class assQuestion
         
         if (strcmp($question_id, "") != 0) {
             $question_type = assQuestion::_getQuestionType($question_id);
-            if (!strlen($question_type)) {
+            if ($question_type === '') {
                 return null;
             }
             assQuestion::_includeClass($question_type);
@@ -4968,7 +4968,7 @@ abstract class assQuestion
     protected function deleteDummySolutionRecord($activeId, $passIndex)
     {
         foreach ($this->getSolutionValues($activeId, $passIndex, false) as $solutionRec) {
-            if (0 == strlen($solutionRec['value1']) && 0 == strlen($solutionRec['value2'])) {
+            if ($solutionRec['value1'] == '' && $solutionRec['value2'] == '') {
                 $this->removeSolutionRecordById($solutionRec['solution_id']);
             }
         }
@@ -4976,7 +4976,7 @@ abstract class assQuestion
     
     protected function isDummySolutionRecord($solutionRecord)
     {
-        return !strlen($solutionRecord['value1']) && !strlen($solutionRecord['value2']);
+        return $solutionRecord['value1'] == '' && $solutionRecord['value2'] == '';
     }
     
     protected function deleteSolutionRecordByValues($activeId, $passIndex, $authorized, $matchValues)

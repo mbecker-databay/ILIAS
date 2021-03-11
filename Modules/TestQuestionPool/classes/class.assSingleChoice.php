@@ -96,9 +96,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function isComplete()
     {
-        if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
+        if ($this->title !== '' and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
             foreach ($this->answers as $answer) {
-                if ((strlen($answer->getAnswertext()) == 0) && (strlen($answer->getImage()) == 0)) {
+                if (($answer->getAnswertext() == '') && ($answer->getImage() == '')) {
                     return false;
                 }
             }
@@ -152,7 +152,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         if ($this->isSingleline && ($this->getThumbSize())) {
             foreach ($this->getAnswers() as $answer) {
-                if (strlen($answer->getImage())) {
+                if ($answer->getImage() != '') {
                     $this->generateThumbForFile($this->getImagePath(), $answer->getImage());
                 }
             }
@@ -502,7 +502,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             return;
         }
         $answer = $this->answers[$index];
-        if (strlen($answer->getImage())) {
+        if ($answer->getImage() != '') {
             $this->deleteImage($answer->getImage());
         }
         unset($this->answers[$index]);
@@ -627,14 +627,14 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $update = $row["solution_id"];
 
             if ($update) {
-                if (strlen($_POST["multiple_choice_result"])) {
+                if ($_POST["multiple_choice_result"] != '') {
                     $this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
                     $entered_values++;
                 } else {
                     $this->removeSolutionRecordById($update);
                 }
             } else {
-                if (strlen($_POST["multiple_choice_result"])) {
+                if ($_POST["multiple_choice_result"] != '') {
                     $this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
                     $entered_values++;
                 }
@@ -658,7 +658,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
     {
-        if (strlen($_POST['multiple_choice_result' . $this->getId() . 'ID'])) {
+        if ($_POST['multiple_choice_result' . $this->getId() . 'ID'] != '') {
             $previewSession->setParticipantsSolution($_POST['multiple_choice_result' . $this->getId() . 'ID']);
         } else {
             $previewSession->setParticipantsSolution(null);
@@ -686,7 +686,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                                 $this->getId(),
                                 $this->getShuffle(),
                                 ($this->isSingleline) ? "0" : "1",
-                                (strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
+                                ($this->getThumbSize() == '') ? null : $this->getThumbSize()
                             )
         );
     }
@@ -823,7 +823,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($filename != '') {
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
                 }
@@ -852,7 +852,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($filename != '') {
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
                 }
@@ -901,7 +901,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         ilUtil::delDir($imagepath_original);
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($filename != '') {
                 if (@file_exists($imagepath . $filename)) {
                     if (!file_exists($imagepath)) {
                         ilUtil::makeDirParents($imagepath);
@@ -963,7 +963,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 count($solution) > 0 &&
                 isset($solution[0]) &&
                 is_array($solution[0]) &&
-                strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
+                $solution[0]['value1'] != '' && $id == $solution[0]['value1']
             ) {
                 $worksheet->setCell($startrow + $i, 1, 1);
             } else {
@@ -1056,7 +1056,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     public function createRandomSolution($active_id, $pass)
     {
         $value = rand(0, count($this->answers) - 1);
-        $_POST["multiple_choice_result"] = (strlen($value)) ? (string) $value : '0';
+        $_POST["multiple_choice_result"] = ($value != '') ? (string) $value : '0';
         $this->saveWorkingData($active_id, $pass);
         $this->calculateResultsFromSolution($active_id, $pass);
     }

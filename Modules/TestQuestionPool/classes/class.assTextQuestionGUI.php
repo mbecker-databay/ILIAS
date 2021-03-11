@@ -237,16 +237,16 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
-                $feedback .= strlen($fb) ? $fb : '';
+                $feedback .= $fb !== '' ? $fb : '';
             }
             
             $fb = $this->getSpecificFeedbackOutput(
                 array($user_solution => '')
             );
             
-            $feedback .= strlen($fb) ? $fb : '';
+            $feedback .= $fb != '' ? $fb : '';
         }
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -347,16 +347,16 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
-                $feedback .= strlen($fb) ? $fb : '';
+                $feedback .= $fb !== '' ? $fb : '';
             }
 
             $fb = $this->getSpecificFeedbackOutput(
                 array($user_solution => '')
             );
 
-            $feedback .= strlen($fb) ? $fb : '';
+            $feedback .= $fb != '' ? $fb : '';
         }
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -606,7 +606,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
@@ -798,7 +798,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $scoringMode->addOption($scoringOptionOneKeyword);
         $scoringMode->setRequired(true);
         $scoringMode->setValue(
-            strlen($this->object->getKeywordRelation()) ? $this->object->getKeywordRelation(
+            $this->object->getKeywordRelation() !== '' ? $this->object->getKeywordRelation(
                                 ) : 'non'
         );
 

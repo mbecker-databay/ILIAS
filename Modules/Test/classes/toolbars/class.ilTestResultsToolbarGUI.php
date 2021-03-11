@@ -67,7 +67,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         
         $this->addButton($this->lng->txt('print'), 'javascript:window.print();');
 
-        if (strlen($this->getPdfExportLinkTarget())) {
+        if ($this->getPdfExportLinkTarget() != '') {
             require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
             $link = ilLinkButton::getInstance(); // always returns a new instance
             $link->setUrl($this->getPdfExportLinkTarget());
@@ -76,14 +76,14 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
             $this->addButtonInstance($link);
         }
 
-        if (strlen($this->getCertificateLinkTarget())) {
+        if ($this->getCertificateLinkTarget() != '') {
             $this->addButton($this->lng->txt('certificate'), $this->getCertificateLinkTarget());
         }
 
-        if (strlen($this->getShowBestSolutionsLinkTarget())) {
+        if ($this->getShowBestSolutionsLinkTarget() != '') {
             $this->addSeparator();
             $this->addButton($this->lng->txt('tst_btn_show_best_solutions'), $this->getShowBestSolutionsLinkTarget());
-        } elseif (strlen($this->getHideBestSolutionsLinkTarget())) {
+        } elseif ($this->getHideBestSolutionsLinkTarget() != '') {
             $this->addSeparator();
             $this->addButton($this->lng->txt('tst_btn_hide_best_solutions'), $this->getHideBestSolutionsLinkTarget());
         }

@@ -58,7 +58,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function isComplete()
     {
-        if (strlen($this->title)
+        if ($this->title !== ''
             && ($this->author)
             && ($this->question)
             && ($this->getMaximumPoints() > 0)) {
@@ -391,7 +391,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-            if (strlen($_POST["qst_" . $this->getId()])) {
+            if ($_POST["qst_" . $this->getId()] != '') {
                 $selected = explode(",", $_POST["qst_" . $this->getId()]);
                 foreach ($selected as $position) {
                     $this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
@@ -417,7 +417,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function savePreviewData(ilAssQuestionPreviewSession $previewSession)
     {
-        if (strlen($_POST["qst_" . $this->getId()])) {
+        if ($_POST["qst_" . $this->getId()] != '') {
             $selection = explode(',', $_POST["qst_{$this->getId()}"]);
         } else {
             $selection = array();
@@ -535,7 +535,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function getErrorsFromText($a_text = "")
     {
-        if (strlen($a_text) == 0) {
+        if ($a_text == '') {
             $a_text = $this->getErrorText();
         }
 
@@ -642,7 +642,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                     if ($correct_solution && !$in_passage) {
                         $errorobject = $this->errordata[$errorcounter];
                         if (is_object($errorobject)) {
-                            $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
+                            $item = $errorobject->text_correct != '' ? $errorobject->text_correct : '&nbsp;';
                         }
                         $errorcounter++;
                     }
@@ -666,7 +666,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         
                         $errorobject = $this->errordata[$errorcounter];
                         if (is_object($errorobject)) {
-                            $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
+                            $item = $errorobject->text_correct != '' ? $errorobject->text_correct : '&nbsp;';
                         }
                         $errorcounter++;
                         $items[$idx] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
@@ -716,7 +716,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                     
                     $item_stack[] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
                     $item_stack = trim(implode(" ", $item_stack));
-                    $item_stack = strlen($item_stack) ? $item_stack : '&nbsp;';
+                    $item_stack = $item_stack !== '' ? $item_stack : '&nbsp;';
                     
                     if ($graphicalOutput) {
                         $items[$idx] = '<span class="selGroup">' . $item_stack . '</span>';

@@ -44,7 +44,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         $max = 0;
         if (is_array($_POST[$this->getPostVar()]['coords']['points'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['points'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired)) {
+                if (($_POST[$this->getPostVar()]['coords']['points'][$idx] == '') && ($this->getRequired)) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }
@@ -94,13 +94,13 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         if (is_array($this->getAreas()) && $this->getAreas()) {
             $counter = 0;
             foreach ($this->getAreas() as $area) {
-                if (strlen($area->getPoints())) {
+                if ($area->getPoints() != '') {
                     $template->setCurrentBlock('area_points_value');
                     $template->setVariable('VALUE_POINTS', $area->getPoints());
                     $template->parseCurrentBlock();
                 }
                 if ($this->getPointsUncheckedFieldEnabled()) {
-                    if (strlen($area->getPointsUnchecked())) {
+                    if ($area->getPointsUnchecked() != '') {
                         $template->setCurrentBlock('area_points_unchecked_value');
                         $template->setVariable('VALUE_POINTS_UNCHECKED', $area->getPointsUnchecked());
                         $template->parseCurrentBlock();
@@ -110,7 +110,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
                     $template->parseCurrentBlock();
                 }
                 $template->setCurrentBlock('row');
-                if (strlen($area->getAnswertext())) {
+                if ($area->getAnswertext() != '') {
                     $template->setVariable('ANSWER_AREA', $area->getAnswertext());
                 }
                 $template->setVariable('POST_VAR_R', $this->getPostVar());

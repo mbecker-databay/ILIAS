@@ -54,7 +54,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type !== '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
@@ -443,7 +443,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     strcmp($matches[1], $result->getResult()) == 0
                 ) {
                     // suggest a range for the result
-                    if (strlen($result->substituteFormula($variables, $results))) {
+                    if ($result->substituteFormula($variables, $results) != '') {
                         $result->suggestRange($variables, $results);
                     }
                 }
@@ -517,14 +517,14 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $result_type->addOption($result_dec);
                 $result_type->addOption($result_frac);
                 $result_type->addOption($result_co_frac);
-                $result_type->setValue(strlen($result->getResultType()) ? $result->getResultType() : 0);
+                $result_type->setValue($result->getResultType() != '' ? $result->getResultType() : 0);
 
                 $points = new ilNumberInputGUI($this->lng->txt('points'), 'points_' . $result->getResult());
                 $points->allowDecimals(true);
                 $points->setRequired(true);
                 $points->setSize(3);
                 $points->setMinValue(0);
-                $points->setValue(strlen($result->getPoints()) ? $result->getPoints() : 1);
+                $points->setValue($result->getPoints() != '' ? $result->getPoints() : 1);
 
                 $rating_type = new ilCheckboxInputGUI($this->lng->txt('advanced_rating'), 'rating_advanced_' . $result->getResult());
                 $rating_type->setValue(1);
@@ -536,7 +536,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $rating_type->setDisabled(true);
                         $rating_type->setChecked(false);
                     } else {
-                        $rating_type->setChecked(strlen($result->getRatingSimple()) && $result->getRatingSimple() ? false : true);
+                        $rating_type->setChecked($result->getRatingSimple() != '' && $result->getRatingSimple() ? false : true);
                     }
                 }
 
@@ -977,7 +977,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $questionoutput = $template->get();
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $feedback = ($show_feedback) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG

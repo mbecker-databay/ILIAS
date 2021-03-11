@@ -221,7 +221,7 @@ class ilTestParticipantsTimeExtensionGUI
         $extratime->setSize(5);
         $form->addItem($extratime);
         
-        if (is_array($_POST) && strlen($_POST['cmd']['timing'])) {
+        if (is_array($_POST) && $_POST['cmd']['timing'] != '') {
             $form->setValuesByArray($_POST);
         }
         

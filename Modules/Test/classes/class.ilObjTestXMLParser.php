@@ -277,7 +277,7 @@ class ilObjTestXMLParser extends ilSaxParser
                 )
             );
             $sourcePoolDefinition->setMappedTaxonomyFilter($mappedTaxFilter);
-        } elseif (isset($attr['taxFilter']) && strlen($attr['taxFilter']) > 0) {
+        } elseif (isset($attr['taxFilter']) && $attr['taxFilter'] != '') {
             $mappedTaxFilter = unserialize($attr['taxFilter']);
             $sourcePoolDefinition->setMappedTaxonomyFilter($mappedTaxFilter);
         }

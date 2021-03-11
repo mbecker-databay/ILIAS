@@ -122,7 +122,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("POINTS", $data['points'] . '&nbsp;' . $this->lng->txt("points_short"));
             $this->tpl->parseCurrentBlock();
         }
-        if (strlen($data['description'])) {
+        if ($data['description'] != '') {
             $this->tpl->setCurrentBlock('description');
             $this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($data['description']));
             $this->tpl->parseCurrentBlock();

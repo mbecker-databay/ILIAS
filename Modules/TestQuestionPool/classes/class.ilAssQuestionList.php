@@ -569,7 +569,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         
         $CONDITIONS = implode(' AND ', $CONDITIONS);
         
-        return strlen($CONDITIONS) ? 'AND ' . $CONDITIONS : '';
+        return $CONDITIONS !== '' ? 'AND ' . $CONDITIONS : '';
     }
     
     private function getSelectFieldsExpression()
@@ -743,7 +743,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     
     private function checkFilters()
     {
-        if (strlen($this->getAnswerStatusFilter()) && !$this->getAnswerStatusActiveId()) {
+        if ($this->getAnswerStatusFilter() != '' && !$this->getAnswerStatusActiveId()) {
             require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
             
             throw new ilTestQuestionPoolException(

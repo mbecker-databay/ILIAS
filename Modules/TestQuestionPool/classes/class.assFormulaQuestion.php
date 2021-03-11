@@ -227,7 +227,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 return false;
             }
             
-            if (!strlen($userSolution[$varObj->getVariable()])) {
+            if ($userSolution[$varObj->getVariable()] == '') {
                 return false;
             }
         }
@@ -270,7 +270,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         $text = $this->getQuestion();
         
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
-            if (isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()])) {
+            if (isset($userdata[$varObj->getVariable()]) && $userdata[$varObj->getVariable()] != '') {
                 $varObj->setValue($userdata[$varObj->getVariable()]);
             }
 
@@ -373,7 +373,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $units .= '<option value="-1">' . $this->lng->txt("select_unit") . '</option>';
                         foreach ($this->getResultUnits($resObj) as $unit) {
                             $units .= '<option value="' . $unit->getId() . '"';
-                            if ((is_array($userdata[$result])) && (strlen($userdata[$result]["unit"]))) {
+                            if ((is_array($userdata[$result])) && ($userdata[$result]["unit"] != '')) {
                                 if ($userdata[$result]["unit"] == $unit->getId()) {
                                     $units .= ' selected="selected"';
                                 }
@@ -390,9 +390,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $units .= ' ' . $this->lng->txt('expected_result_type') . ': ' . $this->lng->txt('result_dec');
                         break;
                     case assFormulaQuestionResult::RESULT_FRAC:
-                        if (strlen($frac_helper)) {
+                        if ($frac_helper != '') {
                             $units .= ' &asymp; ' . $frac_helper . ', ';
-                        } elseif (is_array($userdata) && isset($userdata[$result]) && strlen($userdata[$result]["frac_helper"])) {
+                        } elseif (is_array($userdata) && isset($userdata[$result]) && $userdata[$result]["frac_helper"] != '') {
                             if (!preg_match('-/-', $value)) {
                                 $units .= ' &asymp; ' . $userdata[$result]["frac_helper"] . ', ';
                             }
@@ -400,9 +400,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $units .= ' ' . $this->lng->txt('expected_result_type') . ': ' . $this->lng->txt('result_frac');
                         break;
                     case assFormulaQuestionResult::RESULT_CO_FRAC:
-                        if (strlen($frac_helper)) {
+                        if ($frac_helper != '') {
                             $units .= ' &asymp; ' . $frac_helper . ', ';
-                        } elseif (is_array($userdata) && isset($userdata[$result]) && strlen($userdata[$result]["frac_helper"])) {
+                        } elseif (is_array($userdata) && isset($userdata[$result]) && $userdata[$result]["frac_helper"] != '') {
                             if (!preg_match('-/-', $value)) {
                                 $units .= ' &asymp; ' . $userdata[$result]["frac_helper"] . ', ';
                             }
@@ -549,8 +549,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 'variable_id' => array('integer', $next_id),
                 'question_fi' => array('integer', $this->getId()),
                 'variable' => array('text', $variable->getVariable()),
-                'range_min' => array('float', ((strlen($variable->getRangeMin())) ? $variable->getRangeMin() : 0.0)),
-                'range_max' => array('float', ((strlen($variable->getRangeMax())) ? $variable->getRangeMax() : 0.0)),
+                'range_min' => array('float', (($variable->getRangeMin() != '') ? $variable->getRangeMin() : 0.0)),
+                'range_max' => array('float', (($variable->getRangeMax() != '') ? $variable->getRangeMax() : 0.0)),
                 'unit_fi' => array('integer', (is_object($variable->getUnit()) ? (int) $variable->getUnit()->getId() : 0)),
                 'varprecision' => array('integer', (int) $variable->getPrecision()),
                 'intprecision' => array('integer', (int) $variable->getIntprecision()),
@@ -580,9 +580,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 "result_id" => array("integer", $next_id),
                 "question_fi" => array("integer", $this->getId()),
                 "result" => array("text", $result->getResult()),
-                "range_min" => array("float", ((strlen($result->getRangeMin())) ? $result->getRangeMin() : 0)),
-                "range_max" => array("float", ((strlen($result->getRangeMax())) ? $result->getRangeMax() : 0)),
-                "tolerance" => array("float", ((strlen($result->getTolerance())) ? $result->getTolerance() : 0)),
+                "range_min" => array("float", (($result->getRangeMin() != '') ? $result->getRangeMin() : 0)),
+                "range_max" => array("float", (($result->getRangeMax() != '') ? $result->getRangeMax() : 0)),
+                "tolerance" => array("float", (($result->getTolerance() != '') ? $result->getTolerance() : 0)),
                 "unit_fi" => array("integer", (int) $tmp_result_unit),
                 "formula" => array("clob", $formula),
                 "resprecision" => array("integer", $result->getPrecision()),
@@ -947,7 +947,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             foreach ($solutionSubmit as $key => $value) {
                 $matches = null;
                 if (preg_match("/^result_(\\\$r\\d+)$/", $key, $matches)) {
-                    if (strlen($value)) {
+                    if ($value != '') {
                         $entered_values = true;
                     }
 
@@ -1348,7 +1348,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     {
         foreach ($this->getSolutionSubmit() as $key => $value) {
             if (preg_match("/^result_(\\\$r\\d+)$/", $key)) {
-                if (strlen($value) && !$this->isValidSolutionResultValue($value)) {
+                if ($value != '' && !$this->isValidSolutionResultValue($value)) {
                     ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
                     return false;
                 }

@@ -140,7 +140,7 @@ class assKprimChoiceExport extends assQuestionExport
             
             $xml->xmlStartTag('response_label', array('ident' => $answer->getPosition()));
 
-            if (strlen($answer->getImageFile())) {
+            if ($answer->getImageFile() != '') {
                 $this->object->addQTIMaterial($xml, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
                 if (preg_match("/.*\.(png|gif)$/", $answer->getImageFile(), $matches)) {
@@ -222,7 +222,7 @@ class assKprimChoiceExport extends assQuestionExport
 
         $xml->xmlElement('setvar', array('action' => 'Add'), $this->object->getPoints());
         
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $xml->xmlElement('displayfeedback', array('feedbacktype' => 'Response', 'linkrefid' => 'response_allcorrect'));
         }
 
@@ -247,7 +247,7 @@ class assKprimChoiceExport extends assQuestionExport
 
         $xml->xmlElement('setvar', array('action' => 'Add'), 0);
 
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $xml->xmlElement('displayfeedback', array('feedbacktype' => 'Response', 'linkrefid' => 'response_onenotcorrect'));
         }
 
@@ -268,7 +268,7 @@ class assKprimChoiceExport extends assQuestionExport
             $xml->xmlEndTag('flow_mat');
             $xml->xmlEndTag('itemfeedback');
         }
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $xml->xmlStartTag('itemfeedback', array('ident' => 'response_allcorrect', 'view' => 'All'));
             $xml->xmlStartTag('flow_mat');
             
@@ -277,7 +277,7 @@ class assKprimChoiceExport extends assQuestionExport
             $xml->xmlEndTag('flow_mat');
             $xml->xmlEndTag('itemfeedback');
         }
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $xml->xmlStartTag('itemfeedback', array('ident' => 'response_onenotcorrect', 'view' => 'All'));
             $xml->xmlStartTag('flow_mat');
 

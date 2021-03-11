@@ -32,7 +32,7 @@ class ilAssKprimChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedb
     {
         $label = array();
         
-        if (strlen($answer->getImageFile())) {
+        if ($answer->getImageFile() != '') {
             if ($this->questionOBJ->getThumbSize()) {
                 $src = $answer->getThumbWebPath();
             } else {
@@ -42,7 +42,7 @@ class ilAssKprimChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedb
             $label[] = "<img src='{$src}' />";
         }
         
-        if (strlen($answer->getAnswertext())) {
+        if ($answer->getAnswertext() != '') {
             $label[] = $answer->getAnswertext();
         }
         

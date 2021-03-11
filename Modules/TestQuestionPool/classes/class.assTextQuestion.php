@@ -93,7 +93,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function isComplete()
     {
-        if (strlen($this->title)
+        if ($this->title !== ''
             && $this->author
             && $this->question
             && $this->getMaximumPoints() > 0
@@ -150,7 +150,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setWordCounterEnabled((bool) $data['word_cnt_enabled']);
             $this->setMaxNumOfChars($data["maxnumofchars"]);
             $this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
-            $this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
+            $this->matchcondition = ($data['matchcondition'] != '') ? $data['matchcondition'] : 0;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
             
@@ -629,7 +629,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized, $text) {
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-            if (strlen($text)) {
+            if ($text != '') {
                 $this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
                 $entered_values++;
             }
@@ -810,7 +810,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $worksheet->setStringEscaping(false);
         }
 
-        if (strlen($solutions[0]["value1"])) {
+        if ($solutions[0]["value1"] != '') {
             $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
         }
         $i++;
@@ -917,7 +917,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             return;
         }
         $answer = $this->answers[$index];
-        if (strlen($answer->getImage())) {
+        if ($answer->getImage() != '') {
             $this->deleteImage($answer->getImage());
         }
         unset($this->answers[$index]);

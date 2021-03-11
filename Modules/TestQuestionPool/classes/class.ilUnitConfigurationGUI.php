@@ -619,7 +619,7 @@ abstract class ilUnitConfigurationGUI
             }
 
             $possible_error = $this->repository->checkDeleteCategory($category_id);
-            if (strlen($possible_error)) {
+            if ($possible_error != '') {
                 $errors[] = $category->getDisplayString() . ' - ' . $possible_error;
                 continue;
             }
@@ -684,7 +684,7 @@ abstract class ilUnitConfigurationGUI
             }
 
             $possible_error = $this->repository->deleteCategory($category_id);
-            if (strlen($possible_error)) {
+            if ($possible_error != '') {
                 $errors[] = $category->getDisplayString() . ' - ' . $possible_error;
                 continue;
             }

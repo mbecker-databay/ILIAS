@@ -45,7 +45,7 @@ class ilTestExportFilename
      */
     public function getPathname($extension, $additional = '')
     {
-        if (!is_string($extension) || !strlen($extension)) {
+        if (!is_string($extension) || $extension === '') {
             throw new ilException('Missing file extension! Please pass a file extension of type string.');
         } elseif (substr_count($extension, '.') > 1 || (strpos($extension, '.') !== false && strpos($extension, '.') !== 0)) {
             throw new ilException('Please use at most one dot in your file extension.');
@@ -54,7 +54,7 @@ class ilTestExportFilename
         }
 
         if (!is_string($additional)) {
-        } elseif (strlen($additional)) {
+        } elseif ($additional !== '') {
             if (strpos($additional, '__') === 0) {
                 throw new ilException('The additional file part may not contain __ at the beginning!');
             }

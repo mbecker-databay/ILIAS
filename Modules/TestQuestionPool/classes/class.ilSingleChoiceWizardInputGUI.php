@@ -193,7 +193,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && ($foundvalues['imagename'][$aidx] == '')) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -236,7 +236,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired()) {
-                                        if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                        if (($foundvalues['imagename'][$index] == '') && ($foundvalues['answer'][$index] == '')) {
                                             $this->setAlert($lng->txt("form_msg_file_no_upload"));
                                             return false;
                                         }
@@ -275,7 +275,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
                         $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
                         // check suffixes
-                        if (strlen($tmpname) && is_array($this->getSuffixes())) {
+                        if ($tmpname != '' && is_array($this->getSuffixes())) {
                             if (!in_array(strtolower($suffix), $this->getSuffixes())) {
                                 $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
                                 return false;
@@ -292,7 +292,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
                         $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
                         // virus handling
-                        if (strlen($tmpname)) {
+                        if ($tmpname != '') {
                             $vir = ilUtil::virusHandling($tmpname, $filename);
                             if ($vir[0] == false) {
                                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
@@ -323,7 +323,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         foreach ($this->values as $value) {
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
-                    if (strlen($value->getImage())) {
+                    if ($value->getImage() != '') {
                         $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                         if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
                             if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {

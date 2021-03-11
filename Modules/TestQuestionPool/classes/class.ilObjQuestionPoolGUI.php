@@ -215,7 +215,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 );
                 $page_gui->setEditPreview(true);
                 $page_gui->setEnabledTabs(false);
-                if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) { // workaround for page edit imagemaps, keep in mind
+                if ($this->ctrl->getCmd() == '' && !isset($_POST["editImagemapForward_x"])) { // workaround for page edit imagemaps, keep in mind
                     $this->ctrl->setCmdClass(get_class($page_gui));
                     $this->ctrl->setCmd("preview");
                 }
@@ -537,7 +537,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $complete = 0;
         $incomplete = 0;
         foreach ($founditems as $item) {
-            if (strlen($item["type"])) {
+            if ($item["type"] != '') {
                 $complete++;
             } else {
                 $incomplete++;
@@ -715,7 +715,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             $result = $qtiParser->startParsing();
 
             // import page data
-            if (strlen($_SESSION["qpl_import_xml_file"])) {
+            if ($_SESSION["qpl_import_xml_file"] != '') {
                 include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
                 $contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
                 $contParser->setQuestionMapping($qtiParser->getImportMapping());
@@ -726,7 +726,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             }
 
             // set another question pool name (if possible)
-            if (isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"])) {
+            if (isset($_POST["qpl_new"]) && $_POST["qpl_new"] != '') {
                 $newObj->setTitle($_POST["qpl_new"]);
             }
 
@@ -1477,7 +1477,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             $force_active = true;
         }
         if (!$force_active) {
-            $force_active = ((strtolower($this->ctrl->getCmdClass()) == strtolower(get_class($this)) || strlen($this->ctrl->getCmdClass()) == 0) &&
+            $force_active = ((strtolower($this->ctrl->getCmdClass()) == strtolower(get_class($this)) || $this->ctrl->getCmdClass() === '') &&
                 $this->ctrl->getCmd() == "")
                 ? true
                 : false;

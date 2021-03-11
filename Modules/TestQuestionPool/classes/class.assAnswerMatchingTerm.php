@@ -21,7 +21,7 @@ class assAnswerMatchingTerm
     */
     public function __construct($text = "", $picture = "", $identifier = "")
     {
-        if (strlen($identifier) == 0) {
+        if ($identifier == '') {
             mt_srand((double) microtime() * 1000000);
             $identifier = mt_rand(1, 100000);
         }
@@ -40,7 +40,7 @@ class assAnswerMatchingTerm
         switch ($value) {
             case "text":
             case "picture":
-                if (strlen($this->arrData[$value])) {
+                if ($this->arrData[$value] != '') {
                     return $this->arrData[$value];
                 } else {
                     return null;

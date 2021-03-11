@@ -371,7 +371,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
      */
     protected function buildWorkingTimeHeader() : string
     {
-        if (strlen($this->getTotalWorkingTime())) {
+        if ($this->getTotalWorkingTime() !== '') {
             return $this->lng->txt('working_time') . ' (' . $this->getTotalWorkingTime() . ')';
         }
         

@@ -580,14 +580,14 @@ abstract class ilTestExport
                     $userfields = ilObjUser::_lookupFields($userdata->getUserID());
                     foreach ($additionalFields as $fieldname) {
                         if (strcmp($fieldname, "matriculation") == 0) {
-                            if (strlen($userfields[$fieldname])) {
+                            if ($userfields[$fieldname] != '') {
                                 $worksheet->setCell($row, $col++, $userfields[$fieldname]);
                             } else {
                                 $col++;
                             }
                         }
                         if (strcmp($fieldname, "exam_id") == 0) {
-                            if (strlen($userfields[$fieldname])) {
+                            if ($userfields[$fieldname] != '') {
                                 $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                             } else {
                                 $col++;
@@ -605,7 +605,7 @@ abstract class ilTestExport
                             $pos = $positions[$question["id"]];
                             $selectedanswer = "x";
                             foreach ($objQuestion->getAnswers() as $id => $answer) {
-                                if (strlen($solution[0]["value1"]) && $id == $solution[0]["value1"]) {
+                                if ($solution[0]["value1"] != '' && $id == $solution[0]["value1"]) {
                                     $selectedanswer = $answer->getAnswertext();
                                 }
                             }
@@ -661,14 +661,14 @@ abstract class ilTestExport
                         $userfields = ilObjUser::_lookupFields($userdata->getUserId());
                         foreach ($additionalFields as $fieldname) {
                             if (strcmp($fieldname, "matriculation") == 0) {
-                                if (strlen($userfields[$fieldname])) {
+                                if ($userfields[$fieldname] != '') {
                                     $worksheet->setCell($row, $col++, $userfields[$fieldname]);
                                 } else {
                                     $col++;
                                 }
                             }
                             if (strcmp($fieldname, "exam_id") == 0) {
-                                if (strlen($userfields[$fieldname])) {
+                                if ($userfields[$fieldname] != '') {
                                     $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                                 } else {
                                     $col++;

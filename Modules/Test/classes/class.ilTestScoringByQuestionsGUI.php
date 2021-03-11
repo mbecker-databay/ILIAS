@@ -308,7 +308,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $correction_feedback['finalized_by'] = ilObjUser::_lookupFullname($correction_feedback['finalized_by_usr_id']);
             $correction_feedback['finalized_on_date'] = '';
 
-            if (strlen($correction_feedback['finalized_tstamp']) > 0) {
+            if ($correction_feedback['finalized_tstamp'] != '') {
                 $time = new ilDateTime($correction_feedback['finalized_tstamp'], IL_CAL_UNIX);
                 $correction_feedback['finalized_on_date'] = $time->get(IL_CAL_DATETIME);
             }
@@ -398,7 +398,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $this->appendFormToModal($tmp_tpl, $pass, $active_id, $question_id, $max_points);
         $tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') . ' ' . $participant->getName());
         $suggested_solution = assQuestion::_getSuggestedSolutionOutput($question_id);
-        if ($this->object->getShowSolutionSuggested() && strlen($suggested_solution) > 0) {
+        if ($this->object->getShowSolutionSuggested() && $suggested_solution !== '') {
             $tmp_tpl->setVariable('TEXT_SOLUTION_HINT', $this->lng->txt("solution_hint"));
             $tmp_tpl->setVariable("SOLUTION_HINT", assQuestion::_getSuggestedSolutionOutput($question_id));
         }
@@ -638,7 +638,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         return (
             isset($_POST[$post_value][$pass][$active_id][$qst_id]) &&
-            strlen($_POST[$post_value][$pass][$active_id][$qst_id]) > 0
+            $_POST[$post_value][$pass][$active_id][$qst_id] != ''
         );
     }
 }

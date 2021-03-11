@@ -169,7 +169,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         $assessmentSetting = new ilSetting('assessment');
         $imap_line_color = array_key_exists('imap_line_color', $_GET) ? $_GET['imap_line_color'] : $assessmentSetting->get('imap_line_color');
-        if (strlen($imap_line_color) == 0) {
+        if ($imap_line_color == '') {
             $imap_line_color = 'FF0000';
         }
 
@@ -369,7 +369,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $title = "";
             if ($log["question_fi"] || $log["original_fi"]) {
                 $title = assQuestion::_getQuestionTitle($log["question_fi"]);
-                if (strlen($title) == 0) {
+                if ($title == '') {
                     $title = assQuestion::_getQuestionTitle($log["original_fi"]);
                 }
                 $title = $this->lng->txt("assessment_log_question") . ": " . $title;

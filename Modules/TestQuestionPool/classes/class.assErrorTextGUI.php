@@ -79,7 +79,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $this->object->setQuestion($questiontext);
         $this->object->setErrorText($_POST["errortext"]);
         $points_wrong = str_replace(",", ".", $_POST["points_wrong"]);
-        if (strlen($points_wrong) == 0) {
+        if ($points_wrong == '') {
             $points_wrong = -1.0;
         }
         $this->object->setPointsWrong($points_wrong);
@@ -189,7 +189,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // textsize
             $textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
-            $textsize->setValue(strlen($this->object->getTextSize()) ? $this->object->getTextSize() : 100.0);
+            $textsize->setValue($this->object->getTextSize() != '' ? $this->object->getTextSize() : 100.0);
             $textsize->setInfo($this->lng->txt("textsize_errortext_info"));
             $textsize->setSize(6);
             $textsize->setSuffix("%");
@@ -282,13 +282,13 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
-                $feedback .= strlen($fb) ? $fb : '';
+                $feedback .= $fb !== '' ? $fb : '';
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .= strlen($fb) ? $fb : '';
+            $feedback .= $fb != '' ? $fb : '';
         }
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -399,7 +399,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);

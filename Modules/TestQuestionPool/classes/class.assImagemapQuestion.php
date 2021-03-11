@@ -101,7 +101,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function isComplete()
     {
-        if (strlen($this->title)
+        if ($this->title !== ''
             && ($this->author)
             && ($this->question)
             && ($this->image_filename)
@@ -778,11 +778,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $solution = $previewSession->getParticipantsSolution();
 
-        if ($this->is_multiple_choice && strlen($_GET['remImage'])) {
+        if ($this->is_multiple_choice && $_GET['remImage'] != '') {
             unset($solution[(int) $_GET['remImage']]);
         }
         
-        if (strlen($_GET['selImage'])) {
+        if ($_GET['selImage'] != '') {
             if (!$this->is_multiple_choice) {
                 $solution = array();
             }
@@ -1072,7 +1072,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
         
-        if (!strlen($_GET["selImage"])) {
+        if ($_GET["selImage"] == '') {
             return false;
         }
         
@@ -1096,7 +1096,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
         
-        if (!strlen($_GET["remImage"])) {
+        if ($_GET["remImage"] == '') {
             return false;
         }
         
@@ -1120,7 +1120,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
         
-        if (!strlen($_GET["reuseSelection"])) {
+        if ($_GET["reuseSelection"] == '') {
             return false;
         }
         

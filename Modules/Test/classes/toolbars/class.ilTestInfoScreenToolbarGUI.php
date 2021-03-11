@@ -341,7 +341,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     private function ensureInitialisedSessionLockString()
     {
-        if (!strlen($this->getSessionLockString())) {
+        if ($this->getSessionLockString() === '') {
             $this->setSessionLockString($this->buildSessionLockString());
         }
     }

@@ -193,7 +193,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
         $CONDITIONS = implode(' AND ', $CONDITIONS);
 
-        return strlen($CONDITIONS) ? 'AND ' . $CONDITIONS : '';
+        return $CONDITIONS !== '' ? 'AND ' . $CONDITIONS : '';
     }
 
     private function getTaxonomyFilterExpressions()

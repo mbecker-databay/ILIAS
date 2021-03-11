@@ -50,7 +50,7 @@ class assKprimChoiceImport extends assQuestionImport
                                         if (strcmp($foundmat["type"], "mattext") == 0) {
                                         }
                                         if (strcmp($foundmat["type"], "matimage") == 0) {
-                                            if (strlen($foundmat["material"]->getEmbedded())) {
+                                            if ($foundmat["material"]->getEmbedded() != '') {
                                                 $embedded = true;
                                             }
                                         }
@@ -113,7 +113,7 @@ class assKprimChoiceImport extends assQuestionImport
                     }
 
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
+                        if ($feedbackpointer->getLinkrefid() != '') {
                             foreach ($item->itemfeedback as $ifb) {
                                 if (strcmp($ifb->getIdent(), $feedbackpointer->getLinkrefid()) == 0) {
                                     // found a feedback for the identifier
@@ -137,7 +137,7 @@ class assKprimChoiceImport extends assQuestionImport
                     }
                 } else {
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
+                        if ($feedbackpointer->getLinkrefid() != '') {
                             foreach ($item->itemfeedback as $ifb) {
                                 if ($ifb->getIdent() === "response_allcorrect") {
                                     // found a feedback for the identifier

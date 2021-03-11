@@ -172,7 +172,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         if ($this->isQuestionTitleLinkPossible()) {
             $questionTitleLink = $this->getQuestionTitleLink($row['qid']);
 
-            if (strlen($questionTitleLink)) {
+            if ($questionTitleLink !== '') {
                 $this->tpl->setVariable('URL_QUESTION_TITLE', $questionTitleLink);
 
                 $this->tpl->setCurrentBlock('title_link_end_tag');
@@ -183,7 +183,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         
         if ($this->isObjectiveOrientedPresentationEnabled() && $this->areMultipleObjectivesInvolved()) {
             $objectives = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitles($row['qid']);
-            $this->tpl->setVariable('VALUE_LO_OBJECTIVES', strlen($objectives) ? $objectives : '&nbsp;');
+            $this->tpl->setVariable('VALUE_LO_OBJECTIVES', $objectives !== '' ? $objectives : '&nbsp;');
         }
 
         if ($this->getShowHintCount()) {
@@ -225,7 +225,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
             return $this->getAnswerListAnchor($questionId);
         }
 
-        if (strlen($this->getSingleAnswerScreenCmd())) {
+        if ($this->getSingleAnswerScreenCmd() != '') {
             return $this->ctrl->getLinkTarget($this->parent_obj, $this->getSingleAnswerScreenCmd());
         }
 
@@ -238,7 +238,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
             return true;
         }
 
-        if (strlen($this->getSingleAnswerScreenCmd())) {
+        if ($this->getSingleAnswerScreenCmd() != '') {
             return true;
         }
 
@@ -255,7 +255,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
             return false;
         }
 
-        if (!strlen($this->getSingleAnswerScreenCmd())) {
+        if ($this->getSingleAnswerScreenCmd() == '') {
             return false;
         }
 
@@ -276,7 +276,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
             );
         }
 
-        if (strlen($this->getSingleAnswerScreenCmd())) {
+        if ($this->getSingleAnswerScreenCmd() != '') {
             $aslGUI->addItem(
                 $this->lng->txt('tst_single_answer_details'),
                 'tst_pass_details',

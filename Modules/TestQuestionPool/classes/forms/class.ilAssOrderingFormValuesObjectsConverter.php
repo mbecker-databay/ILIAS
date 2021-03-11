@@ -291,7 +291,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     
     protected function fetchSubmittedFileUploadProperty($fileUpload, $property)
     {
-        if (!isset($fileUpload[$property]) || !strlen($fileUpload[$property])) {
+        if (!isset($fileUpload[$property]) || $fileUpload[$property] == '') {
             return null;
         }
         
@@ -324,7 +324,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
                 continue;
             }
             
-            if (!strlen($uploadProperties['tmp_name'])) {
+            if ($uploadProperties['tmp_name'] == '') {
                 unset($submittedUploadFiles[$identifier]);
                 continue;
             }

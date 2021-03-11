@@ -136,7 +136,7 @@ class assSingleChoiceExport extends assQuestionExport
             );
             $a_xml_writer->xmlStartTag("response_label", $attrs);
             
-            if (strlen($answer->getImage())) {
+            if ($answer->getImage() != '') {
                 $this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
                 if (preg_match("/.*\.(png|gif)$/", $answer->getImage(), $matches)) {
@@ -214,7 +214,7 @@ class assSingleChoiceExport extends assQuestionExport
             $this->object->getId(),
             true
         );
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -247,7 +247,7 @@ class assSingleChoiceExport extends assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -299,7 +299,7 @@ class assSingleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_allcorrect)) {
+        if ($feedback_allcorrect != '') {
             $attrs = array(
                 "ident" => "response_allcorrect",
                 "view" => "All"
@@ -311,7 +311,7 @@ class assSingleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        if (strlen($feedback_onenotcorrect)) {
+        if ($feedback_onenotcorrect != '') {
             $attrs = array(
                 "ident" => "response_onenotcorrect",
                 "view" => "All"

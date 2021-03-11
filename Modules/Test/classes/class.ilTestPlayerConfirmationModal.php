@@ -164,7 +164,7 @@ class ilTestPlayerConfirmationModal
      */
     public function isConfirmationCheckboxRequired()
     {
-        return strlen($this->getConfirmationCheckboxName()) && strlen($this->getConfirmationCheckboxLabel());
+        return $this->getConfirmationCheckboxName() !== '' && $this->getConfirmationCheckboxLabel() !== '';
     }
     
     /**

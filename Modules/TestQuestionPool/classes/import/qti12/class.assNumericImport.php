@@ -75,7 +75,7 @@ class assNumericImport extends assQuestionImport
                 }
                 if (count($respcondition->displayfeedback)) {
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
+                        if ($feedbackpointer->getLinkrefid() != '') {
                             foreach ($item->itemfeedback as $ifb) {
                                 if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                     // found a feedback for the identifier

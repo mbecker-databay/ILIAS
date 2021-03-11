@@ -95,7 +95,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $this->object->flushParams();
         if (is_array($_POST['kvp']['key'])) {
             foreach ($_POST['kvp']['key'] as $idx => $val) {
-                if (strlen($val) && strlen($_POST['kvp']['value'][$idx])) {
+                if ($val != '' && $_POST['kvp']['value'][$idx] != '') {
                     $this->object->addParameter($val, $_POST['kvp']['value'][$idx]);
                 }
             }
@@ -165,7 +165,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $applet->setSuffixes(array( 'jar', 'class' ));
         $applet->setRequired(false);
 
-        if (strlen($javaapplet)) {
+        if ($javaapplet !== '') {
             $filename = new ilNonEditableValueGUI($this->lng->txt('filename'), 'uploaded_javaapplet');
             $filename->setValue($javaapplet);
             $applet->addSubItem($filename);
@@ -183,7 +183,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $code->setRequired(true);
         $form->addItem($code);
 
-        if (!strlen($javaapplet)) {
+        if ($javaapplet === '') {
             // Archive
             $archive = new ilTextInputGUI($this->lng->txt("archive"), "java_archive");
             $archive->setValue($this->object->getJavaArchive());
@@ -290,7 +290,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         $template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
-        if (strlen($userdata["test_id"])) {
+        if ($userdata["test_id"] != '') {
             $template->setCurrentBlock("appletparam");
             $template->setVariable("PARAM_NAME", "test_type");
             if (ilObjTest::_lookupAnonymity(ilObjTest::_getObjectIDFromTestID($userdata["test_id"]))) {
@@ -300,7 +300,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             }
             $template->parseCurrentBlock();
         }
-        if (strlen($userdata["test_id"])) {
+        if ($userdata["test_id"] != '') {
             $template->setCurrentBlock("appletparam");
             $template->setVariable("PARAM_NAME", "test_id");
             $template->setVariable("PARAM_VALUE", $userdata["test_id"]);
@@ -314,7 +314,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $template->setVariable("PARAM_NAME", "question_id");
         $template->setVariable("PARAM_VALUE", $this->object->getId());
         $template->parseCurrentBlock();
-        if (strlen($userdata["user_id"])) {
+        if ($userdata["user_id"] != '') {
             $template->setCurrentBlock("appletparam");
             $template->setVariable("PARAM_NAME", "user_id");
             $template->setVariable("PARAM_VALUE", $userdata["user_id"]);
@@ -369,14 +369,14 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
         $template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
         $template->setVariable("APPLET_CODE", $this->object->getJavaCode());
-        if (strlen($this->object->getJavaArchive()) > 0) {
+        if ($this->object->getJavaArchive() !== '') {
             $template->setVariable("APPLET_ARCHIVE", " archive=\"" . $this->object->getJavaArchive() . "\"");
         } else {
             if (strpos($this->object->getJavaAppletFilename(), ".jar") !== false) {
                 $template->setVariable("APPLET_ARCHIVE", " archive=\"" . $this->object->getJavaPathWeb() . $this->object->getJavaAppletFilename() . "\"");
             }
         }
-        if (strlen($this->object->getJavaCodebase()) > 0) {
+        if ($this->object->getJavaCodebase() !== '') {
             $template->setVariable("APPLET_CODEBASE", " codebase=\"" . $this->object->getJavaCodebase() . "\"");
         } else {
             if (strpos($this->object->getJavaAppletFilename(), ".class") !== false) {
@@ -407,7 +407,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
         $questionoutput = $template->get();
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -461,14 +461,14 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
         $template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
         $template->setVariable("APPLET_CODE", $this->object->getJavaCode());
-        if (strlen($this->object->getJavaArchive()) > 0) {
+        if ($this->object->getJavaArchive() !== '') {
             $template->setVariable("APPLET_ARCHIVE", " archive=\"" . $this->object->getJavaArchive() . "\"");
         } else {
             if (strpos($this->object->getJavaAppletFilename(), ".jar") !== false) {
                 $template->setVariable("APPLET_ARCHIVE", " archive=\"" . $this->object->getJavaPathWeb() . $this->object->getJavaAppletFilename() . "\"");
             }
         }
-        if (strlen($this->object->getJavaCodebase()) > 0) {
+        if ($this->object->getJavaCodebase() !== '') {
             $template->setVariable("APPLET_CODEBASE", " codebase=\"" . $this->object->getJavaCodebase() . "\"");
         } else {
             if (strpos($this->object->getJavaAppletFilename(), ".class") !== false) {
@@ -580,14 +580,14 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
         $template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
         $template->setVariable("APPLET_CODE", $this->object->getJavaCode());
-        if (strlen($this->object->getJavaArchive()) > 0) {
+        if ($this->object->getJavaArchive() !== '') {
             $template->setVariable("APPLET_ARCHIVE", " archive=\"" . $this->object->getJavaArchive() . "\"");
         } else {
             if (strpos($this->object->getJavaAppletFilename(), ".jar") !== false) {
                 $template->setVariable("APPLET_ARCHIVE", " archive=\"" . $this->object->getJavaPathWeb() . $this->object->getJavaAppletFilename() . "\"");
             }
         }
-        if (strlen($this->object->getJavaCodebase()) > 0) {
+        if ($this->object->getJavaCodebase() !== '') {
             $template->setVariable("APPLET_CODEBASE", " codebase=\"" . $this->object->getJavaCodebase() . "\"");
         } else {
             if (strpos($this->object->getJavaAppletFilename(), ".class") !== false) {
@@ -618,7 +618,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);

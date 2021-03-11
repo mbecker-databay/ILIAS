@@ -445,7 +445,7 @@ class ilUnitConfigurationRepository
             while ($row = $ilDB->fetchAssoc($result)) {
                 $value = (strcmp("-qpl_qst_formulaquestion_" . $row["category"] . "-", $this->lng->txt($row["category"])) == 0) ? $row["category"] : $this->lng->txt($row["category"]);
 
-                if (strlen(trim($row["category"]))) {
+                if (trim($row["category"]) !== '') {
                     $cat = array(
                         "value" => $row["category_id"],
                         "text" => $value,
@@ -473,7 +473,7 @@ class ilUnitConfigurationRepository
             while ($row = $ilDB->fetchAssoc($result)) {
                 $value = (strcmp("-qpl_qst_formulaquestion_" . $row["category"] . "-", $this->lng->txt($row["category"])) == 0) ? $row["category"] : $this->lng->txt($row["category"]);
 
-                if (strlen(trim($row["category"]))) {
+                if (trim($row["category"]) !== '') {
                     $cat = array(
                         "value" => $row["category_id"],
                         "text" => $value,
@@ -752,7 +752,7 @@ class ilUnitConfigurationRepository
         if ($ilDB->fetchAssoc($res)) {
             $row = $ilDB->fetchAssoc($res);
             $sequence = $row['sequence'];
-            if (is_null($unit->getBaseUnit()) || !strlen($unit->getBaseUnit())) {
+            if (is_null($unit->getBaseUnit()) || $unit->getBaseUnit() == '') {
                 $unit->setFactor(1);
             }
             $ar = $ilDB->manipulateF(

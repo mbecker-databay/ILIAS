@@ -78,7 +78,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                 array('integer','integer','text'),
                 array($user_id, $test_id, $this->getAccessCodeFromSession())
             );
-        } elseif (strlen($anonymous_id)) {
+        } elseif ($anonymous_id != '') {
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),
@@ -132,7 +132,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                     'lastindex' => array('integer', $this->getLastSequence()),
                     'tries' => array('integer', $this->getPass()),
                     'submitted' => array('integer', $submitted),
-                    'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
+                    'submittimestamp' => array('timestamp', ($this->getSubmittedTimestamp() !== '') ? $this->getSubmittedTimestamp() : null),
                     'tstamp' => array('integer', time() - 10),
                     'taxfilter' => array('text', serialize($this->getQuestionSetFilterSelection()->getTaxonomySelection())),
                     'answerstatusfilter' => array('text', $this->getQuestionSetFilterSelection()->getAnswerStatusSelection())
@@ -164,7 +164,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                         'lastindex' => array('integer', $this->getLastSequence()),
                         'tries' => array('integer', $this->getPass()),
                         'submitted' => array('integer', $submitted),
-                        'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
+                        'submittimestamp' => array('timestamp', ($this->getSubmittedTimestamp() !== '') ? $this->getSubmittedTimestamp() : null),
                         'tstamp' => array('integer', time() - 10),
                         'taxfilter' => array('text', serialize($this->getQuestionSetFilterSelection()->getTaxonomySelection())),
                         'answerstatusfilter' => array('text', $this->getQuestionSetFilterSelection()->getAnswerStatusSelection())

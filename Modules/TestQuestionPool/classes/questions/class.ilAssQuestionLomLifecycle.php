@@ -29,7 +29,7 @@ class ilAssQuestionLomLifecycle
      */
     public function __construct($identifier = '')
     {
-        if (strlen($identifier)) {
+        if ($identifier !== '') {
             $identifier = strtolower($identifier);
             $this->validateIdentifier($identifier);
             $this->setIdentifier($identifier);

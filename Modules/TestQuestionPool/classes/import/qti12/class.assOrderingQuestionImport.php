@@ -137,7 +137,7 @@ class assOrderingQuestionImport extends assQuestionImport
                 }
                 if (count($respcondition->displayfeedback)) {
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
+                        if ($feedbackpointer->getLinkrefid() != '') {
                             foreach ($item->itemfeedback as $ifb) {
                                 if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                     // found a feedback for the identifier
@@ -240,7 +240,7 @@ class assOrderingQuestionImport extends assQuestionImport
         foreach ($answers as $answer) {
             if ($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES) {
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
-                if (strlen($answer['answerimage']['label']) && strlen($answer['answerimage']['content'])) {
+                if ($answer['answerimage']['label'] != '' && $answer['answerimage']['content'] != '') {
                     $image = base64_decode($answer["answerimage"]["content"]);
                     $imagepath = $this->object->getImagePath();
                     if (!file_exists($imagepath)) {

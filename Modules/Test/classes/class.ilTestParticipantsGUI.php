@@ -196,7 +196,7 @@ class ilTestParticipantsGUI
         if ($countusers) {
             $message = $DIC->language()->txt("tst_invited_selected_users");
         }
-        if (strlen($message)) {
+        if ($message != '') {
             ilUtil::sendInfo($message, true);
         } else {
             ilUtil::sendInfo($DIC->language()->txt("tst_invited_nobody"), true);

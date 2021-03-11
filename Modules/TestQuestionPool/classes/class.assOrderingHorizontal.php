@@ -55,7 +55,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     */
     public function isComplete()
     {
-        if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0)) {
+        if ($this->title !== '' and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0)) {
             return true;
         } else {
             return false;
@@ -343,7 +343,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             $solutionSubmit = $this->getSolutionSubmit();
 
             $entered_values = false;
-            if (strlen($solutionSubmit)) {
+            if ($solutionSubmit != '') {
                 $this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null, $authorized);
                 $entered_values = true;
             }

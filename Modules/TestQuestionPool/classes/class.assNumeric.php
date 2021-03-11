@@ -61,7 +61,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     public function isComplete()
     {
         if (
-            strlen($this->title)
+            $this->title !== ''
             && $this->author
             && $this->question
             && $this->getMaximumPoints() > 0
@@ -397,7 +397,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     
     public function validateSolutionSubmit()
     {
-        if (strlen($this->getSolutionSubmit()) && !$this->isValidNumericSubmitValue($this->getSolutionSubmit())) {
+        if ($this->getSolutionSubmit() !== '' && !$this->isValidNumericSubmitValue($this->getSolutionSubmit())) {
             ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
             return false;
         }
@@ -418,7 +418,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $result = $math->evaluate($numeric_solution);
         
         return !(
-            ($result === false || $result === true) && strlen($numeric_solution) > 0
+            ($result === false || $result === true) && $numeric_solution != ''
         );
     }
 
@@ -453,14 +453,14 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             $row = $ilDB->fetchAssoc($result);
             $update = $row["solution_id"];
             if ($update) {
-                if (strlen($numeric_result)) {
+                if ($numeric_result !== '') {
                     $this->updateCurrentSolution($update, trim($numeric_result), null, $authorized);
                     $entered_values++;
                 } else {
                     $this->removeSolutionRecordById($update);
                 }
             } else {
-                if (strlen($numeric_result)) {
+                if ($numeric_result !== '') {
                     $this->saveCurrentSolution($active_id, $pass, trim($numeric_result), null, $authorized);
                     $entered_values++;
                 }
@@ -614,7 +614,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
         
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-        if (strlen($solutions[0]["value1"])) {
+        if ($solutions[0]["value1"] != '') {
             $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
         }
         $i++;

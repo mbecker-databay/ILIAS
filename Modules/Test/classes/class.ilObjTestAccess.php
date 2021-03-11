@@ -127,7 +127,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 if (!$max) {
                     $active_id = $points[count($points) - 1]["active_fi"];
                     $pass = $points[count($points) - 1]["pass"];
-                    if (strlen($active_id) && strlen($pass)) {
+                    if ($active_id != '' && $pass != '') {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                         $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
                         $max = $res['maxpoints'];
@@ -142,7 +142,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                         if (!$max) {
                             $active_id = $row["active_fi"];
                             $pass = $row["pass"];
-                            if (strlen($active_id) && strlen($pass)) {
+                            if ($active_id != '' && $pass != '') {
                                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                                 $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
                                 $max = $res['maxpoints'];
@@ -204,7 +204,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 if (!$max) {
                     $active_id = $points[count($points) - 1]["active_fi"];
                     $pass = $points[count($points) - 1]["pass"];
-                    if (strlen($active_id) && strlen($pass)) {
+                    if ($active_id != '' && $pass != '') {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                         $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
                         $max = $res['maxpoints'];
@@ -219,7 +219,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                         if (!$max) {
                             $active_id = $row["active_fi"];
                             $pass = $row["pass"];
-                            if (strlen($active_id) && strlen($pass)) {
+                            if ($active_id != '' && $pass != '') {
                                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                                 $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
                                 $max = $res['maxpoints'];
@@ -582,9 +582,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $uname = ilObjUser::_lookupName($user_id);
 
         $name = "";
-        if (strlen($importname)) {
+        if ($importname != '') {
             $name = $importname . ' (' . $lng->txt('imported') . ')';
-        } elseif (strlen($uname["firstname"] . $uname["lastname"]) == 0) {
+        } elseif ($uname["firstname"] . $uname["lastname"] === '') {
             $name = $lng->txt("deleted_user");
         } else {
             if ($user_id == ANONYMOUS_USER_ID) {

@@ -179,7 +179,7 @@ class assClozeTestImport extends assQuestionImport
 
                 if (count($respcondition->displayfeedback)) {
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
+                        if ($feedbackpointer->getLinkrefid() != '') {
                             foreach ($item->itemfeedback as $ifb) {
                                 if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                     // found a feedback for the identifier
@@ -249,11 +249,11 @@ class assClozeTestImport extends assQuestionImport
         $this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
         $this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));
         $this->object->setFeedbackMode(
-            strlen($item->getMetadataEntry("feedback_mode")) ?
+            $item->getMetadataEntry("feedback_mode") != '' ?
             $item->getMetadataEntry("feedback_mode") : ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION
         );
         $combination = json_decode(base64_decode($item->getMetadataEntry("combinations")));
-        if (strlen($textgap_rating) == 0) {
+        if ($textgap_rating == '') {
             $textgap_rating = "ci";
         }
         $this->object->setTextgapRating($textgap_rating);

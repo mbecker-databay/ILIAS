@@ -71,7 +71,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
         foreach ($_POST['terms']['answer'] as $index => $answer) {
             $filename = $_POST['terms']['imagename'][$index];
-            if (strlen($_FILES['terms']['name']['image'][$index])) {
+            if ($_FILES['terms']['name']['image'][$index] != '') {
                 // upload the new file
                 $name = $_FILES['terms']['name']['image'][$index];
                 if ($this->object->setImageFile(
@@ -92,7 +92,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';
         foreach ($_POST['definitions']['answer'] as $index => $answer) {
             $filename = $_POST['definitions']['imagename'][$index];
-            if (strlen($_FILES['definitions']['name']['image'][$index])) {
+            if ($_FILES['definitions']['name']['image'][$index] != '') {
                 // upload the new file
                 $name = $_FILES['definitions']['name']['image'][$index];
                 if ($this->object->setImageFile(
@@ -457,8 +457,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $points = $solution['points'];
 
             if (is_object($definition)) {
-                if (strlen($definition->picture)) {
-                    if (strlen($definition->text)) {
+                if ($definition->picture != '') {
+                    if ($definition->text != '') {
                         $template->setCurrentBlock('definition_image_text');
                         $template->setVariable("TEXT_DEFINITION", ilUtil::prepareFormOutput($definition->text));
                         $template->parseCurrentBlock();
@@ -470,8 +470,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     
                     $template->setCurrentBlock('definition_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
-                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
-                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+                    $template->setVariable('ANSWER_IMAGE_ALT', ($definition->text != '') ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+                    $template->setVariable('ANSWER_IMAGE_TITLE', ($definition->text != '') ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
@@ -483,8 +483,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
             }
             if (is_object($term)) {
-                if (strlen($term->picture)) {
-                    if (strlen($term->text)) {
+                if ($term->picture != '') {
+                    if ($term->text != '') {
                         $template->setCurrentBlock('term_image_text');
                         $template->setVariable("TEXT_TERM", ilUtil::prepareFormOutput($term->text));
                         $template->parseCurrentBlock();
@@ -496,8 +496,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     
                     $template->setCurrentBlock('term_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
-                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
-                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+                    $template->setVariable('ANSWER_IMAGE_ALT', ($term->text != '') ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+                    $template->setVariable('ANSWER_IMAGE_TITLE', ($term->text != '') ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
@@ -556,13 +556,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
-                $feedback .= strlen($fb) ? $fb : '';
+                $feedback .= $fb !== '' ? $fb : '';
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .= strlen($fb) ? $fb : '';
+            $feedback .= $fb != '' ? $fb : '';
         }
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -630,7 +630,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // create definitions
         $counter = 0;
         foreach ($definitions as $definition) {
-            if (strlen($definition->picture)) {
+            if ($definition->picture != '') {
                 $template->setCurrentBlock("definition_picture");
                 $template->setVariable("DEFINITION_ID", $definition->identifier);
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->picture);
@@ -642,7 +642,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMBNAIL_HREF", $thumbweb);
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-                $template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, true, true) : '');
+                $template->setVariable("TEXT_DEFINITION", ($definition->text != '') ? $this->object->prepareTextareaOutput($definition->text, true, true) : '');
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
@@ -665,7 +665,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // create terms
         $counter = 0;
         foreach ($terms as $term) {
-            if (strlen($term->picture)) {
+            if ($term->picture != '') {
                 $template->setCurrentBlock("term_picture");
                 $template->setVariable("TERM_ID", $term->identifier);
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->picture);
@@ -678,7 +678,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                $template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, true, true) : '');
+                $template->setVariable("TEXT_TERM", ($term->text != '') ? $this->object->prepareTextareaOutput($term->text, true, true) : '');
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
@@ -834,7 +834,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // create definitions
         $counter = 0;
         foreach ($definitions as $definition) {
-            if (strlen($definition->picture)) {
+            if ($definition->picture != '') {
                 $template->setCurrentBlock("definition_picture");
                 $template->setVariable("DEFINITION_ID", $definition->identifier);
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->picture);
@@ -846,7 +846,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMBNAIL_HREF", $thumbweb);
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-                $template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, true, true) : '');
+                $template->setVariable("TEXT_DEFINITION", ($definition->text != '') ? $this->object->prepareTextareaOutput($definition->text, true, true) : '');
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
@@ -869,7 +869,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // create terms
         $counter = 0;
         foreach ($terms as $term) {
-            if (strlen($term->picture)) {
+            if ($term->picture != '') {
                 $template->setCurrentBlock("term_picture");
                 $template->setVariable("TERM_ID", $term->identifier);
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->picture);
@@ -882,7 +882,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                $template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, true, true) : '');
+                $template->setVariable("TEXT_TERM", ($term->text != '') ? $this->object->prepareTextareaOutput($term->text, true, true) : '');
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
@@ -938,7 +938,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
@@ -1110,11 +1110,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $html = '';
         
-        if (strlen($elem->text)) {
+        if ($elem->text != '') {
             $html .= $elem->text;
         }
         
-        if (strlen($elem->picture)) {
+        if ($elem->picture != '') {
             $html .= $this->getAnswerStatisticImageHtml($elem->picture);
         }
 

@@ -267,7 +267,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     
     protected function buildQuestionRelatedObjectivesString()
     {
-        if (strlen($this->getQuestionRelatedObjectives())) {
+        if ($this->getQuestionRelatedObjectives() !== '') {
             $label = $this->lng->txt('tst_res_lo_objectives_header');
             return $label . ': ' . $this->getQuestionRelatedObjectives();
         }
@@ -334,7 +334,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
         }
 
         // objectives
-        if (strlen($this->getQuestionRelatedObjectives())) {
+        if ($this->getQuestionRelatedObjectives() !== '') {
             $tpl->setVariable('TXT_OBJECTIVES', $this->buildQuestionRelatedObjectivesString());
         }
 

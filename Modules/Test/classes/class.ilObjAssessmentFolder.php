@@ -130,7 +130,7 @@ class ilObjAssessmentFolder extends ilObject
         $setting = new ilSetting("assessment");
         $types = $setting->get("forbidden_questiontypes");
         $result = array();
-        if (strlen(trim($types)) == 0) {
+        if (trim($types) === '') {
             $result = array();
         } else {
             $result = unserialize($types);
@@ -161,7 +161,7 @@ class ilObjAssessmentFolder extends ilObject
         $setting = new ilSetting("assessment");
 
         $lang = $setting->get("assessment_log_language");
-        if (strlen($lang) == 0) {
+        if ($lang == '') {
             $lang = "en";
         }
         return $lang;
@@ -278,13 +278,13 @@ class ilObjAssessmentFolder extends ilObject
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
-        if (strlen($question_id) == 0) {
+        if ($question_id == '') {
             $question_id = null;
         }
-        if (strlen($original_id) == 0) {
+        if ($original_id == '') {
             $original_id = null;
         }
-        if (strlen($test_ref_id) == 0) {
+        if ($test_ref_id == '') {
             $test_ref_id = null;
         }
         $only = ($test_only == true) ? 1 : 0;

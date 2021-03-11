@@ -364,7 +364,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), null);
         
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $solutionCorrect ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -392,7 +392,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateSolutionBlock($solutionoutput)
     {
-        if (strlen($solutionoutput)) {
+        if ($solutionoutput != '') {
             $this->tpl->setCurrentBlock("solution_output");
             $this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("tst_best_solution_is"));
             $this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
@@ -464,9 +464,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function getLockParameter()
     {
-        if (isset($_POST['lock']) && strlen($_POST['lock'])) {
+        if (isset($_POST['lock']) && $_POST['lock'] != '') {
             return $_POST['lock'];
-        } elseif (isset($_GET['lock']) && strlen($_GET['lock'])) {
+        } elseif (isset($_GET['lock']) && $_GET['lock'] != '') {
             return $_GET['lock'];
         }
 
@@ -1448,7 +1448,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $str_processing_time = $processing_time_minutes . " " . ($processing_time_minutes == 1 ? $this->lng->txt("minute") : $this->lng->txt("minutes"));
         }
         if ($processing_time_seconds > 0) {
-            if (strlen($str_processing_time) > 0) {
+            if ($str_processing_time !== '') {
                 $str_processing_time .= " " . $this->lng->txt("and") . " ";
             }
             $str_processing_time .= $processing_time_seconds . " " . ($processing_time_seconds == 1 ? $this->lng->txt("second") : $this->lng->txt("seconds"));
@@ -1462,7 +1462,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
         if ($time_left < 300) {
             if ($time_left_seconds > 0) {
-                if (strlen($str_time_left) > 0) {
+                if ($str_time_left !== '') {
                     $str_time_left .= " " . $this->lng->txt("and") . " ";
                 }
                 $str_time_left .= $time_left_seconds . " " . ($time_left_seconds == 1 ? $this->lng->txt("second") : $this->lng->txt("seconds"));
@@ -1578,7 +1578,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         
         if ($this->object->getKioskMode() && $fullpage) {
             $head = $this->getKioskHead();
-            if (strlen($head)) {
+            if ($head !== '') {
                 $this->tpl->setCurrentBlock("kiosk_options");
                 $this->tpl->setVariable("KIOSK_HEAD", $head);
                 $this->tpl->parseCurrentBlock();
@@ -1732,13 +1732,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         if ($this->object->getShowSolutionAnswersOnly()) {
             $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
         }
-        if (strlen($top_data)) {
+        if ($top_data != '') {
             $this->tpl->setCurrentBlock("top_data");
             $this->tpl->setVariable("TOP_DATA", $top_data);
             $this->tpl->parseCurrentBlock();
         }
         
-        if (strlen($bottom_data)) {
+        if ($bottom_data != '') {
             $this->tpl->setCurrentBlock("bottom_data");
             $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
             $this->tpl->setVariable("BOTTOM_DATA", $bottom_data);
@@ -1861,7 +1861,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         
         $head = $this->getKioskHead();
         
-        if (strlen($head)) {
+        if ($head !== '') {
             $this->tpl->setCurrentBlock("kiosk_options");
             $this->tpl->setVariable("KIOSK_HEAD", $head);
             $this->tpl->parseCurrentBlock();
@@ -2360,7 +2360,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     protected function getNextCommandParameter()
     {
-        if (isset($_POST['nextcmd']) && strlen($_POST['nextcmd'])) {
+        if (isset($_POST['nextcmd']) && $_POST['nextcmd'] != '') {
             return $_POST['nextcmd'];
         }
 
@@ -2877,7 +2877,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $fixedSeed = $questionId . $this->testSession->getActiveId() . $this->testSession->getPass();
         
-        if (strlen($fixedSeed < ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH)) {
+        if ($fixedSeed < ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH != '') {
             $fixedSeed *= (
                 10 * (ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
             );

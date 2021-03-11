@@ -110,7 +110,7 @@ class ilTestResultsImportParser extends ilSaxParser
                             }
                         }
                         $usr_id = ANONYMOUS_USER_ID;
-                        if (strlen($this->user_criteria_field)) {
+                        if ($this->user_criteria_field != '') {
                             $result = $ilDB->queryF(
                                 "SELECT usr_id FROM usr_data WHERE " . $this->user_criteria_field . " =  %s",
                                 array($this->user_criteria_type),
@@ -126,12 +126,12 @@ class ilTestResultsImportParser extends ilSaxParser
                         $ilDB->insert('tst_active', array(
                             'active_id' => array('integer', $next_id),
                             'user_fi' => array('integer', $usr_id),
-                            'anonymous_id' => array('text', strlen($a_attribs['anonymous_id']) ? $a_attribs['anonymous_id'] : null),
+                            'anonymous_id' => array('text', $a_attribs['anonymous_id'] != '' ? $a_attribs['anonymous_id'] : null),
                             'test_fi' => array('integer', $this->tst_obj->getTestId()),
                             'lastindex' => array('integer', $a_attribs['lastindex']),
                             'tries' => array('integer', $a_attribs['tries']),
                             'submitted' => array('integer', $a_attribs['submitted']),
-                            'submittimestamp' => array('timestamp', strlen($a_attribs['submittimestamp']) ? $a_attribs['submittimestamp'] : null),
+                            'submittimestamp' => array('timestamp', $a_attribs['submittimestamp'] != '' ? $a_attribs['submittimestamp'] : null),
                             'tstamp' => array('integer', $a_attribs['tstamp']),
                             'importname' => array('text', $a_attribs['fullname']),
                             'last_finished_pass' => array('integer', $this->fetchLastFinishedPass($a_attribs)),
@@ -171,7 +171,7 @@ class ilTestResultsImportParser extends ilSaxParser
                             ),
                             array(
                                 $this->active_id_mapping[$a_attribs['active_fi']],
-                                strlen($a_attribs['pass']) ? $a_attribs['pass'] : 0,
+                                $a_attribs['pass'] != '' ? $a_attribs['pass'] : 0,
                                 ($a_attribs["points"]) ? $a_attribs["points"] : 0,
                                 ($a_attribs["maxpoints"]) ? $a_attribs["maxpoints"] : 0,
                                 $a_attribs["questioncount"],
@@ -197,11 +197,11 @@ class ilTestResultsImportParser extends ilSaxParser
                             ),
                             array(
                                 $this->active_id_mapping[$a_attribs['active_fi']],
-                                strlen($a_attribs['pass']) ? $a_attribs['pass'] : 0,
+                                $a_attribs['pass'] != '' ? $a_attribs['pass'] : 0,
                                 ($a_attribs["max_points"]) ? $a_attribs["max_points"] : 0,
                                 ($a_attribs["reached_points"]) ? $a_attribs["reached_points"] : 0,
-                                strlen($a_attribs["mark_short"]) ? $a_attribs["mark_short"] : " ",
-                                strlen($a_attribs["mark_official"]) ? $a_attribs["mark_official"] : " ",
+                                $a_attribs["mark_short"] != '' ? $a_attribs["mark_short"] : " ",
+                                $a_attribs["mark_official"] != '' ? $a_attribs["mark_official"] : " ",
                                 ($a_attribs["passed"]) ? 1 : 0,
                                 ($a_attribs["failed"]) ? 1 : 0,
                                 $a_attribs["tstamp"]
@@ -213,8 +213,8 @@ class ilTestResultsImportParser extends ilSaxParser
                             "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
                             "pass" => array("integer", $a_attribs['pass']),
                             "sequence" => array("clob", $a_attribs['sequence']),
-                            "postponed" => array("text", (strlen($a_attribs['postponed'])) ? $a_attribs['postponed'] : null),
-                            "hidden" => array("text", (strlen($a_attribs['hidden'])) ? $a_attribs['hidden'] : null),
+                            "postponed" => array("text", ($a_attribs['postponed'] != '') ? $a_attribs['postponed'] : null),
+                            "hidden" => array("text", ($a_attribs['hidden'] != '') ? $a_attribs['hidden'] : null),
                             "tstamp" => array("integer", $a_attribs['tstamp'])
                         ));
                         break;
@@ -224,8 +224,8 @@ class ilTestResultsImportParser extends ilSaxParser
                             "solution_id" => array("integer", $next_id),
                             "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
                             "question_fi" => array("integer", $this->question_id_mapping[$a_attribs['question_fi']]),
-                            "value1" => array("clob", (strlen($a_attribs['value1'])) ? $a_attribs['value1'] : null),
-                            "value2" => array("clob", (strlen($a_attribs['value2'])) ? $a_attribs['value2'] : null),
+                            "value1" => array("clob", ($a_attribs['value1'] != '') ? $a_attribs['value1'] : null),
+                            "value2" => array("clob", ($a_attribs['value2'] != '') ? $a_attribs['value2'] : null),
                             "pass" => array("integer", $a_attribs['pass']),
                             "tstamp" => array("integer", $a_attribs['tstamp'])
                         ));
@@ -235,7 +235,7 @@ class ilTestResultsImportParser extends ilSaxParser
                         $affectedRows = $ilDB->manipulateF(
                             "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                             array('integer', 'integer','integer', 'float', 'integer', 'integer','integer'),
-                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']], $a_attribs['points'], $a_attribs['pass'], (strlen($a_attribs['manual'])) ? $a_attribs['manual'] : 0, $a_attribs['tstamp'])
+                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']], $a_attribs['points'], $a_attribs['pass'], ($a_attribs['manual'] != '') ? $a_attribs['manual'] : 0, $a_attribs['tstamp'])
                         );
                         break;
                     case 'tst_times':

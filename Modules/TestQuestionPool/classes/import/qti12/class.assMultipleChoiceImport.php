@@ -64,7 +64,7 @@ class assMultipleChoiceImport extends assQuestionImport
                                         if (strcmp($foundmat["type"], "mattext") == 0) {
                                         }
                                         if (strcmp($foundmat["type"], "matimage") == 0) {
-                                            if (strlen($foundmat["material"]->getEmbedded())) {
+                                            if ($foundmat["material"]->getEmbedded() != '') {
                                                 $embedded = true;
                                             }
                                         }
@@ -127,7 +127,7 @@ class assMultipleChoiceImport extends assQuestionImport
                             $answers[$ident]["points"] = $setvar->getContent();
                             if (count($respcondition->displayfeedback)) {
                                 foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                                    if (strlen($feedbackpointer->getLinkrefid())) {
+                                    if ($feedbackpointer->getLinkrefid() != '') {
                                         foreach ($item->itemfeedback as $ifb) {
                                             if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                                 // found a feedback for the identifier

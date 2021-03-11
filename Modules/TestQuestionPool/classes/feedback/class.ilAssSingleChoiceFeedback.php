@@ -42,7 +42,7 @@ class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeed
     {
         $label = array();
         
-        if (strlen($answer->getImage())) {
+        if ($answer->getImage() != '') {
             if ($this->questionOBJ->getThumbSize()) {
                 $src = $this->questionOBJ->getImagePathWeb() . $this->questionOBJ->getThumbPrefix() . $answer->getImage();
             } else {
@@ -52,7 +52,7 @@ class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeed
             $label[] = "<img src='{$src}' />";
         }
         
-        if (strlen($answer->getAnswertext())) {
+        if ($answer->getAnswertext() != '') {
             $label[] = $answer->getAnswertext();
         }
         

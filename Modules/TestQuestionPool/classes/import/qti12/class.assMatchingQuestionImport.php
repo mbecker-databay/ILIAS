@@ -88,7 +88,7 @@ class assMatchingQuestionImport extends assQuestionImport
                                         }
                                     }
                                 }
-                                if (($response_label->getMatchMax() == 1) && (strlen($response_label->getMatchGroup()))) {
+                                if (($response_label->getMatchMax() == 1) && ($response_label->getMatchGroup() != '')) {
                                     $definitions[$ident] = array(
                                         "answertext" => $answertext,
                                         "answerimage" => $answerimage,
@@ -131,7 +131,7 @@ class assMatchingQuestionImport extends assQuestionImport
 
                 if (count($respcondition->displayfeedback)) {
                     foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
+                        if ($feedbackpointer->getLinkrefid() != '') {
                             foreach ($item->itemfeedback as $ifb) {
                                 if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
                                     // found a feedback for the identifier
@@ -189,7 +189,7 @@ class assMatchingQuestionImport extends assQuestionImport
         $extended_shuffle = $item->getMetadataEntry("shuffle");
         $this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
 
-        if (strlen($item->getMetadataEntry('matching_mode'))) {
+        if ($item->getMetadataEntry('matching_mode') != '') {
             $this->object->setMatchingMode($item->getMetadataEntry('matching_mode'));
         } else {
             $this->object->setMatchingMode(assMatchingQuestion::MATCHING_MODE_1_ON_1);
@@ -214,7 +214,7 @@ class assMatchingQuestionImport extends assQuestionImport
             $this->object->addDefinition(new assAnswerMatchingDefinition($definition["answertext"], $definition['answerimage']['label'], $definition["answerorder"]));
         }
 
-        if (strlen($extended_shuffle) > 0) {
+        if ($extended_shuffle != '') {
             $shuffle = $extended_shuffle;
         }
         $this->object->setShuffle($shuffle);

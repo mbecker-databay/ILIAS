@@ -1559,7 +1559,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         } else {
             $this->testOBJ->setRedirectionMode(REDIRECT_NONE);
         }
-        if (strlen($form->getItemByPostVar('redirection_url')->getValue())) {
+        if ($form->getItemByPostVar('redirection_url')->getValue() != '') {
             $this->testOBJ->setRedirectionUrl($form->getItemByPostVar('redirection_url')->getValue());
         } else {
             $this->testOBJ->setRedirectionUrl(null);

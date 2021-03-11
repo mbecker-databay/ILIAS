@@ -27,7 +27,7 @@ class ilRandomTestData
     {
         switch ($property) {
             case 'count':
-                if ((strlen($this->data[$property]) == 0) || (!is_numeric($this->data[$property]))) {
+                if (($this->data[$property] == '') || (!is_numeric($this->data[$property]))) {
                     return 0;
                 }
                 return $this->data[$property];

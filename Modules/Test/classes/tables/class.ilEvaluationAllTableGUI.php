@@ -275,52 +275,52 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 }
                 if (strcmp($c, 'email') == 0) {
                     $this->tpl->setCurrentBlock('email');
-                    $this->tpl->setVariable("EMAIL", strlen($data['email']) ? $data['email'] : '&nbsp;');
+                    $this->tpl->setVariable("EMAIL", $data['email'] != '' ? $data['email'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'institution') == 0) {
                     $this->tpl->setCurrentBlock('institution');
-                    $this->tpl->setVariable("INSTITUTION", strlen($data['institution']) ? $data['institution'] : '&nbsp;');
+                    $this->tpl->setVariable("INSTITUTION", $data['institution'] != '' ? $data['institution'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'street') == 0) {
                     $this->tpl->setCurrentBlock('street');
-                    $this->tpl->setVariable("STREET", strlen($data['street']) ? $data['street'] : '&nbsp;');
+                    $this->tpl->setVariable("STREET", $data['street'] != '' ? $data['street'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'city') == 0) {
                     $this->tpl->setCurrentBlock('city');
-                    $this->tpl->setVariable("CITY", strlen($data['city']) ? $data['city'] : '&nbsp;');
+                    $this->tpl->setVariable("CITY", $data['city'] != '' ? $data['city'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'zipcode') == 0) {
                     $this->tpl->setCurrentBlock('zipcode');
-                    $this->tpl->setVariable("ZIPCODE", strlen($data['zipcode']) ? $data['zipcode'] : '&nbsp;');
+                    $this->tpl->setVariable("ZIPCODE", $data['zipcode'] != '' ? $data['zipcode'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if ($this->isFieldEnabledEnoughByAdministration('country') && $c === 'country') {
                     $this->tpl->setCurrentBlock('country');
-                    $this->tpl->setVariable("COUNTRY", strlen($data['country']) ? $data['country'] : '&nbsp;');
+                    $this->tpl->setVariable("COUNTRY", $data['country'] != '' ? $data['country'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if ($this->isFieldEnabledEnoughByAdministration('sel_country') && $c === 'sel_country') {
                     $this->tpl->setCurrentBlock('country');
-                    $this->tpl->setVariable("COUNTRY", strlen($data['sel_country']) ? $this->getCountryTranslation($data['sel_country']) : '&nbsp;');
+                    $this->tpl->setVariable("COUNTRY", $data['sel_country'] != '' ? $this->getCountryTranslation($data['sel_country']) : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'department') == 0) {
                     $this->tpl->setCurrentBlock('department');
-                    $this->tpl->setVariable("DEPARTMENT", strlen($data['department']) ? $data['department'] : '&nbsp;');
+                    $this->tpl->setVariable("DEPARTMENT", $data['department'] != '' ? $data['department'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'matriculation') == 0) {
                     $this->tpl->setCurrentBlock('matriculation');
-                    $this->tpl->setVariable("MATRICULATION", strlen($data['matriculation']) ? $data['matriculation'] : '&nbsp;');
+                    $this->tpl->setVariable("MATRICULATION", $data['matriculation'] != '' ? $data['matriculation'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
                     $this->tpl->setCurrentBlock('exam_id');
-                    $examId = is_string($data['exam_id']) && strlen($data['exam_id']) ? $data['exam_id'] : '&nbsp;';
+                    $examId = is_string($data['exam_id']) && $data['exam_id'] !== '' ? $data['exam_id'] : '&nbsp;';
                     $this->tpl->setVariable('EXAM_ID', $examId);
                     $this->tpl->parseCurrentBlock();
                 }

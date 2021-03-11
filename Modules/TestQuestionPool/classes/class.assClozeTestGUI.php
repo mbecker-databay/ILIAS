@@ -342,7 +342,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $form->addItem($duration);
         } else {
             // number of tries
-            if (strlen($this->object->getNrOfTries())) {
+            if ($this->object->getNrOfTries() != '') {
                 $nr_tries = $this->object->getNrOfTries();
             } else {
                 $nr_tries = $this->object->getDefaultNrOfTries();
@@ -1002,7 +1002,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 case CLOZE_TEXT:
                     $solutiontext = "";
                     if (($active_id > 0) && (!$show_correct_solution)) {
-                        if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0)) {
+                        if ((count($found) == 0) || (trim($found["value2"]) === '')) {
                             for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++) {
                                 $solutiontext .= "&nbsp;";
                             }
@@ -1020,7 +1020,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 case CLOZE_SELECT:
                     $solutiontext = "";
                     if (($active_id > 0) && (!$show_correct_solution)) {
-                        if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0)) {
+                        if ((count($found) == 0) || (trim($found["value2"]) === '')) {
                             for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++) {
                                 $solutiontext .= "&nbsp;";
                             }
@@ -1061,15 +1061,15 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
-                $feedback .= strlen($fb) ? $fb : '';
+                $feedback .= $fb !== '' ? $fb : '';
             }
 
             $fb = $this->getSpecificFeedbackOutput(
                 $this->object->fetchIndexedValuesFromValuePairs($user_solution)
             );
-            $feedback .= strlen($fb) ? $fb : '';
+            $feedback .= $fb != '' ? $fb : '';
         }
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
@@ -1117,12 +1117,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
-        if (strlen($manual_feedback)) {
+        if ($manual_feedback !== '') {
             return $manual_feedback;
         }
         $correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
         $incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
-        if (strlen($correct_feedback . $incorrect_feedback)) {
+        if ($correct_feedback . $incorrect_feedback !== '') {
             $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
             $max_points = $this->object->getMaximumPoints();
             if ($reached_points == $max_points) {
@@ -1257,7 +1257,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
-        if (strlen($q_type)) {
+        if ($q_type != '') {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);

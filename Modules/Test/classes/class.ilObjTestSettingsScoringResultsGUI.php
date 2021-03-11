@@ -422,7 +422,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $reportingDate = new ilDateTimeInputGUI($this->lng->txt('tst_reporting_date'), 'reporting_date');
         $reportingDate->setRequired(true);
         $reportingDate->setShowTime(true);
-        if (strlen($this->testOBJ->getReportingDate())) {
+        if ($this->testOBJ->getReportingDate() != '') {
             $reportingDate->setDate(new ilDateTime($this->testOBJ->getReportingDate(), IL_CAL_TIMESTAMP));
         } else {
             $reportingDate->setDate(new ilDateTime(time(), IL_CAL_UNIX));

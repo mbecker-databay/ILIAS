@@ -74,7 +74,7 @@ class ilAssQuestionPageCommandForwarder
         $DIC->ctrl()->setReturn($this, "questions");
         $page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
         $page_gui->setEditPreview(true);
-        if (strlen($DIC->ctrl()->getCmd()) == 0) {
+        if ($DIC->ctrl()->getCmd() == '') {
             $DIC->ctrl()->setCmdClass(get_class($page_gui));
             $DIC->ctrl()->setCmd("preview");
         }

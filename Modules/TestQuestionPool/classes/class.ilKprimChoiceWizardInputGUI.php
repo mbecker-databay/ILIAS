@@ -81,7 +81,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setAnswertext($value);
                 $answer->setImageFile($a_value['imagename'][$index]);
                 
-                if (strlen($a_value['correctness'][$index])) {
+                if ($a_value['correctness'][$index] != '') {
                     $answer->setCorrectness((bool) $a_value['correctness'][$index]);
                 }
 
@@ -118,7 +118,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && ($foundvalues['imagename'][$aidx] == '')) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -156,7 +156,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
-                    if (strlen($value->getImageFile())) {
+                    if ($value->getImageFile() != '') {
                         $imagename = $value->getImageWebPath();
                         
                         if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
@@ -326,7 +326,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired() && !$this->isIgnoreMissingUploadsEnabled()) {
-                                        if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                        if (($foundvalues['imagename'][$index] == '') && ($foundvalues['answer'][$index] == '')) {
                                             $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
                                             return false;
                                         }
@@ -365,7 +365,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
                         $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
                         // check suffixes
-                        if (strlen($tmpname) && is_array($this->getSuffixes())) {
+                        if ($tmpname != '' && is_array($this->getSuffixes())) {
                             if (!in_array(strtolower($suffix), $this->getSuffixes())) {
                                 $this->setAlert($this->lng->txt("form_msg_file_wrong_file_type"));
                                 return false;
@@ -399,7 +399,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
                         $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
                         // virus handling
-                        if (strlen($tmpname)) {
+                        if ($tmpname != '') {
                             $vir = ilUtil::virusHandling($tmpname, $filename);
                             if ($vir[0] == false) {
                                 $_FILES[$this->getPostVar()]['error']['image'][$index] = self::CUSTOM_UPLOAD_ERR;
