@@ -1703,12 +1703,10 @@ abstract class assQuestionGUI
                 break;
             case "file":
             case "text":
-                return $this->suggestedsolution();
-                break;
             default:
                 return $this->suggestedsolution();
-                break;
         }
+
         if (isset($_POST['solutiontype'])) {
             $this->ctrl->setParameter($this, 'expandCurrentPath', 1);
         }

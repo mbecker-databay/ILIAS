@@ -998,6 +998,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             }
             $combination = null;
             switch ($gap->getType()) {
+                case CLOZE_NUMERIC:
                 case CLOZE_TEXT:
                     $solutiontext = "";
                     if (($active_id > 0) && (!$show_correct_solution)) {
@@ -1032,24 +1033,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                                     $solutiontext .= "&nbsp;";
                                 }
                             }
-                        }
-                    } else {
-                        $solutiontext = $this-> getBestSolutionText($gap, $gap_index, $check_for_gap_combinations);
-                    }
-                    $this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
-                    // fau: fixGapReplace - use replace function
-					$output  = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
-                    break;
-                case CLOZE_NUMERIC:
-                    $solutiontext = "";
-                    if (($active_id > 0) && (!$show_correct_solution)) {
-                        if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0)) {
-                            for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++) {
-                                $solutiontext .= "&nbsp;";
-                            }
-                        } else {
-                            $solutiontext = ilUtil::prepareFormOutput($found["value2"]);
                         }
                     } else {
                         $solutiontext = $this-> getBestSolutionText($gap, $gap_index, $check_for_gap_combinations);

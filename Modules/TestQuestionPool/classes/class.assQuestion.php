@@ -3087,14 +3087,10 @@ abstract class assQuestion
             $target_id = $matches[2];
             include_once "./Services/Utilities/classes/class.ilUtil.php";
             switch ($linktypes[$matches[1]]) {
-                case "LearningModule":
-                    $href = "./goto.php?target=" . $type . "_" . $target_id;
-                    break;
-                case "PageObject":
                 case "StructureObject":
-                    $href = "./goto.php?target=" . $type . "_" . $target_id;
-                    break;
                 case "GlossaryItem":
+                case "PageObject":
+                case "LearningModule":
                     $href = "./goto.php?target=" . $type . "_" . $target_id;
                     break;
                 case "MediaObject":

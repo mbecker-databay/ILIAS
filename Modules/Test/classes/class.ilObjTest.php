@@ -5852,10 +5852,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 case "answer_feedback":
                     $this->setAnswerFeedback($metadata["entry"]);
                     break;
-                case "hide_title_points":
-                    $this->setTitleOutput($metadata["entry"]);
-                    break;
                 case "title_output":
+                case "hide_title_points":
                     $this->setTitleOutput($metadata["entry"]);
                     break;
                 case "question_set_type":
