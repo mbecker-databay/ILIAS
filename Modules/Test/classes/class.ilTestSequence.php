@@ -573,27 +573,27 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         return array_search($question_id, $this->questions);
     }
 
-    public function getFirstSequence(): ?int
+    public function getFirstSequence(): int
     {
         $correctedsequence = $this->getCorrectedSequence();
         if (count($correctedsequence)) {
             return reset($correctedsequence);
         }
 
-        return null;
+        return 0;
     }
 
-    public function getLastSequence(): ?int
+    public function getLastSequence(): int
     {
         $correctedsequence = $this->getCorrectedSequence();
         if (count($correctedsequence)) {
             return end($correctedsequence);
         }
 
-        return null;
+        return 0;
     }
 
-    public function getNextSequence(int $sequence): ?int
+    public function getNextSequence(int $sequence): int
     {
         $correctedsequence = $this->getCorrectedSequence();
         $sequencekey = array_search($sequence, $correctedsequence);
@@ -603,10 +603,10 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
                 return $correctedsequence[$nextsequencekey];
             }
         }
-        return null;
+        return 0;
     }
 
-    public function getPreviousSequence(int $sequence): ?int
+    public function getPreviousSequence(int $sequence): int
     {
         $correctedsequence = $this->getCorrectedSequence();
         $sequencekey = array_search($sequence, $correctedsequence);
@@ -617,7 +617,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
             }
         }
 
-        return null;
+        return 0;
     }
 
     /**
