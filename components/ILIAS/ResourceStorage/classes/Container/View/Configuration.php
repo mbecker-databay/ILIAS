@@ -77,7 +77,7 @@ final class Configuration
         return $this;
     }
 
-    public function withExternalTopAction(string $key, TopAction $topAction, ?RoundTrip $modal): self
+    public function withExternalTopAction(string $key, TopAction $topAction, ?RoundTrip $modal = null): self
     {
         $this->action_provider->addTopAction($key, $topAction, $modal);
 
