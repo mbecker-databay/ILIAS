@@ -48,7 +48,6 @@ final class Configuration
         global $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->action_provider = new ExternalActionProvider();
-        $this->top_action_provider = new ExternalActionProvider();
     }
 
     public function withExternalAction(
@@ -80,7 +79,7 @@ final class Configuration
 
     public function withExternalTopAction(string $key, TopAction $topAction, ?RoundTrip $modal): self
     {
-        $this->top_action_provider->addTopAction($key, $topAction, $modal);
+        $this->action_provider->addTopAction($key, $topAction, $modal);
 
         return $this;
     }
@@ -140,10 +139,5 @@ final class Configuration
     public function getActionProvider(): ExternalActionProvider
     {
         return $this->action_provider;
-    }
-
-    public function getTopActionProvider(): ExternalActionProvider
-    {
-        return $this->top_action_provider;
     }
 }
