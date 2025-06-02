@@ -21,10 +21,7 @@ use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 use ILIAS\components\ResourceStorage\Container\View\Configuration;
 use ILIAS\components\ResourceStorage\Container\View\Mode;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
-use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\Filesystem\Stream\Stream;
 
 /**
  * User Interface class for file based learning modules (HTML)
@@ -147,16 +144,21 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                                 $this->lng->txt('import_from_upload_dir_info'),
                             )->withRequired(true)
                         ],
-                        $this->ctrl->getFormActionByClass(\ilObjFileBasedLMGUI::class,
-                            \ilObjFileBasedLMGUI::CMD_IMPORT_FROM_UPLOAD_DIR)
+                        $this->ctrl->getFormActionByClass(
+                            \ilObjFileBasedLMGUI::class,
+                            \ilObjFileBasedLMGUI::CMD_IMPORT_FROM_UPLOAD_DIR
+                        )
                     );
 
                     $top_action = new TopAction(
                         $this->lng->txt('import_from_upload_dir'),
                         $modal->getShowSignal()
                     );
-                    $view_configuration = $view_configuration->withExternalTopAction('import_from_upload_dir',
-                        $top_action, $modal);
+                    $view_configuration = $view_configuration->withExternalTopAction(
+                        'import_from_upload_dir',
+                        $top_action,
+                        $modal
+                    );
                 }
                 // build the collection GUI
                 $container_gui = new ilContainerResourceGUI(
@@ -403,7 +405,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         // try to determine start file from request
         $start_file = $this->http->wrapper()->query()->has('lm_path')
             ? $start_file = $this->http->wrapper()->query()->retrieve(
-                'lm_path', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+                'lm_path',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             )[0] ?? ''
             : '';
         // the ContainerResourceGUI uses e bin2hex/hex2bin serialization of pathes. Due to the internals of
@@ -416,7 +419,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         if ($start_file === '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cont_no_start_file'), true);
-        }else {
+        } else {
             $this->object->setStartFile($start_file);
             $this->object->update();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('cont_start_file_set'), true);
@@ -608,10 +611,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($access->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage(
-                'failure', sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-            ), true
+                'failure',
+                sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ),
+                true
             );
             ilObjectGUI::_gotoRepositoryRoot();
         }
@@ -743,13 +748,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     public function importFromUploadDir(): void
     {
         global $DIC;
-        if(!$this->checkPermissionBool("write", "", "htlm")) {
+        if (!$this->checkPermissionBool("write", "", "htlm")) {
             $main_tpl = $DIC->ui()->mainTemplate();
 
             $main_tpl->setOnScreenMessage(
-                'failure', sprintf(
-                $this->lng->txt("msg_no_perm_write"),
-            ), true
+                'failure',
+                sprintf(
+                    $this->lng->txt("msg_no_perm_write"),
+                ),
+                true
             );
             ilObjectGUI::_gotoRepositoryRoot();
         }
@@ -760,7 +767,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->irss->manageContainer()->addStreamToContainer(
             $this->object->getResource()->getIdentification(),
             Streams::ofResource(fopen($path, 'rb')),
-            '/'
+            $file
         );
         $this->ctrl->setParameterByClass("ilObjFileBasedLMGUI", "ref_id", $this->object->getRefId());
         $this->ctrl->redirectByClass(["ilrepositorygui", "ilObjFileBasedLMGUI", "ilContainerResourceGUI"]);
